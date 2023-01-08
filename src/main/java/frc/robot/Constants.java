@@ -39,10 +39,10 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 15; // CAN ID
     public static final int kRearRightTurningMotorPort  = 18; // CAN ID
 
-    public static final int kFrontLeftAbsEncoderPort  = 16; // CAN ID
-    public static final int kRearLeftAbsEncoderPort   = 17; // CAN ID
-    public static final int kFrontRightAbsEncoderPort = 15; // CAN ID
-    public static final int kRearRightAbsEncoderPort  = 18; // CAN ID
+    public static final int kFrontLeftAbsEncoderPort  = 12; // CAN ID
+    public static final int kRearLeftAbsEncoderPort   = 13; // CAN ID
+    public static final int kFrontRightAbsEncoderPort = 11; // CAN ID
+    public static final int kRearRightAbsEncoderPort  = 14; // CAN ID
 
     //TODO MODIFY BASED ON NEW ROBOT BETWEEN HERE------------------------------------
     public static final boolean kFrontLeftDriveEncoderReversed  = (RobotConstants.kRobot) ? true : false;

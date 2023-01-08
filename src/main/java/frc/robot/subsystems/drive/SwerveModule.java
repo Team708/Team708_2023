@@ -19,9 +19,10 @@ import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase{
   private final CANSparkMax m_driveMotor;
   private final TalonSRX m_turningMotorSRX;
   private final CANSparkMax m_turningMotorNEO;
@@ -30,6 +31,8 @@ public class SwerveModule {
 
   private final RelativeEncoder m_driveEncoder;
   private final RelativeEncoder m_turnEncoder;
+  private final CANCoder canCoder;
+
 
   private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
 
@@ -51,20 +54,13 @@ public class SwerveModule {
     this.offset = offset;
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     
-    //TODO DETERMINE IF THERE IS A BETTER APPROACH THAN THIS
     m_turningMotorSRX = new TalonSRX(turningMotorChannel);
     m_turningMotorNEO = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_turnEncoder = m_turningMotorNEO.getEncoder();
-
-    if(Constants.RobotConstants.kRobot){
-      configureTestMotors();
-    }else{
-      CANCoder canCoder = new CANCoder(CANCoderChannel);
-      configureRobotMotors(canCoder);
-    }
-    configureTestMotors();
+    canCoder = new CANCoder(CANCoderChannel);
+    configureRobotMotors(canCoder);
     resetEncoders();
 
     // Set whether drive encoder should be reversed or not
@@ -75,34 +71,9 @@ public class SwerveModule {
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
-  private void configureTestMotors() {
-    m_turningMotorSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
-    m_turningMotorSRX.setSensorPhase(true);
-    m_turningMotorSRX.setInverted(true);
-    m_turningMotorSRX.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10, 10);
-    m_turningMotorSRX.enableVoltageCompensation(true);
-    m_turningMotorSRX.setNeutralMode(NeutralMode.Brake);
-    m_turningMotorSRX.configVoltageCompSaturation(7.0, 10);
-    m_turningMotorSRX.configNominalOutputForward(0.0, 10);
-    m_turningMotorSRX.configNominalOutputReverse(0.0, 10);
-    m_turningMotorSRX.configAllowableClosedloopError(0, 0, 10);
-    m_turningMotorSRX.configMotionAcceleration((int) (1992 * 1.0), 10); // 10.0 jnp
-    m_turningMotorSRX.configMotionCruiseVelocity((int) (1992 * 1.0), 10);// 0.8 jnp
-    m_turningMotorSRX.selectProfileSlot(0, 0);
-    m_turningMotorSRX.config_kP(0, 4.0, 10);// 1
-    m_turningMotorSRX.config_kI(0, 0.0, 10);
-    m_turningMotorSRX.config_kD(0, 80.0, 10);// 10
-    m_turningMotorSRX.config_kF(0, 0.75 * (1023.0 / 1992), 10);
-    m_turningMotorSRX.set(ControlMode.MotionMagic, m_turningMotorSRX.getSelectedSensorPosition(0));
-
-    // drivePIDController.setFeedbackDevice(driveEncoder);
-    m_driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerPulse);
-    m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderVelocityPerPulse * ModuleConstants.kVelocityModifier);
-    m_driveEncoder.setPosition(0.0);
-    m_driveMotor.setIdleMode(IdleMode.kBrake);
-    // drivePIDController.setP(0.2);
-    // drivePIDController.setI(0);
-    // drivePIDController.setD(24);
+  @Override
+  public void periodic(){
+    m_turnEncoder.setPosition(canCoder.getAbsolutePosition());
   }
 
   private void configureRobotMotors(CANCoder offsetEncoder){
@@ -116,7 +87,7 @@ public class SwerveModule {
     // drivePIDController.setD(24);
 
     m_turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);
-    m_turnEncoder.setPosition(offsetEncoder.getAbsolutePosition()); //TODO ENSURE THAT WE ARE IN THE CORRECT POSITION
+    m_turnEncoder.setPosition(offsetEncoder.getAbsolutePosition());
     m_turningMotorNEO.setIdleMode(IdleMode.kBrake);
     //TODO ESTABLISH PID
   }
