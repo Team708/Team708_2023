@@ -161,11 +161,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    // if (rot == 0 && (xSpeed != 0 || ySpeed !=0)) {
-    //   rot = turnPID.calculate(m_gyro.getAngle().getRadians());
-    // } else {
-    //   turnPID.setSetpoint(m_gyro.getAngle().getRadians());
-    // }
+    if (rot == 0 && (xSpeed != 0 || ySpeed !=0)) {
+      rot = turnPID.calculate(m_gyro.getAngle().getRadians());
+    } else {
+      turnPID.setSetpoint(m_gyro.getAngle().getRadians());
+    }
 
     SmartDashboard.putNumber("rot", rot);
     SmartDashboard.putNumber("setpoint", turnPID.getSetpoint());

@@ -28,6 +28,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FMSConstants;
 
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.PigeonTwo;
 import frc.robot.subsystems.vision.PhotonDeviceManager;
 import frc.robot.subsystems.vision.VisionProcessor;
 
@@ -36,6 +37,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -63,6 +66,8 @@ public class RobotContainer {
   public static DriverStation.Alliance alliance;
   public static int allianceColor;
   private NetworkTableEntry allianceColorEntry;
+
+  private static PigeonTwo pigeon = PigeonTwo.getInstance();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
