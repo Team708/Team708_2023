@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  // private HolonomicDriveController autoController;
 
   private RobotContainer m_robotContainer;
 
@@ -28,6 +33,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    //TODO PLUG IN VALUES
+    // autoController = new HolonomicDriveController(null, null, null);
     
   }
 
@@ -69,9 +76,15 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+    // autoController.setEnabled(isAutonomousEnabled());
+    // Trajectory.State goal = m_robotContainer.testTrajectory.sample(1); //TODO CHECK VAL?
+    // ChassisSpeeds calcSpeeds = autoController.calculate(m_robotContainer.getDriveSubsystem().getPose(), 
+    //                                                      goal, 
+    //                                                      null);
+    
   }
 
   /** This function is called periodically during autonomous. */

@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveModulePosition m_rearRightPosition;
 
   // The gyro sensor
-  private final Pigeon m_gyro = Pigeon.getInstance();
+  private final PigeonTwo m_gyro = PigeonTwo.getInstance();
 
   public static int speedCoeff = 10;
   public int speedLevel = 4;
@@ -77,6 +77,10 @@ public class DriveSubsystem extends SubsystemBase {
   //Note - DO NOT CHANGE THE ORDER OF ELEMENTS IN RETURNED ARRAY
   public SwerveModulePosition[] getModulePositionsAsArray(){
     return new SwerveModulePosition[]{m_frontLeftPosition, m_frontRightPosition, m_rearLeftPosition, m_rearRightPosition};
+  }
+
+  public SwerveModuleState[] getModuleStatesAsArray(){
+    return new SwerveModuleState[]{m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState()};
   }
 
   public void increaseSpeed() {
@@ -259,7 +263,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pose y", getPose().getTranslation().getY());
     SmartDashboard.putNumber("pose hyp", getPose().getTranslation().getNorm());
     SmartDashboard.putNumber("pose rot", getPose().getRotation().getDegrees());
-    m_gyro.outputToSmartDashboard();
     m_frontLeft.sendToDashboard();
     m_rearLeft.sendToDashboard();
     m_frontRight.sendToDashboard();

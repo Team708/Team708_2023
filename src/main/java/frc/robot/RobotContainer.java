@@ -67,7 +67,8 @@ public class RobotContainer {
   public static int allianceColor;
   private NetworkTableEntry allianceColorEntry;
 
-  private static PigeonTwo pigeon = PigeonTwo.getInstance();
+  //Trajectory
+  public Trajectory testTrajectory;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -91,6 +92,7 @@ public class RobotContainer {
       
     // Put the chooser on the dashboard
     SmartDashboard.putData("Auto Chooser", m_chooser);
+    testTrajectory = findTrajectory("output/Unnamed");
   }
 
   /**
