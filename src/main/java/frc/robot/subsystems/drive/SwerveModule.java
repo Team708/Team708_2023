@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -27,14 +28,17 @@ public class SwerveModule extends SubsystemBase{
   private final RelativeEncoder m_turnEncoder;
   // private final CANCoder canCoder;
 
+  boolean driveEncoderReversed;
+
   private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
   private final SparkMaxPIDController turnPIDController;
 
   // Using a TrapezoidProfile PIDController to allow for smooth turning
   private final ProfiledPIDController m_turningPIDCalculator = new ProfiledPIDController(
-      ModuleConstants.kPModuleTurningController, 0, 0,
+      ModuleConstants.kPModuleTurningController, 0.0, 0.0,
       new TrapezoidProfile.Constraints(ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
           ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+  // private final PIDController m_turningPIDCalculator = new PIDController(1, 0, 0);
 
   /**
    * Constructs a SwerveModule.
@@ -54,19 +58,23 @@ public class SwerveModule extends SubsystemBase{
     m_driveEncoder = m_driveMotor.getEncoder();
     // m_turnEncoder = m_turningMotorNEO.getEncoder();
     m_turnEncoder = m_turningMotorNEO.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, Constants.ModuleConstants.kEncoderCPR);
-    // m_turnEncoder = m_turningMotorNEO.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 4096);
     // canCoder = new CANCoder(CANCoderChannel);
 
+    this.driveEncoderReversed = driveEncoderReversed;
+
     turnPIDController = m_turningMotorNEO.getPIDController();
-    turnPIDController.setP(0.1);
+    turnPIDController.setP(0.15);
     turnPIDController.setI(0.0);
-    turnPIDController.setD(0.0);
-    turnPIDController.setFF(0.1);
+    turnPIDController.setD(0.01);
+    turnPIDController.setFF(0.0);
     turnPIDController.setIZone(0.0);
     turnPIDController.setFeedbackDevice(m_turnEncoder);
-    // turnPIDController.setOutputRange(-Math.PI, Math.PI);
+    turnPIDController.setOutputRange(-Math.PI, Math.PI);
     m_turningPIDCalculator.enableContinuousInput(-Math.PI, Math.PI);
 
+    // m_turningPIDCalculator.reset(0.0);
+    // m_turnEncoder.setPosition(0);
+    
     // m_turningMotorSRX.configRemoteFeedbackFilter(canCoder, 0);
 
     configureRobotMotors(/*canCoder*/);
@@ -86,43 +94,20 @@ public class SwerveModule extends SubsystemBase{
     // drivePIDController.setI(0);
     // drivePIDController.setD(24);
 
-    // m_turningMotorSRX.configRemoteFeedbackFilter(offsetEncoder, 0);
-    // m_turningMotorSRX.setSensorPhase(true);
-    // m_turningMotorSRX.setInverted(true);
-    // m_turningMotorSRX.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10, 10);
-    // m_turningMotorSRX.enableVoltageCompensation(true);
-    // m_turningMotorSRX.setNeutralMode(NeutralMode.Brake);
-    // m_turningMotorSRX.configVoltageCompSaturation(7.0, 10);
-    // m_turningMotorSRX.configNominalOutputForward(0.0, 10);
-    // m_turningMotorSRX.configNominalOutputReverse(0.0, 10);
-    // m_turningMotorSRX.configAllowableClosedloopError(0, 0, 10);
-    // m_turningMotorSRX.configMotionAcceleration((int) (1992 * 1.0), 10); // 10.0 jnp
-    // m_turningMotorSRX.configMotionCruiseVelocity((int) (1992 * 1.0), 10);// 0.8 jnp
-    // m_turningMotorSRX.selectProfileSlot(0, 0);
-    // m_turningMotorSRX.config_kP(0, 4.0, 10);// 1
-    // m_turningMotorSRX.config_kI(0, 0.0, 10);
-    // m_turningMotorSRX.config_kD(0, 80.0, 10);// 10
-    // m_turningMotorSRX.config_kF(0, 0.75 * (1023.0 / 1992), 10);
-    // m_turningMotorSRX.set(ControlMode.MotionMagic, m_turningMotorSRX.getSelectedSensorPosition(0));
-
     // m_turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);
-    // m_turnEncoder.setInverted(true);
+    m_turnEncoder.setPositionConversionFactor(Math.PI * 42 / 4096);
+    m_turnEncoder.setInverted(driveEncoderReversed);
     // m_turnEncoder.setPosition(offsetEncoder.getAbsolutePosition());
     m_turningMotorNEO.setIdleMode(IdleMode.kBrake);
   }
 
   /**
    * Returns the current angle the module.
-   * TODO CHECK
    * @return The current angle of the module in radians.
    */
   public double getAngle() {
-    return(m_turnEncoder.getPosition() 
-    * ModuleConstants.kTurningEncoderDistancePerPulse)
-    + (offset * Math.PI / 180);
-    // return (m_turningMotorSRX.getSelectedSensorPosition()
-    //   * ModuleConstants.kTurningEncoderDistancePerPulse)
-    //   + (offset * Math.PI / 180);
+    return(m_turnEncoder.getPosition())
+    + (offset * (Math.PI / 180));
   }
 
   /**
@@ -160,8 +145,12 @@ public class SwerveModule extends SubsystemBase{
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
     // m_turningMotorSRX.set(TalonSRXControlMode.PercentOutput, turnOutput);
-    turnPIDController.setReference(turnOutput, CANSparkMax.ControlType.kPosition);
-    m_turningMotorNEO.set(turnOutput);
+    turnPIDController.setReference(turnOutput, CANSparkMax.ControlType.kPosition); //kPosition
+    // turnPIDController.setReference(state.angle.getRadians() * (2048 / 42), CANSparkMax.ControlType.kPosition); //kPosition
+    // turnPIDController.setReference(96, CANSparkMax.ControlType.kPosition);
+    // m_turningMotorNEO.set(turnOutput);
+    System.out.println(modID + " target: " + state.angle.getRadians()  + "   current: " + getAngle());
+    // System.out.println("Turn Output: " + turnOutput);
   }
 
   /** Zeros all the SwerveModule encoders. */
