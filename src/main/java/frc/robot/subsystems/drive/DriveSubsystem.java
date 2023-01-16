@@ -22,22 +22,22 @@ public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
   private final SwerveModule m_frontLeft = new SwerveModule("frontLeft", DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort, DriveConstants.kFrontLeftDriveEncoderReversed,
-      DriveConstants.kFrontLeftOffset, DriveConstants.kFrontLeftAbsEncoderPort);
+      DriveConstants.kFrontLeftOffset/*, DriveConstants.kFrontLeftAbsEncoderPort*/);
   private SwerveModulePosition m_frontLeftPosition;
 
   private final SwerveModule m_rearLeft = new SwerveModule("rearLeft", DriveConstants.kRearLeftDriveMotorPort,
       DriveConstants.kRearLeftTurningMotorPort, DriveConstants.kRearLeftDriveEncoderReversed,
-      DriveConstants.kRearLeftOffset, DriveConstants.kRearLeftAbsEncoderPort);
+      DriveConstants.kRearLeftOffset/*, DriveConstants.kRearLeftAbsEncoderPort*/);
   private SwerveModulePosition m_rearLeftPosition;
 
   private final SwerveModule m_frontRight = new SwerveModule("frontRight", DriveConstants.kFrontRightDriveMotorPort,
       DriveConstants.kFrontRightTurningMotorPort, DriveConstants.kFrontRightDriveEncoderReversed,
-      DriveConstants.kFrontRightOffset, DriveConstants.kFrontRightAbsEncoderPort);
+      DriveConstants.kFrontRightOffset/*, DriveConstants.kFrontRightAbsEncoderPort*/);
   private SwerveModulePosition m_frontRightPosition;
 
   private final SwerveModule m_rearRight = new SwerveModule("rearRight", DriveConstants.kRearRightDriveMotorPort,
       DriveConstants.kRearRightTurningMotorPort, DriveConstants.kRearRightDriveEncoderReversed,
-      DriveConstants.kRearRightOffset, DriveConstants.kRearRightAbsEncoderPort);
+      DriveConstants.kRearRightOffset/*, DriveConstants.kRearRightAbsEncoderPort*/);
   private SwerveModulePosition m_rearRightPosition;
 
   // The gyro sensor
@@ -178,10 +178,11 @@ public class DriveSubsystem extends SubsystemBase {
         fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getAngle())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    // m_frontLeft.setDesiredState(swerveModuleStates[0]);
     // m_frontRight.setDesiredState(swerveModuleStates[1]);
     // m_rearLeft.setDesiredState(swerveModuleStates[2]);
     // m_rearRight.setDesiredState(swerveModuleStates[3]);
+    setModuleStates(swerveModuleStates);
   }
 
   /**
