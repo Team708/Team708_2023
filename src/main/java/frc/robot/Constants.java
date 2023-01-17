@@ -45,17 +45,17 @@ public final class Constants {
     // public static final int kRearRightAbsEncoderPort  = 14; // CAN ID
 
     //TODO MODIFY BASED ON NEW ROBOT BETWEEN HERE------------------------------------
-    public static final boolean kFrontLeftDriveEncoderReversed  = (RobotConstants.kRobot) ? true : false;
-    public static final boolean kRearLeftDriveEncoderReversed   = (RobotConstants.kRobot) ? true : false;
+    public static final boolean kFrontLeftDriveEncoderReversed  = (RobotConstants.kRobot) ? false : true;
+    public static final boolean kRearLeftDriveEncoderReversed   = (RobotConstants.kRobot) ? false : true;
     public static final boolean kFrontRightDriveEncoderReversed = (RobotConstants.kRobot) ? false : true;
     public static final boolean kRearRightDriveEncoderReversed  = (RobotConstants.kRobot) ? false : true;
 
 
     // offset in degrees			
-    public static final double kFrontLeftOffset   = 45;//-1.94238; //(RobotConstants.kRobot) ? 148 : -34.2;    // degree
-    public static final double kFrontRightOffset  = 145;//4.26366; //(RobotConstants.kRobot) ? -92 : -93.2; // degree
-    public static final double kRearLeftOffset    = 25;//-170.3291; //(RobotConstants.kRobot) ? 109 : -68.2;  // degree
-    public static final double kRearRightOffset   = -90;//-173.97851; //(RobotConstants.kRobot) ? -138 : -136.4; // degree
+    public static final double kFrontLeftOffset   = -35+34.80468374609319;//-1.94238;//45; //(RobotConstants.kRobot) ? 148 : -34.2;    // degree
+    public static final double kFrontRightOffset  = -43+41.83593660979819+180;//4.26366;//145; //(RobotConstants.kRobot) ? -92 : -93.2; // degree
+    public static final double kRearLeftOffset    = -89+88.5937416864534;//-170.3291;//25; //(RobotConstants.kRobot) ? 109 : -68.2;  // degree
+    public static final double kRearRightOffset   = 90-90.70312266820679-180;//-173.97851;//-90; //(RobotConstants.kRobot) ? -138 : -136.4; // degree
 
     // Distance between centers of right and left wheels on robot    
     public static final double kTrackWidth = (RobotConstants.kRobot) ? 0.6731 : 0.444; // m
@@ -87,7 +87,7 @@ public final class Constants {
 
     public static final double kTurningEncoderDistancePerPulse = (2 * Math.PI) / (double) 4096;
 
-    public static final double kPModuleTurningController = 1;
+    public static final double kPModuleTurningController = 0.5;//0.6;//0.4;
 
     public static final double kPModuleDriveController = 0.1;
   }

@@ -117,7 +117,7 @@ public class SwerveModule extends SubsystemBase{
    * @return The current angle of the module in radians.
    */
   public double getAngle() {
-    return(m_turnEncoder.getPosition());// % (2 * Math.PI));
+    return(m_turnEncoder.getPosition() + (offset * Math.PI / 180));
   }
 
   /**
@@ -147,7 +147,7 @@ public class SwerveModule extends SubsystemBase{
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getAngle()));
-
+    SmartDashboard.putNumber(modID + " State", state.angle.getRadians());
     // Calculate the drive output from the drive PID controller.
     final double driveOutput = m_drivePIDController.calculate(m_driveEncoder.getVelocity(), state.speedMetersPerSecond);
 
@@ -162,6 +162,7 @@ public class SwerveModule extends SubsystemBase{
     // turnPIDController.setReference(3.14, CANSparkMax.ControlType.kPosition);
     m_turningMotor.set(turnOutput);
     // System.out.println(modID + " target: " + state.angle.getRadians()  + "   current: " + getAngle());
+    SmartDashboard.putNumber(modID + "output", turnOutput);
   }
 
   /** Zeros all the SwerveModule encoders. */
@@ -194,7 +195,7 @@ public class SwerveModule extends SubsystemBase{
     // SmartDashboard.putNumber(modID + " turn vel",
     // m_turningMotor.getSelectedSensorVelocity(0) *
     // ModuleConstants.kTurningEncoderDistancePerPulse *180/Math.PI);
-    SmartDashboard.putNumber(modID + " turn angle degrees", getAngle() * (180 / Math.PI)-offset);
+    SmartDashboard.putNumber(modID + " turn angle degrees", (getAngle() * (180 / Math.PI))-offset);
     SmartDashboard.putNumber(modID + " Encoder Value", m_turnEncoder.getPosition());
     SmartDashboard.putNumber("ENCODERCPR", m_turnEncoder.getCountsPerRevolution());
     SmartDashboard.putNumber(modID+ "angle", getAngle());
