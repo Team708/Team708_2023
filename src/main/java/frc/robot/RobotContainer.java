@@ -87,7 +87,7 @@ public class RobotContainer {
 
       () -> m_robotDrive.drive(-m_robotDrive.getSpeedCoeff() * OI.getDriverLeftY(),
        -m_robotDrive.getSpeedCoeff() * OI.getDriverLeftX(),
-       -m_robotDrive.getSpeedCoeff() * 25 / 10 * OI.getDriverRightX(), false),
+       -m_robotDrive.getSpeedCoeff() * 25 / 10 * OI.getDriverRightX(), true),
       m_robotDrive));
       
     // Put the chooser on the dashboard

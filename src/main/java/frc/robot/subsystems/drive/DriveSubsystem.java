@@ -174,14 +174,24 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("rot", rot);
     SmartDashboard.putNumber("setpoint", turnPID.getSetpoint());
 
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getAngle())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+    SwerveModuleState[] swerveModuleStates;
+
+    // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    //     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getAngle())
+    //         : new ChassisSpeeds(xSpeed, ySpeed, rot));
+
+    if(fieldRelative){
+      swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getAngle())
+      );
+      System.out.println("Using field centric");
+    }else{
+      swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        new ChassisSpeeds(xSpeed, ySpeed, rot)
+      );
+    }
+
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    // m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    // m_frontRight.setDesiredState(swerveModuleStates[1]);
-    // m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    // m_rearRight.setDesiredState(swerveModuleStates[3]);
     setModuleStates(swerveModuleStates);
   }
 

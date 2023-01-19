@@ -52,10 +52,10 @@ public final class Constants {
 
 
     // offset in degrees			
-    public static final double kFrontLeftOffset   = -35+34.80468374609319;//-1.94238;//45; //(RobotConstants.kRobot) ? 148 : -34.2;    // degree
-    public static final double kFrontRightOffset  = -43+41.83593660979819+180;//4.26366;//145; //(RobotConstants.kRobot) ? -92 : -93.2; // degree
-    public static final double kRearLeftOffset    = -89+88.5937416864534;//-170.3291;//25; //(RobotConstants.kRobot) ? 109 : -68.2;  // degree
-    public static final double kRearRightOffset   = 90-90.70312266820679-180;//-173.97851;//-90; //(RobotConstants.kRobot) ? -138 : -136.4; // degree
+    public static final double kFrontLeftOffset   = -35+34.80468374609319; // degree
+    public static final double kFrontRightOffset  = -43+41.83593660979819+180; // degree
+    public static final double kRearLeftOffset    = -89+88.5937416864534; // degree
+    public static final double kRearRightOffset   = 90-90.70312266820679-180; // degree
 
     // Distance between centers of right and left wheels on robot    
     public static final double kTrackWidth = (RobotConstants.kRobot) ? 0.6731 : 0.444; // m
@@ -85,7 +85,7 @@ public final class Constants {
     public static final double kDriveEncoderDistancePerPulse = ((kEncoderCPR * kEncoderRatio) / Math.PI
         * (kWheelDiameterMeters) / 3.056814908981323);
 
-    public static final double kTurningEncoderDistancePerPulse = (2 * Math.PI) / (double) 4096;
+    public static final double kTurningEncoderDistancePerPulse = 2 * Math.PI * 42 / (double) 4096;
 
     public static final double kPModuleTurningController = 0.5;//0.6;//0.4;
 

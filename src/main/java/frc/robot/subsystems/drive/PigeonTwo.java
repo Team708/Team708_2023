@@ -41,7 +41,7 @@ public class PigeonTwo {
     
     private PigeonTwo(){
         try{
-            m_pigeon2 = new Pigeon2(0); //CHECK PORT AND CONSTRUCTOR
+            m_pigeon2 = new Pigeon2(4); //CHECK PORT AND CONSTRUCTOR
             //Sets the status frame period for two different periods.
             m_pigeon2.setStatusFramePeriod(PigeonIMU_StatusFrame.BiasedStatus_2_Gyro, 5, 10);
             m_pigeon2.setStatusFramePeriod(PigeonIMU_StatusFrame.BiasedStatus_6_Accel, 5, 10);

@@ -73,20 +73,10 @@ public class SwerveModule extends SubsystemBase{
 
     this.driveEncoderReversed = driveEncoderReversed;
 
-    // turnPIDController = m_turningMotor.getPIDController();
-    // turnPIDController.setP(0.4); //.15
-    // turnPIDController.setI(0.0);
-    // turnPIDController.setD(0.01);
-    // turnPIDController.setFF(0.0);
-    // turnPIDController.setIZone(0.0);
-    // turnPIDController.setFeedbackDevice(m_turnEncoder);
-    // turnPIDController.setOutputRange(-Math.PI, Math.PI);
     m_turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
     // m_turningPIDCalculator.reset(0.0);
     // m_turnEncoder.setPosition(0);
     
-    // m_turningMotorSRX.configRemoteFeedbackFilter(canCoder, 0);
-
     configureRobotMotors(/*canCoder*/);
     //resetEncoders();
 
@@ -104,9 +94,7 @@ public class SwerveModule extends SubsystemBase{
     // drivePIDController.setI(0);
     // drivePIDController.setD(24);
 
-    // m_turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);
-    m_turnEncoder.setPositionConversionFactor(2 * Math.PI * 42 / 4096); //Math.PI *42 / 4096
-    
+    m_turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);    
     m_turnEncoder.setInverted(false);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
     // m_turnEncoder.setPosition(offsetEncoder.getAbsolutePosition());
@@ -157,11 +145,7 @@ public class SwerveModule extends SubsystemBase{
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
     
-    // turnPIDController.setReference(getPosition() + (desiredState.angle.getRadians() - getAngle()) + offset * (Math.PI / 180), CANSparkMax.ControlType.kPosition); //kPosition
-    // turnPIDController.setReference(state.angle.getRadians() * (4096 / 2 * Math.PI * 42) + offset * (Math.PI / 180) * (4096 / 2 * Math.PI * 42), CANSparkMax.ControlType.kPosition); //kPosition
-    // turnPIDController.setReference(3.14, CANSparkMax.ControlType.kPosition);
     m_turningMotor.set(turnOutput);
-    // System.out.println(modID + " target: " + state.angle.getRadians()  + "   current: " + getAngle());
     SmartDashboard.putNumber(modID + "output", turnOutput);
   }
 
