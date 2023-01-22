@@ -51,16 +51,16 @@ public class DriveByController extends CommandBase {
   public void execute() {
     double maxLinear = DriveConstants.kMaxSpeedMetersPerSecond;
     double desiredX = -inputTransform(1.0*m_controller.getLeftY())*maxLinear;
-    double desiredY = -inputTransform(m_controller.getLeftX())*maxLinear;
+    double desiredY = inputTransform(m_controller.getLeftX())*maxLinear;
     Translation2d desiredTranslation = new Translation2d(desiredX, desiredY);
     double desiredMag = desiredTranslation.getDistance(new Translation2d());
 
-    double desiredRot = -inputTransform(m_controller.getRightX())* DriveConstants.kMaxAngularSpeed;
+    double desiredRot = inputTransform(m_controller.getRightX())* DriveConstants.kMaxAngularSpeed;
 
     if(desiredMag >= maxLinear){
       desiredTranslation.times(maxLinear/desiredMag);
     }
-    m_robotDrive.drive(desiredTranslation.getX(), desiredTranslation.getY(),desiredRot,true,true);
+    m_robotDrive.drive(desiredTranslation.getX(), desiredTranslation.getY(),desiredRot,false,false);
   }
 
   @Override
