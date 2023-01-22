@@ -4,95 +4,77 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Utilities.JoystickLeftTrigger;
+import frc.robot.Utilities.JoystickRightTrigger;
+import frc.robot.commands.DriveByController;
+import frc.robot.subsystems.Swerve.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.FMSConstants;
-
-import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.PigeonTwo;
-import frc.robot.subsystems.vision.PhotonDeviceManager;
-import frc.robot.subsystems.vision.VisionProcessor;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-
-import org.photonvision.PhotonCamera;
-
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  // public static final VisionProcessor m_visionProcessor = new VisionProcessor();
-  public static final SendableChooser<Command> m_chooser = new SendableChooser<>();
+  // The robot's subsystems and commands are defined here...
+  private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
-  //Vision
-  public static final PhotonDeviceManager m_photonManager = PhotonDeviceManager.getInstance();
-  private static PhotonCamera c1 = new PhotonCamera("camera 1");
-  private static PhotonCamera c2 = new PhotonCamera("camera 2");
-  private static PhotonCamera c3 = new PhotonCamera("camera 3");
-  private static PhotonCamera c4 = new PhotonCamera("camera 4");
+  private final Drivetrain m_drive = new Drivetrain();
 
-  // Alliance Information
-  public static DriverStation.Alliance alliance;
-  public static int allianceColor;
-  private NetworkTableEntry allianceColorEntry;
+  private final DriveByController m_driveByController 
+    = new DriveByController(m_drive, m_driverController);
 
-  //Trajectory
-  public Trajectory testTrajectory;
+  private final Command doNothin = new WaitCommand(20.0);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
+    configureAutoChooser();
+
+    m_drive.setDefaultCommand(m_driveByController);
+  }
 
   /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
+   * Use this method to define your button->command mappings. Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  public RobotContainer() {
+  private void configureButtonBindings() {
 
-    //Adding cameras to device manager
-    m_photonManager.addDevices(new PhotonCamera[]{c1, c2, c3, c4});
+    new POVButton(m_driverController, 0)
+        .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
-    // CameraServer.startAutomaticCapture();
+  }
 
-    OI.configureButtonBindings(m_robotDrive);
 
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(new RunCommand(
-
-      () -> m_robotDrive.drive(-m_robotDrive.getSpeedCoeff() * OI.getDriverLeftY(),
-       -m_robotDrive.getSpeedCoeff() * OI.getDriverLeftX(),
-       -m_robotDrive.getSpeedCoeff() * 25 / 10 * OI.getDriverRightX(), true),
-      m_robotDrive));
-      
-    // Put the chooser on the dashboard
-    SmartDashboard.putData("Auto Chooser", m_chooser);
-    testTrajectory = findTrajectory("output/Unnamed");
+  private void configureAutoChooser(){
+    m_chooser.addOption("Do Nothing", doNothin);
+    
+    m_chooser.setDefaultOption("Do Nothing", doNothin);
+    SmartDashboard.putData(m_chooser);  
   }
 
   /**
@@ -101,92 +83,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // this is where we run the initialization -see instantcommand: executes a
-    // single action on initialization, and then ends immediately (on page
-    // convenience features)
+    // An ExampleCommand will run in autonomous
     return m_chooser.getSelected();
-  }
-
-  /**
-   * Finds the trajectory on the rio
-   *
-   * @param json the mane of the json
-   * @return the trajectory
-   * 
-   */
-  public Trajectory findTrajectory(String json) {
-
-    String trajectoryJSON = "paths/" + json + ".wpilib.json";
-    Trajectory trajectory = new Trajectory();
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-    return trajectory;
-  }
-
-  public Trajectory createTrejectory(Pose2d start, List<Translation2d> waypoints, Pose2d stop) {
-
-    TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared).setKinematics(DriveConstants.kDriveKinematics);
-
-    // An example trajectory to follow. All units in meters.
-    return TrajectoryGenerator.generateTrajectory(start, waypoints, stop, config);
-  }
-
-  // findColor - sets the global variable allianceColor based on the color of the
-  // alliance coming from the fmsdata
-  public void findAllianceColor() {
-    try {
-      // robot is ENABLED
-      if (RobotController.isSysActive()) {
-        // connected to FMS
-        allianceColor = FMSConstants.ALLIANCE_INITIALIZED; // 0
-        alliance = DriverStation.getAlliance();
-
-        String gameData = DriverStation.getGameSpecificMessage();
-        SmartDashboard.putString("gameData", gameData);
-
-        if (alliance == Alliance.Blue) {
-          allianceColor = FMSConstants.ALLIANCE_BLUE; // -1
-        } else if (alliance == Alliance.Red) {
-          allianceColor = FMSConstants.ALLIANCE_RED; // 1
-        } else {
-          allianceColor = FMSConstants.ALLIANCE_INITIALIZED; // 0
-        }
-      } else { // robot is NOT ENABLED
-        allianceColor = FMSConstants.ALLIANCE_NOT_ENABLED; // 20
-      }
-
-    } catch (Exception e) {
-      allianceColor = FMSConstants.ALLIANCE_EXCEPTION; // 11
-    }
-    // example on updating the dashboard using the smart dashboard implementation
-    SmartDashboard.putNumber("Alliance", allianceColor);
-
-    // exmaple on updating the dashboard using the Shuffleboard custom widget and
-    // the network table entry
-    // allianceColorEntry.setDouble(allianceColor);
-
-  }
-
-  public DriveSubsystem getDriveSubsystem() {
-    return m_robotDrive;
-  }
-
-  public void  simulationPeriodic(){}
-
-  public void sendToDashboard() {
-    m_robotDrive.sendToDashboard();
-    // m_shooter.sendToDashboard();
-    // m_climber.sendToDashboard();
-    // m_intakeFeeder.sendToDashboard();
-    // m_limelight.sendToDashboard();
-    // m_candleSystem.sendToDashboard();
-
   }
 
 }
