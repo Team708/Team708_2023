@@ -1,24 +1,24 @@
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drive.DriveSubsystem;
+// import edu.wpi.first.wpilibj2.command.CommandBase;
+// import frc.robot.subsystems.drive.Drivetrain;
 
-public class IncreaseSpeedCommand extends CommandBase {
+// public class IncreaseSpeedCommand extends CommandBase {
 
-    private final DriveSubsystem m_DriveSubsystem;
+//     private final Drivetrain m_Drivetrain;
 
-    public IncreaseSpeedCommand(DriveSubsystem subsystem) {
-        m_DriveSubsystem = subsystem;
-        addRequirements(m_DriveSubsystem);
-    }
+//     public IncreaseSpeedCommand(Drivetrain subsystem) {
+//         m_Drivetrain = subsystem;
+//         addRequirements(m_Drivetrain);
+//     }
 
-    @Override
-    public void initialize() {
-        m_DriveSubsystem.increaseSpeed();
-    }
+//     @Override
+//     public void initialize() {
+//         m_Drivetrain.increaseSpeed();
+//     }
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
-}
+//     @Override
+//     public boolean isFinished() {
+//         return true;
+//     }
+// }

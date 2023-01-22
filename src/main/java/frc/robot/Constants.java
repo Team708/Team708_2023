@@ -11,16 +11,21 @@ import java.awt.geom.Point2D;
    * Static method containing all constant values for the robot in one location
    */
 public final class Constants {
+  /**
+   * Static method containing all Global constants 
+   */
+  public static final class GlobalConstants {
+    public static final double kVoltCompensation = 12.6;        //Sets a voltage compensation value ideally 12.6V
+    public static final int PCMID = 50;
+    public static final int PDPID = 51;
+    public static final double kLoopTime = 0.020;
+  }
 
   public static final class CurrentLimit{
     public static final int kIntake = 25;
-    public static final int kTurret = 30;
-    public static final int kShooter = 40;
-    public static final int kHood = 20;
     public static final int kElevator = 30;
     public static final int kTranslation = 40;
     public static final int kRotation = 25;
-    public static final int kClimber = 80;
   }
 
   public static final class GoalConstants{
@@ -48,10 +53,10 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderPort = 13;    //Analog Port of the Module Absolute Encoder
     public static final int kBackRightTurningEncoderPort = 11;   //Analog Port of the Module Absolute Encoder
 
-    public static final double kFrontLeftOffset = -96.85278568891435;//Encoder Offset in Radians
-    public static final double kFrontRightOffset = -122.25731340671564;  //Encoder Offset in Radians
-    public static final double kBackLeftOffset = 0.1776169164905552;   //Encoder Offset in Radians
-    public static final double kBackRightOffset = -111.97272098411736;  //Encoder Offset in Radians
+    public static final double kFrontLeftOffset = -96.85278568891435;//Encoder Offset in Degrees
+    public static final double kFrontRightOffset = -122.25731340671564;  //Encoder Offset in Degrees
+    public static final double kBackLeftOffset = 0.1776169164905552;   //Encoder Offset in Degrees
+    public static final double kBackRightOffset = -111.97272098411736;  //Encoder Offset in Degrees
 
     //Drive motor PID is best done on the roboRIO currently as the SparkMAX does not allow for static gain values on the PID controller, 
     //    these are necessary to have high accuracy when moving at extremely low RPMs
@@ -65,14 +70,10 @@ public final class Constants {
     public static final double[] kBackLeftTuningVals    =   {0.001,0.2850,0.2,2};   //{Static Gain, FeedForward, Proportional Gain, ModuleID for Tuning}
     public static final double[] kBackRightTuningVals   =   {0.001,0.2850,0.2,3};   //{Static Gain, FeedForward, Proportional Gain, ModuleID for Tuning}
 
-    public static final Translation2d kFrontLeftLocation = new Translation2d(0.33,-0.264);
-    public static final Translation2d kFrontRightLocation = new Translation2d(0.33,0.264);
-    public static final Translation2d kBackLeftLocation = new Translation2d(-0.376,-0.264);
-    public static final Translation2d kBackRightLocation = new Translation2d(-0.376,0.264);
-    // public static final Translation2d kFrontLeftLocation = new Translation2d(-0.264,0.33);
-    // public static final Translation2d kFrontRightLocation = new Translation2d(0.264,0.33);
-    // public static final Translation2d kBackLeftLocation = new Translation2d(-0.264,-0.376);
-    // public static final Translation2d kBackRightLocation = new Translation2d(0.264,-0.376);
+    public static final Translation2d kFrontLeftLocation = new Translation2d(0.33,-0.264); // +X is forward, +Y is to the right
+    public static final Translation2d kFrontRightLocation = new Translation2d(0.33,0.264); // +X is forward, +Y is to the right
+    public static final Translation2d kBackLeftLocation = new Translation2d(-0.376,-0.264); // +X is forward, +Y is to the right
+    public static final Translation2d kBackRightLocation = new Translation2d(-0.376,0.264); // +X is forward, +Y is to the right
      
     //Because the swerve modules poisition does not change, define a constant SwerveDriveKinematics for use throughout the code
     public static final SwerveDriveKinematics kDriveKinematics 
@@ -109,23 +110,7 @@ public final class Constants {
 
     public static final double[] kTurnPID = { 0.600, 0, 0 }; //Defines the PID values for rotation of the serve modules, should show some minor oscillation when no weight is loaded on the modules
   }
-  /**
-   * Static method containing all User I/O constants 
-   */
-  public static final class OIConstants {
-    public static final int kDriverControllerPort = 0;    //When making use of multiple controllers for drivers each controller will be on a different port
-    public static final int kOperatorControllerPort = 1;  //When making use of multiple controllers for drivers each controller will be on a different port
-  }
-
-  /**
-   * Static method containing all Global constants 
-   */
-  public static final class GlobalConstants {
-    public static final double kVoltCompensation = 12.6;        //Sets a voltage compensation value ideally 12.6V
-    public static final int PCMID = 50;
-    public static final int PDPID = 51;
-    public static final double kLoopTime = 0.020;
-  }
+  
   /**
    * Static method containing all Vision/Limelight constants 
    */
@@ -134,132 +119,30 @@ public final class Constants {
     public static final double kAzimuthalAngle = -0.50;                // Degree azimuthal offset of limelight
     public static final double kTargetCenterHeightFromLens = 81.0;  // Center Height of the Target in inches above the lens
     public static final double kTrackTolerance = 0.0200;             // Allowable Limelight angle error in radians
+  
+    public static final int kVisionLedOn = 0;
+    public static final int kVisionLedOff = 1;
   }
+  
   /**
    * Static method containing all Intake constants 
    */
   public static final class IntakeConstants {
-    public static final int kLeftMotorID = 30;
-    //public static final int kRightMotorID = 5;
-    public static final int[] kLeftAirPorts = {1,0};
-    //public static final int[] kRightAirPorts = {1,0};
-    //public static final double []kPIDF = {0.00005,0,0,0.000091};
+    
   }
-
+  
+  /**
+   * Static method containing all Elevator constants 
+   */
   public static final class ElevatorConstants {
-    public static final int kLowMotorID = 31;
-    //public static final int kHighMotorID = 16;
+    //public static final int kMotor1ID = 31;
+    //public static final int kMotor2ID = 16;
     //public static final double []kPIDF = {0.000075,0,0,0.000091};
-    public static final int kLowSensor = 0;
+    //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
   }
-
-/*   public static final class TurretConstants {
-    public static final int kTurretPort = 14;                    //CANID of the turret motor controller
-    public static final int kTurretPotentiometerPort = 4;       //Analog port of the turret analog potentiometer
-    public static final double kTurretTolerance = 2*0.0349;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
-    public static final double[] kTurretPID = { 4.0, 0.0, 0 };  //Defines the PID values for rotation of the turret
-    public static final double kStaticGain = 0.025;             //Limits Integral term so as to not wind up values when making larger moves
-    public static final double kTurretLow = 0.50;               //Minimum angle in radians allowed (defines the turret deadzone)
-    public static final double kTurretHigh = 5.78;              //Maximum angle in radians allowed (defines the turret deadzone)
-  } */
-
-  public static final class ClimberConstants {
-    public static final int kMotorID = 10;
-    public static final double kMinPose = 0.0;
-    public static final double kMaxPose = 270.0;
-    //public static final int[] kValvePorts = {4,5};
-  }
-
-  public static final class HoodConstants{
-    public static final int kMotorID = 22;
-    public static final double kTolerance = 3.0;
-    public static final double kMaxAngle = 39.0;
-    public static final double kMinAngle = 0.5;
-    public static final double kPosConvFactor = 1.27777777778;
-
-    public static final double kP = 0.20;
-    public static final double kMaxNegPower = -0.33;
-    public static final double kMaxPosPower = 1.0;
-  }
-
-  /**
-   * Static method containing all Shooter constants 
-   */
-  public static final class ShooterConstants {
-    public static final int[] kMotorIDs = {20,21};        //CANID of the Motor Controller for the Sooter Motor
-    public static final double kRPMTolerance = 100.0;          //RPMs of error allowed before a ball can be fed into t he shooter
-    public static final double[] kPID = { 0.000125, 0.0005, 0 }; // Defines PID values for the shooter 0.00045
-    public static final double kIntRange = 0.015;
-    public static final double kStatic = 0.018;
-    public static final double kFF = 0.000165;
-    public static final double kAccelCompFactor = 0.100; // in units of seconds
-    public static final double kMaxRPM = 3800.0;
-    public static final double kMaxNegPower = -0.30;
-
-
-
-    private static final Point2D[] kHoodPoints = new Point2D.Double[] {
-      // (ty-angle,distance)
-      new Point2D.Double(35, 0.0),
-      new Point2D.Double(55, 0.0),
-      new Point2D.Double(90, 7.90), //
-      new Point2D.Double(105, 13.5), //
-      new Point2D.Double(120, 13.9), //
-      new Point2D.Double(135, 16.3), //
-      new Point2D.Double(150, 18.0), //
-      new Point2D.Double(165, 21.3), //
-      new Point2D.Double(180, 22.1), //
-      new Point2D.Double(195, 24.7), //
-      new Point2D.Double(210, 27.0),
-      new Point2D.Double(225, 30.4),
-      new Point2D.Double(240, 32.0),
-      new Point2D.Double(255, 32.7),
-      new Point2D.Double(270, 35.0),
-      new Point2D.Double(285, 36.1),
-  };
-
-    public static final LinearInterpolationTable khoodTable = new LinearInterpolationTable(kHoodPoints);
-
-    private static final Point2D[] kRPMPoints = new Point2D.Double[] {
-      // (ty-angle,distance)
-      new Point2D.Double(35, 1700),
-      new Point2D.Double(55, 2060),
-      new Point2D.Double(90, 2240), //
-      new Point2D.Double(105, 2310), //
-      new Point2D.Double(120, 2355), //
-      new Point2D.Double(135, 2405), //
-      new Point2D.Double(150, 2490), //
-      new Point2D.Double(165, 2560), //
-      new Point2D.Double(180, 2600), //
-      new Point2D.Double(195, 2680), //
-      new Point2D.Double(210, 2785),
-      new Point2D.Double(225, 2865),
-      new Point2D.Double(240, 2955),
-      new Point2D.Double(255, 3050),
-      new Point2D.Double(270, 3130),
-      new Point2D.Double(285, 3275)
-
-  };
-
-    public static final LinearInterpolationTable krpmTable = new LinearInterpolationTable(kRPMPoints);
-
-    private static final Point2D[] kShotTimes = new Point2D.Double[] {
-      // (ty-angle,time)
-      new Point2D.Double(80, 0.78+0.10),
-      new Point2D.Double(130, 0.80+0.15),
-      new Point2D.Double(190, 0.81+0.20),
-      new Point2D.Double(240, 0.82+0.20),
-      new Point2D.Double(280, 0.83+0.20)
-  };
-
-  public static final LinearInterpolationTable kTimeTable = new LinearInterpolationTable(kShotTimes);
-
-  }
-
-
   
-    /**
+  /**
    * Static method containing all Autonomous constants 
    */
   public static final class AutoConstants {
@@ -267,12 +150,22 @@ public final class Constants {
     public static final double kMaxSpeed = 3.5; //Maximum Sustainable Drivetrain Speed under Normal Conditions & Battery, Robot will not exceed this speed in closed loop control
     public static final double kMaxAngularSpeed = Math.PI;      //Maximum Angular Speed desired. NOTE: Robot can exceed this but spinning fast is not particularly useful or driver friendly
     public static final double kMaxAngularAccel = Math.PI;      //Maximum Angular Speed desired. NOTE: Robot can exceed this but spinning fast is not particularly useful or driver friendly
-
+    
     public static final double kPXController = 3.0;
     public static final double kPYController = 3.0;
     public static final double kPThetaController = 3.0;
-
+    
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-        kMaxAngularSpeed, kMaxAngularAccel); //Creates a trapezoidal motion for the auto rotational commands
+      kMaxAngularSpeed, kMaxAngularAccel); //Creates a trapezoidal motion for the auto rotational commands
+    }
+    
+    /**
+     * Static method containing all User Controller constants 
+     */
+    public static final class ControllerConstants{
+      public static final int kDriverControllerPort = 0;    //When making use of multiple controllers for drivers each controller will be on a different port
+      public static final int kOperatorControllerPort = 1;  //When making use of multiple controllers for drivers each controller will be on a different port
+      
+    }
   }
-}
+  

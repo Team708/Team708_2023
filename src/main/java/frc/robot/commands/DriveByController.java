@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
+import frc.robot.OI;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Swerve.*;
+import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.Utilities.FieldRelativeAccel;
 import frc.robot.Utilities.FieldRelativeSpeed;
 import frc.robot.Utilities.MathUtils;
@@ -50,12 +52,12 @@ public class DriveByController extends CommandBase {
   @Override
   public void execute() {
     double maxLinear = DriveConstants.kMaxSpeedMetersPerSecond;
-    double desiredX = -inputTransform(1.0*m_controller.getLeftY())*maxLinear;
-    double desiredY = inputTransform(m_controller.getLeftX())*maxLinear;
+    double desiredX = -inputTransform(1.0*OI.getDriverLeftY())*maxLinear;
+    double desiredY = inputTransform(OI.getDriverLeftX())*maxLinear;
     Translation2d desiredTranslation = new Translation2d(desiredX, desiredY);
     double desiredMag = desiredTranslation.getDistance(new Translation2d());
 
-    double desiredRot = inputTransform(m_controller.getRightX())* DriveConstants.kMaxAngularSpeed;
+    double desiredRot = inputTransform(OI.getDriverRightX())* DriveConstants.kMaxAngularSpeed;
 
     if(desiredMag >= maxLinear){
       desiredTranslation.times(maxLinear/desiredMag);

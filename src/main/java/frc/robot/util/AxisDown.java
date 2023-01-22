@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class AxisDown extends Trigger {
     
-	private XboxController gamepad;
+	private XboxController Controller;
 	private int axis;
 	
-	public AxisDown(XboxController targetGamepad, int targetAxis) {
-		gamepad = targetGamepad;
+	public AxisDown(XboxController targetController, int targetAxis) {
+		Controller = targetController;
 		axis = targetAxis;
 	}
 	
     public boolean get() {
-        return (gamepad.getRawAxis(axis) <= .1);
+        return (Controller.getRawAxis(axis) <= .1);
     }
 }

@@ -1,6 +1,6 @@
 package frc.robot.subsystems.vision;
 
-import frc.robot.Constants.VisionProcessorConstants;
+import frc.robot.Constants.VisionConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.*;
@@ -61,9 +61,9 @@ public class VisionProcessor extends SubsystemBase {
 	public void toggleLEDMode() {
 		led = !led;
 		if (led)
-			setNTInfo("ledMode", VisionProcessorConstants.kVisionLedOn);
+			setNTInfo("ledMode", VisionConstants.kVisionLedOn);
 		else
-			setNTInfo("ledMode", VisionProcessorConstants.kVisionLedOff);
+			setNTInfo("ledMode", VisionConstants.kVisionLedOff);
 	}
 
 	public double getRotate() {

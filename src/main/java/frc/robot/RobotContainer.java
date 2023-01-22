@@ -14,12 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.DriveByController;
-import frc.robot.subsystems.Swerve.Drivetrain;
+import frc.robot.subsystems.drive.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -35,13 +34,13 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  // private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
+  // private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
   private final Drivetrain m_drive = new Drivetrain();
 
-  private final DriveByController m_driveByController 
-    = new DriveByController(m_drive, m_driverController);
+  private final DriveByController m_driveByController
+    = new DriveByController(m_drive, OI.driverController);
 
   private final Command doNothin = new WaitCommand(20.0);
 
@@ -64,7 +63,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    new POVButton(m_driverController, 0)
+    new POVButton(OI.driverController, 0)
         .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
   }
@@ -87,4 +86,7 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
+  public void sendToDashboard() {
+    m_drive.sendToDashboard();
+  }
 }
