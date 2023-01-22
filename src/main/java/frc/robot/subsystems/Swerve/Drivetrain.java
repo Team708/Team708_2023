@@ -102,6 +102,9 @@ import frc.robot.subsystems.PigeonTwo;
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean keepAngle) {
+    SmartDashboard.putBoolean("fieldRelative", fieldRelative);
+    SmartDashboard.putBoolean("keepAngle", keepAngle);
+
     if(keepAngle){
       rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
     }
@@ -110,9 +113,9 @@ import frc.robot.subsystems.PigeonTwo;
     ySpeed = m_slewY.calculate(ySpeed);
     rot = m_slewRot.calculate(rot);
     
-    //SmartDashboard.putNumber("xSpeed Commanded", xSpeed);
-    //SmartDashboard.putNumber("ySpeed Commanded", ySpeed);
-    //SmartDashboard.putNumber("rot Commanded", rot);
+    SmartDashboard.putNumber("xSpeed Commanded", xSpeed);
+    SmartDashboard.putNumber("ySpeed Commanded", ySpeed);
+    SmartDashboard.putNumber("rot Commanded", rot);
 
     //creates an array of the desired swerve module states based on driver command and if the commands are field relative or not
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -140,10 +143,10 @@ import frc.robot.subsystems.PigeonTwo;
       SmartDashboard.putNumber("Accel Y", m_fieldRelAccel.ay);
       SmartDashboard.putNumber("Alpha", m_fieldRelAccel.alpha);
 
-        //SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
-        //SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
-        //SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
-        //SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
+        SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
+        SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
+        SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
+        SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
 
         //Update swerve drive odometry periodically so robot pose can be tracked
         updateOdometry();    
