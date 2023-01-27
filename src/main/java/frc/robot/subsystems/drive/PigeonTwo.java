@@ -49,7 +49,7 @@ public class PigeonTwo {
             //Default configs = MAKE CONSTANTS IN CONSTANTS FILE & DETERMINE VALUES
             config.DisableNoMotionCalibration = false;
             config.DisableTemperatureCompensation = false;
-            config.EnableCompass = true;
+            config.EnableCompass = false; //true
             config.MountPosePitch = 0;
             config.MountPoseRoll = 0;
             config.MountPoseYaw = 0;
@@ -182,6 +182,21 @@ public class PigeonTwo {
 
     public boolean getVoltageError(){
         return faultLog.UnderVoltage;
+    }
+
+    public void printPigeonErrorLog(){
+        System.out.println("API: " + getAPIError());
+        System.out.println("Accel: " + getAccelError());
+        System.out.println("BootIntoMotion: " + getBootIntoMotionError());
+        System.out.println("Gyro: " + getGyroError());
+        System.out.println("Hardware: " + getHardwareError());
+        System.out.println("Magnetometer: " + getMagnetometerError());
+        System.out.println("MotionDriver: " + getMotionDriverError());
+        System.out.println("Reset: " + getResetError());
+        System.out.println("SaturatedAccel: " + getSaturatedAccelError());
+        System.out.println("SaturatedMag: " + getSaturatedMagError());
+        System.out.println("SaturatedRotVel: " + getSaturatedRotVelError());
+        System.out.println("Voltage: " + getVoltageError());
     }
 
 }
