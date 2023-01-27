@@ -140,6 +140,9 @@ import frc.robot.subsystems.drive.PigeonTwo;
       SmartDashboard.putNumber("RobotSpeedY", getChassisSpeed().vyMetersPerSecond);
       SmartDashboard.putNumber("RobotOmega", getChassisSpeed().omegaRadiansPerSecond);
 
+      SmartDashboard.putNumber("Robot pitch degrees", pigeon.getPitch().getDegrees());
+      SmartDashboard.putNumber("Robot roll degrees", pigeon.getRoll().getDegrees());
+
       SmartDashboard.putNumber("Accel X", m_fieldRelAccel.ax);
       SmartDashboard.putNumber("Accel Y", m_fieldRelAccel.ay);
       SmartDashboard.putNumber("Alpha", m_fieldRelAccel.alpha);
@@ -167,6 +170,15 @@ import frc.robot.subsystems.drive.PigeonTwo;
     m_frontRight.setDesiredState(desiredStates[1]);
     m_backLeft.setDesiredState(desiredStates[2]);
     m_backRight.setDesiredState(desiredStates[3]);
+  }
+
+  public SwerveModuleState[] getModuleStates(){
+    return new SwerveModuleState[]{
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_backLeft.getState(),
+      m_backRight.getState()
+    };
   }
 
   public void stop(){

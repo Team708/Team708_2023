@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.drive.LockWheels;
 // import frc.robot.commands.drive.ResetGyroCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -68,6 +69,9 @@ public class OI {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
+
+		new JoystickButton(driverController, Button.kA.value)
+				.whileTrue(new LockWheels(m_robotDrive));
 
 		// new JoystickButton(driverController, Button.kRightBumper.value)
 		// 		.whenPressed(() -> /*Command*/)
