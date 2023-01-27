@@ -60,8 +60,7 @@ public class PathPlanner {
                     nextControl = new Translation2d((double) jsonNextControl.get("x"),
                             (double) jsonNextControl.get("y"));
                 }
-
-                Rotation2d holonomicAngle = Rotation2d.fromDegrees((double) jsonWaypoint.get("holonomicAngle"));
+                Rotation2d holonomicAngle = Rotation2d.fromDegrees(((Number)jsonWaypoint.get("holonomicAngle")).doubleValue());
                 boolean isReversal = (boolean) jsonWaypoint.get("isReversal");
                 double velOverride = -1;
                 if (jsonWaypoint.get("velOverride") != null) {
@@ -127,7 +126,6 @@ public class PathPlanner {
 
             joinedStates.addAll(paths.get(i).getStates());
         }
-
         return new PathPlannerTrajectory(joinedStates);
     }
 }

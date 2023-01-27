@@ -12,6 +12,9 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -59,6 +62,9 @@ public class DriveByController extends CommandBase {
 
     double desiredRot = inputTransform(OI.getDriverRightX())* DriveConstants.kMaxAngularSpeed;
 
+    // Pose2d temp = new Pose2d(desiredTranslation, new Rotation2d(desiredRot));
+    // temp = temp.transformBy(new Transform2d(new Translation2d(1, 0),new Rotation2d(desiredRot)));
+
     if(desiredMag >= maxLinear){
       desiredTranslation.times(maxLinear/desiredMag);
     }
@@ -66,7 +72,7 @@ public class DriveByController extends CommandBase {
                        desiredTranslation.getY(),
                        desiredRot,
                        true,
-                       true);
+                       false); // TODO Corrects in wrong direction?
   }
 
   @Override

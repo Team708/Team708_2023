@@ -47,8 +47,6 @@ public class AutoFromPathPlanner extends SequentialCommandGroup {
           addCommands(new InstantCommand(() -> SmartDashboard.putString("AutoPath", pathName)),
           swerveControllerCommand);
     }
-
-
   }
 
   public Pose2d getInitialPose() {

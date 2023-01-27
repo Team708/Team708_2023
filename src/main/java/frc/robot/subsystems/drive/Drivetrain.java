@@ -120,7 +120,7 @@ import frc.robot.subsystems.drive.PigeonTwo;
 
     //creates an array of the desired swerve module states based on driver command and if the commands are field relative or not
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, pigeon.getAngle().times(-1))
+        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, pigeon.getAngle())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     //normalize wheel speeds so all individual states are scaled to achievable velocities

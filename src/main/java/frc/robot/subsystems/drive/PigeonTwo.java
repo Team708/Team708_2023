@@ -79,7 +79,7 @@ public class PigeonTwo {
     }
 
     public Rotation2d getAngle(){
-        double yaw = m_pigeon2.getYaw();
+        double yaw = -m_pigeon2.getYaw(); //TODO NEGATED YAW FIXES AUTOS
         return Rotation2d.fromDegrees(yaw);
     }
 
