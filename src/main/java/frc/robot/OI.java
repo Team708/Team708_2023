@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
 // import frc.robot.commands.drive.ResetGyroCommand;
 import edu.wpi.first.wpilibj.XboxController;
@@ -72,6 +73,9 @@ public class OI {
 
 		new JoystickButton(driverController, Button.kA.value)
 				.whileTrue(new LockWheels(m_robotDrive));
+
+		new JoystickButton(driverController, Button.kB.value)
+				.onTrue(new AutoBalance(m_robotDrive));
 
 		// new JoystickButton(driverController, Button.kRightBumper.value)
 		// 		.whenPressed(() -> /*Command*/)

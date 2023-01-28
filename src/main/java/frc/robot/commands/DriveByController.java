@@ -72,7 +72,7 @@ public class DriveByController extends CommandBase {
                        desiredTranslation.getY(),
                        desiredRot,
                        true,
-                       false); // TODO Corrects in wrong direction?
+                       true); // TODO Corrects in wrong direction?
   }
 
   @Override

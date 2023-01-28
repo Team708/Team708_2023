@@ -5,10 +5,13 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.drive.Drivetrain;
 
 public class AutoBalance extends SequentialCommandGroup {
-  public AutoBalance() {
-    
-    addCommands();
+  public AutoBalance(Drivetrain dr) {
+    addCommands(
+      new DriveUntilBalanced(dr),
+      new LockWheels(dr)
+    );
   }
 }
