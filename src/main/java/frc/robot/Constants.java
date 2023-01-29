@@ -138,11 +138,23 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final int kMotorAID = 31;
     public static final int kMotorBID = 32;
+    //x and z in meters
+    //Reference point is from front of Robot frame and ground
+    public static final Translation2d kGroundPickupPose = new Translation2d(0.197,0.062); 
+    public static final Translation2d kStartPose = new Translation2d(-0.143,0.190); 
+    public static final Translation2d kLowCubePose = new Translation2d(0.660,0.716); 
+    public static final Translation2d kLowConePose = new Translation2d(0.660,1.029); 
+    public static final Translation2d kHighCubePose = new Translation2d(1.069,1.029); 
+    public static final Translation2d kHighConePose = new Translation2d(1.151,1.283);
+    
+    public static final Translation2d kGroundSafePose = new Translation2d(0.197,0.190);
+    public static final Translation2d kLowSafePose = new Translation2d(0.263,0.716);
+    public static final Translation2d kMidSafePose = new Translation2d(0.303,1.029);
+    public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
 
-    public static final Translation2d kGroundPickupPose = new Translation2d(0,0);//(0.5,0.2); //x and z in meters
-    public static final Translation2d kStartPose = new Translation2d(1,1);//(0,0.5); //x and z in meters
-    public static final Translation2d kLowCubePose = new Translation2d(0.578,0.596); //x and z in meters
-    public static final Translation2d khighConePose = new Translation2d(1.0,1.219); //x and z in meters
+
+    
+    
     
     public static final double []kPID = {1,0,0};
     public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);

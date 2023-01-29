@@ -1,9 +1,9 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.ElevatorToGround;
-import frc.robot.commands.ElevatorToLowCube;
-import frc.robot.commands.ElevatorToStart;
+import frc.robot.commands.elevator.ElevatorToGround;
+import frc.robot.commands.elevator.ElevatorToLowCube;
+import frc.robot.commands.elevator.ElevatorToStart;
 // import frc.robot.commands.drive.ResetGyroCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
