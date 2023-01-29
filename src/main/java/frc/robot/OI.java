@@ -1,10 +1,14 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.ElevatorToGround;
+import frc.robot.commands.ElevatorToLowCube;
+import frc.robot.commands.ElevatorToStart;
 // import frc.robot.commands.drive.ResetGyroCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class OI {
@@ -64,7 +68,7 @@ public class OI {
 	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
 	// }
 
-	public static void configureButtonBindings(Drivetrain m_robotDrive) {
+	public static void configureButtonBindings(Drivetrain m_robotDrive,Elevator m_elevator) {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
@@ -119,17 +123,14 @@ public class OI {
 		// new JoystickButton(operatorController, Button.kRightBumper.value)
 		// 		.whenPressed(new /*Command*/);
 		
-		// new JoystickButton(operatorController, Button.kB.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenPressed(new /*Command*/);
-
-		// new JoystickButton(operatorController, Button.kA.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenReleased(new /*Command*/);
-
-		// new JoystickButton(operatorController, Button.kX.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenReleased(new /*Command*/);
+		new JoystickButton(operatorController, Button.kB.value)
+				.onTrue(new ElevatorToLowCube(m_elevator));
+				
+		new JoystickButton(operatorController, Button.kA.value)
+				.onTrue(new ElevatorToGround(m_elevator));
+				
+		new JoystickButton(operatorController, Button.kX.value)
+				.onTrue(new ElevatorToStart(m_elevator));
 
 		// new JoystickButton(operatorController, Button.kRightStick.value)
 		// 		.whenPressed(new /*Command*/);

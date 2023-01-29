@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Utilities.LinearInterpolationTable;
 
 import java.awt.geom.Point2D;
@@ -135,11 +136,27 @@ public final class Constants {
    * Static method containing all Elevator constants 
    */
   public static final class ElevatorConstants {
-    //public static final int kMotor1ID = 31;
-    //public static final int kMotor2ID = 16;
-    //public static final double []kPIDF = {0.000075,0,0,0.000091};
+    public static final int kMotorAID = 31;
+    public static final int kMotorBID = 32;
+
+    public static final Translation2d kGroundPickupPose = new Translation2d(0,0);//(0.5,0.2); //x and z in meters
+    public static final Translation2d kStartPose = new Translation2d(1,1);//(0,0.5); //x and z in meters
+    public static final Translation2d kLowCubePose = new Translation2d(0.578,0.596); //x and z in meters
+    public static final Translation2d khighConePose = new Translation2d(1.0,1.219); //x and z in meters
+    
+    public static final double []kPID = {1,0,0};
+    public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
+    public static final double kElevatorGearing = 5.0;
+    public static final double kMinElevatorHeight = 0.0; //m
+    public static final double kMaxElevatorHeight = 1.219; //m
+    // distance per pulse = (distance per revolution) / (pulses per revolution)
+    //  = (Pi * D) / ppr
+    public static final double kElevatorEncoderConversionFactor =
+        (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
+
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
+    public static final double kPositionTolerance = 0.01; //m
   }
   
   /**

@@ -18,7 +18,9 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.DriveByController;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.sim.ElevatorSimulation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -38,6 +40,7 @@ public class RobotContainer {
   // private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
   private final Drivetrain m_drive = new Drivetrain();
+  private final Elevator m_elevator = new Elevator();
 
   private final DriveByController m_driveByController
     = new DriveByController(m_drive, OI.driverController);
@@ -66,6 +69,8 @@ public class RobotContainer {
     new POVButton(OI.driverController, 0)
         .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
+    OI.configureButtonBindings(m_drive, m_elevator);
+
   }
 
 
@@ -86,7 +91,17 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
+  public void simulationInit(){
+    m_elevator.simulationInit();
+  }
+
+  /** This function is called periodically whilst in simulation. */
+  public void simulationPeriodic() {
+    m_elevator.simulationPeriodic();
+  }
+
   public void sendToDashboard() {
     m_drive.sendToDashboard();
+    m_elevator.sendToDashboard();
   }
 }
