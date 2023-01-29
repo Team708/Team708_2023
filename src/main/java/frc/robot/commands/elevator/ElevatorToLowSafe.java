@@ -2,19 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorToStart extends CommandBase {
+public class ElevatorToLowSafe extends CommandBase {
   /** Creates a new ElevatorToPos. */
 
   private final Elevator m_elevator;
     private double distanceToGo;
   
-    public ElevatorToStart(Elevator m_elevator) {
+    public ElevatorToLowSafe(Elevator m_elevator) {
     this.m_elevator = m_elevator;  
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_elevator);
@@ -23,13 +23,13 @@ public class ElevatorToStart extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.setPose(ElevatorConstants.kStartPose);
+    m_elevator.setPose(ElevatorConstants.kLowSafePose);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    distanceToGo = m_elevator.getPose().getDistance(ElevatorConstants.kStartPose);
+    distanceToGo = m_elevator.getPose().getDistance(ElevatorConstants.kLowSafePose);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +39,7 @@ public class ElevatorToStart extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (distanceToGo <= ElevatorConstants.kPositionTolerance)
+    if (distanceToGo <= ElevatorConstants.kPositionTolerance) 
       return true;
     else
       return false;
