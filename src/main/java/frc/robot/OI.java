@@ -51,13 +51,13 @@ public class OI {
 	// 	return deadBand(operatorController.getRightX(), ControllerConstants.kOperatorDeadBandRightX);
 	// }
 
-	// public static double getOperatorLeftY() {
-	// 	return deadBand(operatorController.getLeftY(), ControllerConstants.kOperatorDeadBandLeftY);
-	// }
+	public static double getOperatorLeftY() {
+		return operatorController.getLeftY();
+	}
 
-	// public static double getOperatorRightY() {
-	// 	return deadBand(operatorController.getRightY(), ControllerConstants.kOperatorDeadBandRightY);
-	// }
+	public static double getOperatorRightY() {
+		return operatorController.getRightY();
+	}
 
 	// public static double getClimberLeftY() {
 	// 	return deadBand(climberController.getLeftY(), ControllerConstants.kClimberDeadBandLeftY);

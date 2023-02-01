@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.GlobalConstants;
+import frc.robot.Constants.SimConstants;
 
 /** Add your docs here. */
 public class ElevatorSimulation {
@@ -64,10 +65,26 @@ public class ElevatorSimulation {
       SmartDashboard.putData("Elevator Sim", m_mech2d);
     }
 
-          // Create a Mechanism2d visualization of the elevator
-    private final Mechanism2d m_mech2d = new Mechanism2d(2.5, 2.5);
-    private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", .5, 0);
+    // Create a Mechanism2d visualization of the elevator
+    private final Double screenWidth = SimConstants.kChargeStationWidth*0.5 + SimConstants.kCommunitWidth + SimConstants.kGridDepth; //cm
+    private final int screenHeight = 200; //cm
+    private final int m_endEffectorOffsetX = 5; //cm
+    private final int m_endEffectorOffsetZ = 10; //cm
+    private final double m_bumperLength = 86.36; //cm
+    private final double m_bumperHeight = 12.7; //cm
+    private final double m_elevatorPosition = (screenWidth - SimConstants.kGridDepth)-30;
+
+    private final Mechanism2d m_mech2d = new Mechanism2d(screenWidth, screenHeight);
+    private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", m_elevatorPosition, 0);
     
+    private final MechanismRoot2d m_elevatorLiftBase = m_mech2d.getRoot("Elevator Lift Base", m_elevatorPosition, 0);
+    private final MechanismRoot2d m_robotBumperStart = m_mech2d.getRoot("Bumper Start", screenWidth - SimConstants.kGridDepth, m_bumperHeight*0.5);
+    private final MechanismLigament2d m_RobotBumperEnd = m_robotBumperStart.append( 
+      new MechanismLigament2d("Bumper Length", m_bumperLength, 180,m_bumperHeight,new Color8Bit(Color.kRed)));   
+
+    private final MechanismLigament2d m_elevatorLift = m_elevatorLiftBase.append( 
+      new MechanismLigament2d("ElevatorLiftBar", 122, 90,5,new Color8Bit(Color.kRed)));    
+
     private final MechanismLigament2d m_elevatorLiftMech2d =
     m_mech2dRoot.append( new MechanismLigament2d("ElevatorLift", 
     1, 90,5,new Color8Bit(Color.kRed)));
@@ -75,6 +92,14 @@ public class ElevatorSimulation {
     private final MechanismLigament2d m_elevatorArmMech2d =
     m_elevatorLiftMech2d.append( new MechanismLigament2d("ElevatorArm",
     1, -90,5,  new Color8Bit(Color.kPurple)));
+
+    private final MechanismLigament2d m_elevatorArm2Mech2d =
+    m_elevatorArmMech2d.append( new MechanismLigament2d("ElevatorArm2",
+    10, -90,5,  new Color8Bit(Color.kPurple)));
+
+    private final MechanismLigament2d m_endEffectorMech2d =
+    m_elevatorArm2Mech2d.append( new MechanismLigament2d("End Effector",
+    15, 90,5,  new Color8Bit(Color.kPurple)));
 
     public void update(Double m_setposX, Double setposZ){
         REVPhysicsSim.getInstance().run();
@@ -93,7 +118,7 @@ public class ElevatorSimulation {
         encoderB.setPosition(m_elevatorXSim.getPositionMeters() - m_elevatorZSim.getPositionMeters());
 
         // Update elevator visualization with simulated position
-        m_elevatorLiftMech2d.setLength(m_elevatorZSim.getPositionMeters());
-        m_elevatorArmMech2d.setLength(m_elevatorXSim.getPositionMeters());
+        m_elevatorLiftMech2d.setLength(m_elevatorZSim.getPositionMeters()*100 + m_endEffectorOffsetZ);
+        m_elevatorArmMech2d.setLength(m_elevatorXSim.getPositionMeters()*100 + m_endEffectorOffsetX);
     }
 }

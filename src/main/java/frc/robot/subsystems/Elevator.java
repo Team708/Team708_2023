@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -21,7 +23,8 @@ public class Elevator extends SubsystemBase {
   private CANSparkMax m_elevatorMotorA,m_elevatorMotorB;
   private RelativeEncoder m_encoderA,m_encoderB;
   private double m_setposX,m_setposZ;
-  private PIDController m_pidControllerX,m_pidControllerZ;
+  ProfiledPIDController m_pidControllerX;
+  private ProfiledPIDController m_pidControllerZ;
   private double outputX,outputZ,outputA,outputB;
   private double m_measureX,m_measureZ;
   
@@ -29,17 +32,23 @@ public class Elevator extends SubsystemBase {
 
   public Elevator() {
 
+    //The elevator uses NEOs for both forward and upward motion.
     m_elevatorMotorA = new CANSparkMax(ElevatorConstants.kMotorAID, MotorType.kBrushless);
     m_elevatorMotorB = new CANSparkMax(ElevatorConstants.kMotorBID, MotorType.kBrushless);
     m_elevatorMotorA.setIdleMode(IdleMode.kBrake);
     m_elevatorMotorB.setIdleMode(IdleMode.kBrake);
+
+    //Creates the encoders for the tracking of the elevator position in meters. 
+    //X and Z positions require knowing both positions of motors A and B 
     m_encoderA = m_elevatorMotorA.getEncoder();
     m_encoderB = m_elevatorMotorB.getEncoder();
     m_encoderA.setPositionConversionFactor(ElevatorConstants.kElevatorEncoderConversionFactor);
     m_encoderB.setPositionConversionFactor(ElevatorConstants.kElevatorEncoderConversionFactor);
-    m_pidControllerX = new PIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2]);
-    m_pidControllerZ = new PIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2]);
     
+    //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
+    //each axis will require unique PID gains.
+    m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2], new Constraints(20.0,  3));
+    m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2],new Constraints(20.0,  3));
   }
 
   @Override
@@ -47,11 +56,7 @@ public class Elevator extends SubsystemBase {
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
-    SmartDashboard.putNumber("measureX", m_measureX);
-    SmartDashboard.putNumber("measureZ", m_measureZ);
-    SmartDashboard.putNumber("measureA", m_encoderA.getPosition());
-    SmartDashboard.putNumber("measureB", m_encoderB.getPosition());
-    
+
     //outputX calculates the error between getX and setposX
     outputX = m_pidControllerX.calculate(m_measureX, m_setposX);
     //outputZ calculates the error between getZ and setposZ
@@ -60,8 +65,8 @@ public class Elevator extends SubsystemBase {
     outputA = getA(outputX, outputZ);
     outputB = getB(outputX, outputZ);
     //set motion positions
-    m_elevatorMotorA.set(outputA);
-    m_elevatorMotorB.set(outputB);
+    m_elevatorMotorA.setVoltage(outputA);
+    m_elevatorMotorB.setVoltage(outputB);
   }
 
   public void simulationInit(){
@@ -125,8 +130,24 @@ public class Elevator extends SubsystemBase {
     m_setposZ = elevatorPose.getY();
   } 
 
+   /**
+   * Method to drive the elevator using joystick inputs.
+   *
+   * @param xSpeed        Speed of the elevator in the x direction (forward).
+   * @param zSpeed        Speed of the elevator in the z direction (up).
+   */
+  public void commandedVelocity(double xSpeed, double zSpeed) {
+
+  }
+
   public void sendToDashboard(){
     SmartDashboard.putNumber("elevatorPoseX", m_setposX);
     SmartDashboard.putNumber("elevatorPoseZ", m_setposZ);
+    SmartDashboard.putNumber("measureX", m_measureX);
+    SmartDashboard.putNumber("measureZ", m_measureZ);
+    SmartDashboard.putNumber("measureA", m_encoderA.getPosition());
+    SmartDashboard.putNumber("measureB", m_encoderB.getPosition());
   }
+
+
 }

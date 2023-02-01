@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.REVPhysicsSim;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -126,6 +128,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {
+    REVPhysicsSim.getInstance().run();
     m_robotContainer.simulationPeriodic();
+    
   }
 }
