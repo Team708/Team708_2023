@@ -152,23 +152,24 @@ public final class Constants {
     public static final Translation2d kMidSafePose = new Translation2d(0.303,1.029);
     public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
 
-
-    
-    
-    
     public static final double kMaxSpeedMetersPerSecond = 0.5;
-    public static final double []kPID = {7,0,0.5};
+    public static final double []kPID_X = {8,0,0.5};
+    public static final double []kPID_Z = {8,0,0.5}; //{50,0.5,1};
     public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
     public static final double kElevatorGearing = 5.0;
     public static final double kMinElevatorHeight = 0.0; //m
     public static final double kMaxElevatorHeight = 1.219; //m
     public static final double kMinElevatorReach = -0.2; //m
-
     public static final double kMaxElevatorReach = 1.219; //m
+    
     // distance per pulse = (distance per revolution) / (pulses per revolution)
     //  = (Pi * D) / ppr
     public static final double kElevatorEncoderConversionFactor =
         (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
+    
+    public static final double kRobotBumperThickness = Units.inchesToMeters(3)*100;//cm
+    public static final double kEndEffectorLength = Units.inchesToMeters(12)*100;//cm
+    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(18.0)*100; //cm
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;

@@ -42,7 +42,7 @@
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {
-        "image": "C:\\Users\\rmcca\\Downloads\\Community, RH.png",
+        "image": "C:\\Users\\rmcca\\OneDrive\\Documents\\GitHub\\Team708_2023\\Community, RH.png",
         "window": {
           "visible": true
         }
@@ -82,41 +82,8 @@
     "Plot <0>": {
       "plots": [
         {
-          "axis": [
-            {
-              "autoFit": true,
-              "lockMax": true
-            }
-          ],
           "height": 506,
           "series": [
-            {
-              "color": [
-                0.3333333432674408,
-                0.658823549747467,
-                0.4078431725502014,
-                1.0
-              ],
-              "id": "Joystick[1] Button[1]"
-            },
-            {
-              "color": [
-                0.7686275243759155,
-                0.30588236451148987,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "Joystick[1] Button[2]"
-            },
-            {
-              "color": [
-                0.5058823823928833,
-                0.44705885648727417,
-                0.7019608020782471,
-                1.0
-              ],
-              "id": "Joystick[1] Button[3]"
-            },
             {
               "color": [
                 0.5764706134796143,
@@ -124,7 +91,8 @@
                 0.3764706254005432,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/elevatorPoseX"
+              "id": "NT:/SmartDashboard/elevatorPoseX",
+              "marker": "Circle"
             },
             {
               "color": [
@@ -133,7 +101,8 @@
                 0.7647059559822083,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/elevatorPoseZ"
+              "id": "NT:/SmartDashboard/elevatorPoseZ",
+              "marker": "Square"
             },
             {
               "color": [
@@ -142,7 +111,9 @@
                 0.803921639919281,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/measureX"
+              "digital": "Auto",
+              "id": "NT:/SmartDashboard/measureX",
+              "marker": "None"
             },
             {
               "color": [
@@ -180,6 +151,24 @@
                 1.0
               ],
               "id": "SPARK MAX [32]-Applied Output"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/measureB"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/measureA"
             }
           ]
         }

@@ -9,7 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -47,8 +46,8 @@ public class Elevator extends SubsystemBase {
     
     //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
     //each axis will require unique PID gains.
-    m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2], new Constraints(20.0,  3));
-    m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID[0], ElevatorConstants.kPID[1], ElevatorConstants.kPID[2],new Constraints(20.0,  3));
+    m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  5));
+    m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  5));
   }
 
   @Override
@@ -96,6 +95,7 @@ public class Elevator extends SubsystemBase {
   public double getZ() {
     return 0.5*(m_encoderA.getPosition() - m_encoderB.getPosition());
   }
+
   /**
    * @param X horizontal distance
    * @param Z vertical distance
@@ -104,6 +104,7 @@ public class Elevator extends SubsystemBase {
   public double getA(double X, double Z) {
     return X+Z;
   }
+
   /**
    * @param X horizontal distance
    * @param Z vertical distance

@@ -29,6 +29,16 @@ public class ElevatorSimulation {
     private RelativeEncoder encoderA, encoderB;
 
     //public ElevatorSimulationses help us simulate what's going on, including gravity.
+    private final ElevatorSim m_elevatorXSim =
+    new ElevatorSim(
+      m_elevatorGearbox,
+      ElevatorConstants.kElevatorGearing,
+      kCarriageMass,
+      ElevatorConstants.kElevatorDrumRadius,
+      ElevatorConstants.kMinElevatorReach,
+      ElevatorConstants.kMaxElevatorReach,
+      false,
+      VecBuilder.fill(0.0001));
     private final ElevatorSim m_elevatorZSim =
     new ElevatorSim(
       m_elevatorGearbox,
@@ -37,19 +47,9 @@ public class ElevatorSimulation {
       ElevatorConstants.kElevatorDrumRadius,
       ElevatorConstants.kMinElevatorHeight,
       ElevatorConstants.kMaxElevatorHeight,
-      true,
-      VecBuilder.fill(0.0001));
-  
-    private final ElevatorSim m_elevatorXSim =
-    new ElevatorSim(
-      m_elevatorGearbox,
-      ElevatorConstants.kElevatorGearing,
-      kCarriageMass,
-      ElevatorConstants.kElevatorDrumRadius,
-      ElevatorConstants.kMinElevatorHeight,
-      ElevatorConstants.kMaxElevatorHeight,
       false,
-      VecBuilder.fill(0.0001));
+      VecBuilder.fill(0.0001));//TODO Make gravety true
+  
 
     public ElevatorSimulation(CANSparkMax motorA, CANSparkMax motorB){
       this.motorA = motorA;
@@ -68,25 +68,17 @@ public class ElevatorSimulation {
     // Create a Mechanism2d visualization of the elevator
     private final Double screenWidth = SimConstants.kChargeStationWidth*0.5 + SimConstants.kCommunitWidth + SimConstants.kGridDepth; //cm
     private final int screenHeight = 200; //cm
-    private final int m_endEffectorOffsetX = 5; //cm
+    private final double m_endEffectorOffsetX = ElevatorConstants.kElevatorSetbackFromOrigin - (0.5 * ElevatorConstants.kEndEffectorLength); //cm
     private final int m_endEffectorOffsetZ = 10; //cm
-    private final double m_bumperLength = 86.36; //cm
-    private final double m_bumperHeight = 12.7; //cm
-    private final double m_elevatorPosition = (screenWidth - SimConstants.kGridDepth)-30;
+    private final double m_elevatorPosition = (screenWidth - SimConstants.kGridDepth-ElevatorConstants.kElevatorSetbackFromOrigin-ElevatorConstants.kRobotBumperThickness);
 
     private final Mechanism2d m_mech2d = new Mechanism2d(screenWidth, screenHeight);
     private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", m_elevatorPosition, 0);
     
-    private final MechanismRoot2d m_elevatorLiftBase = m_mech2d.getRoot("Elevator Lift Base", m_elevatorPosition, 0);
-    private final MechanismRoot2d m_robotBumperStart = m_mech2d.getRoot("Bumper Start", screenWidth - SimConstants.kGridDepth, m_bumperHeight*0.5);
-    private final MechanismLigament2d m_RobotBumperEnd = m_robotBumperStart.append( 
-      new MechanismLigament2d("Bumper Length", m_bumperLength, 180,m_bumperHeight,new Color8Bit(Color.kRed)));   
-
-    private final MechanismLigament2d m_elevatorLift = m_elevatorLiftBase.append( 
-      new MechanismLigament2d("ElevatorLiftBar", 122, 90,5,new Color8Bit(Color.kRed)));    
 
     private final MechanismLigament2d m_elevatorLiftMech2d =
     m_mech2dRoot.append( new MechanismLigament2d("ElevatorLift", 
+
     1, 90,5,new Color8Bit(Color.kRed)));
     
     private final MechanismLigament2d m_elevatorArmMech2d =
@@ -99,7 +91,7 @@ public class ElevatorSimulation {
 
     private final MechanismLigament2d m_endEffectorMech2d =
     m_elevatorArm2Mech2d.append( new MechanismLigament2d("End Effector",
-    15, 90,5,  new Color8Bit(Color.kPurple)));
+    ElevatorConstants.kEndEffectorLength, 90,5,  new Color8Bit(Color.kPurple)));
 
     public void update(Double m_setposX, Double setposZ){
         REVPhysicsSim.getInstance().run();

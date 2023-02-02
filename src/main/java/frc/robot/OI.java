@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.elevator.ElevatorToGround;
+import frc.robot.commands.elevator.ElevatorToHighCone;
 import frc.robot.commands.elevator.ElevatorToLowCube;
 import frc.robot.commands.elevator.ElevatorToStart;
 // import frc.robot.commands.drive.ResetGyroCommand;
@@ -131,6 +132,9 @@ public class OI {
 				
 		new JoystickButton(operatorController, Button.kX.value)
 				.onTrue(new ElevatorToStart(m_elevator));
+
+		new JoystickButton(operatorController, Button.kY.value)
+		 		.onTrue(new ElevatorToHighCone(m_elevator));
 
 		// new JoystickButton(operatorController, Button.kRightStick.value)
 		// 		.whenPressed(new /*Command*/);
