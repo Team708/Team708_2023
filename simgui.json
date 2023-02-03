@@ -42,7 +42,7 @@
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {
-        "image": "C:\\Users\\rmcca\\OneDrive\\Documents\\GitHub\\Team708_2023\\Community, RH.png",
+        "image": "C:\\Users\\zlhartma\\OneDrive - Hatboro-Horsham School District\\Desktop\\Team708_2023\\Community, RH.png",
         "window": {
           "visible": true
         }
@@ -82,7 +82,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 506,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -132,7 +132,7 @@
               "autoFit": true
             }
           ],
-          "height": 506,
+          "height": 2,
           "series": [
             {
               "color": [

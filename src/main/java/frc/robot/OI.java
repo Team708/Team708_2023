@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.elevator.CalculateElevatorPath;
 import frc.robot.commands.elevator.ElevatorToGround;
 import frc.robot.commands.elevator.ElevatorToHighCone;
 import frc.robot.commands.elevator.ElevatorToLowCube;
@@ -118,8 +119,8 @@ public class OI {
 		//OPERATOR//
 				
 		
-		// new JoystickButton(operatorController, Button.kLeftBumper.value)
-		// 		.whenPressed(new /*Command*/);
+		new JoystickButton(operatorController, Button.kLeftBumper.value)
+				.onTrue(new CalculateElevatorPath(m_elevator, Elevator.A, Elevator.F));
 		
 		// new JoystickButton(operatorController, Button.kRightBumper.value)
 		// 		.whenPressed(new /*Command*/);

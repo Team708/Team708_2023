@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -14,7 +16,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Utilities.DecisionTree.Branch;
+import frc.robot.Utilities.DecisionTree.Node;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class Elevator extends SubsystemBase {
@@ -28,6 +33,28 @@ public class Elevator extends SubsystemBase {
   private double m_measureX,m_measureZ;
   
   private ElevatorSimulation m_elevatorSim;
+
+  public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP", false);
+  public static final Node B = new Node(Constants.ElevatorConstants.kGroundSafePose, "GROUND_SAFE", true);
+  public static final Node C = new Node(Constants.ElevatorConstants.kHighConePose, "HIGH_CONE", false);
+  public static final Node D = new Node(Constants.ElevatorConstants.kHighCubePose, "HIGH_CUBE", false);
+  public static final Node E = new Node(Constants.ElevatorConstants.kHighSafePose, "HIGH_SAFE", true);
+  public static final Node F = new Node(Constants.ElevatorConstants.kLowConePose, "LOW_CONE", false);
+  public static final Node G = new Node(Constants.ElevatorConstants.kLowCubePose, "LOW_CUBE", false);
+  public static final Node H = new Node(Constants.ElevatorConstants.kLowSafePose, "LOW_SAFE", true);
+  public static final Node I = new Node(Constants.ElevatorConstants.kMidSafePose, "MID_SAFE", true);
+  public static final Node J = new Node(Constants.ElevatorConstants.kStartPose, "START", false);
+  private HashMap<String, Node> map;
+
+  private Branch AB = new Branch(A, B); //Ground -> GS
+  private Branch BJ = new Branch(B, J); //GS -> Start
+  private Branch BH = new Branch(B, H); //GS -> LS
+  private Branch HG = new Branch(H, G);//LS -> LCUBE
+  private Branch HI = new Branch(H, I);//LS -> MS
+  private Branch IF = new Branch(I, F);//MS -> LCONE
+  private Branch FD = new Branch(F, D);//LCONE -> HCUBE
+  private Branch IE = new Branch(I, E);//MS -> HS
+  private Branch EC = new Branch(E, C);//HS -> HCONE
 
   public Elevator() {
 
@@ -48,6 +75,18 @@ public class Elevator extends SubsystemBase {
     //each axis will require unique PID gains.
     m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  5));
     m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  5));
+    
+    map = new HashMap<String, Node>();
+    map.put(A.getIdentifier(), A);
+    map.put(B.getIdentifier(), B);
+    map.put(C.getIdentifier(), C);
+    map.put(D.getIdentifier(), D);
+    map.put(E.getIdentifier(), E);
+    map.put(F.getIdentifier(), F);
+    map.put(G.getIdentifier(), G);
+    map.put(H.getIdentifier(), H);
+    map.put(I.getIdentifier(), I);
+    map.put(J.getIdentifier(), J);
   }
 
   @Override
@@ -130,6 +169,14 @@ public class Elevator extends SubsystemBase {
     m_setposX = elevatorPose.getX();
     m_setposZ = elevatorPose.getY();
   } 
+
+  public HashMap<String, Node> getMap(){
+    return map;
+  }
+
+  public Branch[] getElevatorBrances(){
+    return new Branch[]{AB, BJ, BH, HG, HI, IF, FD, IE, EC};
+  }
 
    /**
    * Method to drive the elevator using joystick inputs.
