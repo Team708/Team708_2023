@@ -40,7 +40,7 @@ public class TurnToCommand extends PIDCommand {
 
   @Override
   public void initialize() {
-        PIDCommand(PIDController(0.2, 0, 0),
+        PIDCommand(new PIDController(0.2, 0, 0),
         drive::getHeading,
         targetAngleDegrees,
         output -> drive.drive(0, 0, -2 * output, true, false),
