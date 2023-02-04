@@ -24,6 +24,7 @@ public class NodePathCalculator {
     }
 
     public NodePath shortestPath(Node start, Node goal){
+        finalPath.clear();
         List<Node> open = new ArrayList<Node>(); //Open Nodes
         List<Node> closed = new ArrayList<Node>(); //Closed Nodes
         open.add(start); //Add the start node to open
