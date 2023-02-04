@@ -18,15 +18,6 @@ public class TurnToCommand extends PIDCommand {
    * @param targetAngleDegrees The angle to turn to
    * @param drive The drive subsystem sto use
    */
-  /*
-     public TurnToCommand(double targetAngleDegrees, DriveSubsystem drive) {
-    super(
-        new PIDController(0.2, 0, 0),
-        drive::getHeading,
-        targetAngleDegrees,
-        output -> drive.drive(0, 0, -2 * output, true),
-        drive);
-   */
   Drivetrain drive;
   double targetAngleDegrees;
   
@@ -40,7 +31,8 @@ public class TurnToCommand extends PIDCommand {
 
   @Override
   public void initialize() {
-        PIDCommand(new PIDController(0.2, 0, 0),
+        super(
+        new PIDController(0.2, 0, 0),
         drive::getHeading,
         targetAngleDegrees,
         output -> drive.drive(0, 0, -2 * output, true, false),
