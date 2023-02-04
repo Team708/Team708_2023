@@ -208,6 +208,10 @@ import frc.robot.subsystems.drive.PigeonTwo;
     return pigeon.getAngle();
   }
 
+  public double getGyroDegrees() {
+    return pigeon.getAngle().getDegrees();
+  }
+
   public FieldRelativeSpeed getFieldRelativeSpeed(){
     return m_fieldRelVel;
   }
