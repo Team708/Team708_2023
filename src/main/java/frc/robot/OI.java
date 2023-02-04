@@ -3,7 +3,8 @@ package frc.robot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
-// import frc.robot.commands.drive.ResetGyroCommand;
+import frc.robot.commands.drive.TurnToCommand;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -77,6 +78,9 @@ public class OI {
 		new JoystickButton(driverController, Button.kB.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
+		new JoystickButton(driverController, Button.kY.value)
+				.whileTrue(new TurnToCommand(0, m_robotDrive));
+				
 		// new JoystickButton(driverController, Button.kRightBumper.value)
 		// 		.whenPressed(() -> /*Command*/)
 		// 		.whenReleased(() -> /*Command*/);
