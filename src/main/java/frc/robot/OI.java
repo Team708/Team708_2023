@@ -72,35 +72,44 @@ public class OI {
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
 
-		new JoystickButton(driverController, Button.kA.value)
+		// new JoystickButton(driverController, Button.kLeftStick.value)
+		// 		.whileTrue(new Aim(m_robotDrive));
+
+		new JoystickButton(driverController, Button.kRightStick.value)
 				.whileTrue(new LockWheels(m_robotDrive));
-
+				
+		new JoystickButton(driverController, Button.kA.value)
+				.onTrue(new TurnToCommand(180, m_robotDrive));
+								
 		new JoystickButton(driverController, Button.kB.value)
-				.onTrue(new AutoBalance(m_robotDrive));
-
+				.onTrue(new TurnToCommand(90, m_robotDrive));
+				
+		new JoystickButton(driverController, Button.kX.value)
+				.onTrue(new TurnToCommand(270, m_robotDrive));
+				
 		new JoystickButton(driverController, Button.kY.value)
-				.whileTrue(new TurnToCommand(0, m_robotDrive));
+				.onTrue(new TurnToCommand(0, m_robotDrive));
 				
-		// new JoystickButton(driverController, Button.kRightBumper.value)
-		// 		.whenPressed(() -> /*Command*/)
-		// 		.whenReleased(() -> /*Command*/);
-
-		// new JoystickButton(driverController, Button.kLeftBumper.value)
-		// 		.whenPressed(() -> /*Command*/)
-		// 		.whenReleased(() -> /*Command*/);
-
-		// new JoystickButton(driverController, Button.kY.value)
-		// 		.whenPressed(new /*Command*/);
-
-		// new JoystickButton(driverController, Button.kA.value)
-		// 		.whenPressed(new ResetGyroCommand(m_robotDrive));		
+				// new JoystickButton(driverController, Button.kRightBumper.value)
+				// 		.whenPressed(() -> /*Command*/)
+				// 		.whenReleased(() -> /*Command*/);
 				
-		// new JoystickButton(driverController, Button.kBack.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(driverController, Button.kX.value)
-		// 		.whenPressed(new /*Command*/);
+				// new JoystickButton(driverController, Button.kLeftBumper.value)
+				// 		.whenPressed(() -> /*Command*/)
+				// 		.whenReleased(() -> /*Command*/);
+				
+				// new JoystickButton(driverController, Button.kY.value)
+				// 		.whenPressed(new /*Command*/);
+				
+				// new JoystickButton(driverController, Button.kA.value)
+				// 		.whenPressed(new ResetGyroCommand(m_robotDrive));		
+				
+				// new JoystickButton(driverController, Button.kBack.value)
+				// 		.whenPressed(new /*Command*/)
+				// 		.whenPressed(new /*Command*/);
+				
+				// new JoystickButton(driverController, Button.kX.value)
+				// 		.whenPressed(new /*Command*/);
 
 		// new JoystickButton(driverController, Button.kB.value)
 		// 		.whileHeld(new /*Command*/)
@@ -111,86 +120,37 @@ public class OI {
 		
 		// new JoystickButton(driverController, Button.kRightStick.value)
 		// 		.whenPressed(new /*Command*/);
-				
+		
 		// new JoystickButton(driverController, Button.kLeftStick.value)
 		// 		.whenPressed(new /*Command*/);
-			
+		
 		// new DPadButton(driverController, DPadButton.Direction.UP)
 		// 		.whenPressed(new /*Command*/);
-
+		
 		// new DPadButton(driverController, DPadButton.Direction.DOWN)
 		// 		.whileHeld(new /*Command*/);
-
-
+		
+		
 		//OPERATOR//
-				
 		
-		// new JoystickButton(operatorController, Button.kLeftBumper.value)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(operatorController, Button.kRightBumper.value)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(operatorController, Button.kB.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenPressed(new /*Command*/);
-
-		// new JoystickButton(operatorController, Button.kA.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenReleased(new /*Command*/);
-
-		// new JoystickButton(operatorController, Button.kX.value)
-		// 		.whenPressed(new /*Command*/)
-		// 		.whenReleased(new /*Command*/);
+		// new JoystickButton(operatorController, Button.kLeftStick.value)
+		// 				.whileTrue(new (m_robotDrive));
 
 		// new JoystickButton(operatorController, Button.kRightStick.value)
-		// 		.whenPressed(new /*Command*/);
+		// 		.whileTrue(new DeployGamePiece(m_robotDrive));
+
+		new JoystickButton(operatorController, Button.kA.value)
+				.onTrue(new AutoBalance(m_robotDrive));
 				
-		// new JoystickButton(operatorController, Button.kLeftStick.value)
-		// 		.whenPressed(new /*Command*/);	
+		// new JoystickButton(operatorController, Button.kB.value)
+		// 		.onTrue(new IntakeOut(m_elevator));
 				
-		// new JoystickButton(operatorController, Button.kBack.value)
-		// 		.whileHeld(new /*Command*/);
+		// new JoystickButton(operatorController, Button.kX.value)
+		// 		.onTrue(new IntakeIn(m_elevator));
 				
-		// new JoystickButton(operatorController, Button.kStart.value)
-		// 		.whenPressed(new /*Command*/);
+		// new JoystickButton(operatorController, Button.kY.value)
+		// 		.onTrue(new ()));
 
-
-		//Climber//
-
-		// new JoystickButton(climberController, Button.kY.value)
-		// 	.whenPressed(new /*Command*/);
-
-		// new JoystickButton(climberController, Button.kA.value)
-		// 	.whenPressed(new /*Command*/);
 		
-		// new JoystickButton(climberController, Button.kStart.value)
-		// 	.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(climberController, Button.kBack.value)
-		// 	.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(climberController, Button.kB.value)
-		// 	.whenPressed(new /*Command*/);	
-		
-		// new JoystickButton(climberController, Button.kX.value)
-		// 	.whenPressed(new /*Command*/);	
-		
-		// new JoystickButton(climberController, Button.kRightBumper.value)
-		// 	.whenPressed(new /*Command*/);
-		
-		//Adaptive Controller
-
-		// new JoystickButton(adaptiveController, Button.kStart.value)
-		// 	.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(adaptiveController, Button.kBack.value)
-		// 	.whenPressed(new /*Command*/);
-			
-		// new JoystickButton(adaptiveController, Button.kB.value)
-		// 	.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(adaptiveController, Button.kA.value)
-		// 	.whenPressed(new /*Command*/);
 	}
 }

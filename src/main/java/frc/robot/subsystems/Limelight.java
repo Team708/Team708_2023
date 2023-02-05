@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.CandleConstants;
 import frc.robot.Utilities.LinearInterpolationTable;
 import java.awt.geom.Point2D;
 
