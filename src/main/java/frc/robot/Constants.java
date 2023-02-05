@@ -168,9 +168,9 @@ public final class Constants {
     public static final double kElevatorEncoderConversionFactor =
         (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
     
-    public static final double kRobotBumperThickness = Units.inchesToMeters(3)*100;//cm
-    public static final double kEndEffectorLength = Units.inchesToMeters(12)*100;//cm
-    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(18.0)*100; //cm
+    public static final double kRobotBumperThickness = Units.inchesToMeters(3);//m
+    public static final double kEndEffectorLength = Units.inchesToMeters(12);//m
+    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(18.0); //m
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
@@ -209,24 +209,24 @@ public final class Constants {
     public static final class SimConstants {
       //Game Specific
       //Grid
-      public static final int kGridDepth = 138; //cm
-      public static final int kGridHeight = 117; //cm
-      public static final int kBarrierHeight = 13; //cm
-      public static final int kGridRampStart = 41; //cm
-      public static final int kMidConeNodeDepth = 58; //cm
-      public static final int kMidConeNodeHeight = 87; //cm
-      public static final int kHighConeNodeDepth = 101; //cm
-      public static final int kHighConeNodeHeight = 117; //cm
-      public static final int kConeNodeDiameter = 4; //cm
-      public static final int kMidCubeNodeDepth = 36; //cm
-      public static final int kMidCubeNodeHeight = 90; //cm
-      public static final int kHighCubeNodeDepth = 80; //cm
-      public static final int kHighCubeNodeHeight = 60; //cm
+      public static final double kGridDepth = 1.38; //m
+      public static final double kGridHeight = 1.17; //m
+      public static final double kBarrierHeight = 0.13; //m
+      public static final double kGridRampStart = 0.41; //m
+      public static final double kMidConeNodeDepth = 0.58; //m
+      public static final double kMidConeNodeHeight = 0.87; //m
+      public static final double kHighConeNodeDepth = 1.01; //m
+      public static final double kHighConeNodeHeight = 1.17; //m
+      public static final double kConeNodeDiameter = 0.04; //m
+      public static final double kMidCubeNodeDepth = 0.36; //m
+      public static final double kMidCubeNodeHeight = 0.90; //m
+      public static final double kHighCubeNodeDepth = 0.80; //m
+      public static final double kHighCubeNodeHeight = 0.60; //m
       //Charge Station
-      public static final int kChargeStationWidth = 193; //cm
-      public static final int kChargeStationPlatformWidth = 122; //cm
-      public static final int kChargeStationHeight = 23; //cm
-      public static final int kCommunitWidth = 154; //cm
+      public static final double kChargeStationWidth = 1.93; //m
+      public static final double kChargeStationPlatformWidth = 1.22; //m
+      public static final double kChargeStationHeight = 0.23; //m
+      public static final double kCommunitWidth = 1.54; //m
 
 
     }
