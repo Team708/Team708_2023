@@ -40,8 +40,8 @@ public class OperateByController extends CommandBase {
   @Override
   public void execute() {
     double maxLinear = ElevatorConstants.kMaxSpeedMetersPerSecond;
-    double desiredX = -inputTransform(OI.getOperatorRightY())*maxLinear;
-    double desiredZ = inputTransform(OI.getOperatorLeftY())*maxLinear;
+    double desiredX = inputTransform(OI.getOperatorRightX())*maxLinear;
+    double desiredZ = -inputTransform(OI.getOperatorLeftY())*maxLinear;
     Translation2d desiredTranslation = new Translation2d(desiredX, desiredZ);
     double desiredMag = desiredTranslation.getDistance(new Translation2d());
 

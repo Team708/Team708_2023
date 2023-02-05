@@ -152,13 +152,14 @@ public final class Constants {
     public static final Translation2d kMidSafePose = new Translation2d(0.303,1.029);
     public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
 
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxSpeedMetersPerSecond = 5;
+    public static final double kElevatorAngle = 55;
     public static final double []kPID_X = {8,0,0.5};
     public static final double []kPID_Z = {8,0,0.5}; //{50,0.5,1};
     public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
     public static final double kElevatorGearing = 5.0;
     public static final double kMinElevatorHeight = 0.0; //m
-    public static final double kMaxElevatorHeight = 1.219; //m
+    public static final double kMaxElevatorHeight = 1.5; //m
     public static final double kMinElevatorReach = -0.2; //m
     public static final double kMaxElevatorReach = 1.219; //m
     

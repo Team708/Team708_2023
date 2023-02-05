@@ -11,26 +11,37 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.Branch;
 import frc.robot.Utilities.DecisionTree.Node;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class Elevator extends SubsystemBase {
-  /** Creates a new Elevator. */
+  /* Creates a new Elevator. */
   private CANSparkMax m_elevatorMotorA,m_elevatorMotorB;
   private RelativeEncoder m_encoderA,m_encoderB;
   private double m_setposX,m_setposZ;
-  ProfiledPIDController m_pidControllerX;
+  private ProfiledPIDController m_pidControllerX;
   private ProfiledPIDController m_pidControllerZ;
   private double outputX,outputZ,outputA,outputB;
   private double m_measureX,m_measureZ;
+  private double xSpeed, zSpeed;
+
+  private double previousTime = HALUtil.getFPGATime();
+  private double currentTime, deltaTime;
+
+  private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
+  private final SlewRateLimiter m_slewZ = new SlewRateLimiter(12.0);
+  
   
   private ElevatorSimulation m_elevatorSim;
 
@@ -91,17 +102,23 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
+    currentTime = HALUtil.getFPGATime();
+    deltaTime = currentTime - previousTime;
+    previousTime = currentTime;
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
 
     //outputX calculates the error between getX and setposX
     outputX = m_pidControllerX.calculate(m_measureX, m_setposX);
+
     //outputZ calculates the error between getZ and setposZ
     outputZ = m_pidControllerZ.calculate(m_measureZ, m_setposZ);
+
     //convert cartesian setpoints to motor positions
     outputA = getA(outputX, outputZ);
     outputB = getB(outputX, outputZ);
+
     //set motion positions
     m_elevatorMotorA.setVoltage(outputA);
     m_elevatorMotorB.setVoltage(outputB);
@@ -133,6 +150,14 @@ public class Elevator extends SubsystemBase {
   */ 
   public double getZ() {
     return 0.5*(m_encoderA.getPosition() - m_encoderB.getPosition());
+  }
+
+  public double getXVel() {
+    return 0.5*(m_encoderA.getVelocity() + m_encoderB.getVelocity());
+  }
+
+  public double getZVel() {
+    return 0.5*(m_encoderA.getVelocity() - m_encoderB.getVelocity());
   }
 
   /**
@@ -185,7 +210,10 @@ public class Elevator extends SubsystemBase {
    * @param zSpeed        Speed of the elevator in the z direction (up).
    */
   public void commandedVelocity(double xSpeed, double zSpeed) {
-
+    xSpeed = m_slewX.calculate(xSpeed);
+    zSpeed = m_slewZ.calculate(zSpeed);
+    m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
+    m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
   }
 
   public void sendToDashboard(){

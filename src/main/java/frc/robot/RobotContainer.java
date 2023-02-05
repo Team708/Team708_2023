@@ -18,7 +18,9 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,9 +43,13 @@ public class RobotContainer {
 
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
+  private final Intake m_intake = new Intake();
 
   private final DriveByController m_driveByController
     = new DriveByController(m_drive, OI.driverController);
+
+  private final OperateByController m_operateByController
+    = new OperateByController(m_elevator);
 
   private final Command doNothin = new WaitCommand(20.0);
 
@@ -56,6 +62,7 @@ public class RobotContainer {
     configureAutoChooser();
 
     m_drive.setDefaultCommand(m_driveByController);
+    m_elevator.setDefaultCommand(m_operateByController);
   }
 
   /**
@@ -69,7 +76,7 @@ public class RobotContainer {
     new POVButton(OI.driverController, 0)
         .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
-    OI.configureButtonBindings(m_drive, m_elevator);
+    OI.configureButtonBindings(m_drive, m_elevator, m_intake);
 
   }
 
