@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import frc.robot.subsystems.Elevator;
+
 public class NodePathCalculator {
 
     public LinkedList<Node> finalPath = new LinkedList<>();
     public Tree nodeTree;
+    private Elevator elevator;
 
-    public NodePathCalculator(HashMap<String, Node> nodes, Branch... branches){
+    public NodePathCalculator(Elevator elevator, HashMap<String, Node> nodes, Branch... branches){
+        this.elevator = elevator;
         //Generate tree
         nodeTree = new Tree(nodes);
         for (Branch branch : branches) {
@@ -59,7 +63,7 @@ public class NodePathCalculator {
         for(int i = finalPath.size() - 1; i >= 0; i--){
             tempFinalPath.add(finalPath.get(i));
         }
-        return new NodePath(tempFinalPath);
+        return new NodePath(tempFinalPath, elevator);
     }
 
     private void search(Node n, Node start, Node goal){
@@ -69,7 +73,6 @@ public class NodePathCalculator {
             }
             if(!n.getIdentifier().equals(start.getIdentifier())) {
                 finalPath.add(n.getParent());
-                System.out.println("Added " + n.getParent().getIdentifier());
                 search(n.getParent(), start, goal);
             }
         }catch(NullPointerException e){

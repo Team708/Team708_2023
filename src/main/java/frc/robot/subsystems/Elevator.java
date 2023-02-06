@@ -14,7 +14,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -86,7 +89,7 @@ public class Elevator extends SubsystemBase {
     //each axis will require unique PID gains.
     m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  5));
     m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  5));
-    
+
     map = new HashMap<String, Node>();
     map.put(A.getIdentifier(), A);
     map.put(B.getIdentifier(), B);
@@ -190,6 +193,15 @@ public class Elevator extends SubsystemBase {
     m_setposZ = Z;
   }
 
+  // public void setPose(Pose2d pose){
+  //   m_setposX = pose.getX();
+  //   m_setposZ = pose.getY();
+  // }
+
+  public Pose2d getPose2d(){
+    return new Pose2d(new Translation2d(getX(), getZ()), new Rotation2d(0));
+  }
+
   public void setPose(Translation2d elevatorPose) {
     m_setposX = elevatorPose.getX();
     m_setposZ = elevatorPose.getY();
@@ -214,6 +226,10 @@ public class Elevator extends SubsystemBase {
     zSpeed = m_slewZ.calculate(zSpeed);
     m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
     m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
+  }
+
+  public void drawSimTrajectory(Trajectory t){
+    m_elevatorSim.drawTrajectory(t);
   }
 
   public void sendToDashboard(){

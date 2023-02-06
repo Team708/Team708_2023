@@ -43,18 +43,18 @@
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {
-        "image": "C:\\Users\\rmcca\\OneDrive\\Documents\\GitHub\\Team708_2023\\Community, RH.png",
+        "image": "C:\\Users\\zlhartma\\OneDrive - Hatboro-Horsham School District\\Desktop\\Team708_2023\\Community, RH.png",
         "window": {
           "visible": true
         }
       },
       "/SmartDashboard/Elevator Trajectory Sim": {
         "Robot": {
-          "arrowSize": 6,
-          "style": "Box/Image"
+          "arrowSize": 0,
+          "style": "Line"
         },
         "height": 2.0,
-        "image": "C:\\Users\\rmcca\\OneDrive\\Documents\\GitHub\\Team708_2023\\Community, RH.png",
+        "image": "C:\\Users\\zlhartma\\OneDrive - Hatboro-Horsham School District\\Desktop\\Team708_2023\\Community, RH.png",
         "width": 3.884999990463257,
         "window": {
           "visible": true
@@ -95,7 +95,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 506,
+          "height": -41,
           "series": [
             {
               "color": [
@@ -136,6 +136,15 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/measureZ"
+            },
+            {
+              "color": [
+                0.5058823823928833,
+                0.44705885648727417,
+                0.7019608020782471,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/trajectory"
             }
           ]
         },
@@ -145,7 +154,7 @@
               "autoFit": true
             }
           ],
-          "height": 506,
+          "height": -41,
           "series": [
             {
               "color": [

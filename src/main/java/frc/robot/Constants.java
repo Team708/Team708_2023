@@ -174,7 +174,7 @@ public final class Constants {
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
-    public static final double kPositionTolerance = 0.01; //m
+    public static final double kPositionTolerance = 0.001; //m
   }
   
   /**

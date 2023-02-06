@@ -37,6 +37,7 @@ public class ElevatorSimulation {
   private RelativeEncoder encoderA, encoderB;
   
   private final Field2d m_elevatorTrajectorySim;
+  Trajectory t = null;
   
   //ElevatorSimulations help us simulate what's going on, including gravity.
     private final ElevatorSim m_elevatorXSim =
@@ -129,6 +130,10 @@ public class ElevatorSimulation {
           new Translation2d(m_elevatorOriginX + m_setposX, m_setposZ), new Rotation2d());
 
         m_elevatorTrajectorySim.setRobotPose(elevatorPose);
-        //m_elevatorTrajectorySim.getRobotObject().setTrajectory(new Trajectory());
+        if(t != null) m_elevatorTrajectorySim.getRobotObject().setTrajectory(t);
+    }
+
+    public void drawTrajectory(Trajectory t){
+      this.t = t;
     }
 }

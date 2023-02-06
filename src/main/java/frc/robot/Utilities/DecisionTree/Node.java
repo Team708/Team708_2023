@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class Node {
 
+    private Translation2d position;
     private Pose2d pose;
     private double height;
     private double extend;
@@ -22,12 +23,17 @@ public class Node {
     private LinkedList<Node> neighbors = new LinkedList<Node>();
 
     public Node(Translation2d position, String identifier, boolean isSafety){
+        this.position = position;
         this.height = position.getY();
         this.extend = position.getX();
         this.identifier = identifier;
         this.isSafety = isSafety;
         this.pose = new Pose2d(position, new Rotation2d(0));
     }  
+
+    public Translation2d getPosition(){
+        return position;
+    }
 
     public double getHeight(){
         return height;
