@@ -2,10 +2,10 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.elevator.CalculateElevatorPath;
 import frc.robot.commands.elevator.ElevatorToGround;
 import frc.robot.commands.elevator.ElevatorToHighCone;
 import frc.robot.commands.elevator.ElevatorToLowCube;
+import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.elevator.ElevatorToStart;
 // import frc.robot.commands.drive.ResetGyroCommand;
 import edu.wpi.first.wpilibj.XboxController;
@@ -121,7 +121,7 @@ public class OI {
 				
 		
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
-				.onTrue(new CalculateElevatorPath(m_elevator, Elevator.A, Elevator.F));
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.A, Elevator.F));
 		
 		new JoystickButton(operatorController, Button.kRightBumper.value)
 				.toggleOnTrue(new IntakeCommand (m_intake));
