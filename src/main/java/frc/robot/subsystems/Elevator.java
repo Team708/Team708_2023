@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import java.util.HashMap;
+import javax.sound.sampled.Line;
+import javax.swing.border.LineBorder;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -43,9 +45,12 @@ public class Elevator extends SubsystemBase {
   private double previousTime = HALUtil.getFPGATime();
   private double currentTime, deltaTime;
 
+    //collision check
+    boolean isColliding = false;
+
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewZ = new SlewRateLimiter(12.0);
-  
+
   private ElevatorSimulation m_elevatorSim;
 
   public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP", false);
@@ -89,7 +94,7 @@ public class Elevator extends SubsystemBase {
     //each axis will require unique PID gains.
     m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  5));
     m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  5));
-
+    
     map = new HashMap<String, Node>();
     map.put(A.getIdentifier(), A);
     map.put(B.getIdentifier(), B);
@@ -108,6 +113,7 @@ public class Elevator extends SubsystemBase {
     currentTime = HALUtil.getFPGATime();
     deltaTime = currentTime - previousTime;
     previousTime = currentTime;
+
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
@@ -117,7 +123,7 @@ public class Elevator extends SubsystemBase {
 
     //outputZ calculates the error between getZ and setposZ
     outputZ = m_pidControllerZ.calculate(m_measureZ, m_setposZ);
-
+        
     //convert cartesian setpoints to motor positions
     outputA = getA(outputX, outputZ);
     outputB = getB(outputX, outputZ);
@@ -226,6 +232,60 @@ public class Elevator extends SubsystemBase {
     zSpeed = m_slewZ.calculate(zSpeed);
     m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
     m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
+    //grid boundary
+    double gridBoundZ = 0.7096*m_measureX+0.4252;  
+  
+    //collision detection
+    if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
+      m_setposX = ElevatorConstants.kLeftBound;
+      isColliding = true;
+    } else if(m_setposX > ElevatorConstants.kRightBound && outputX > 0){
+      m_setposX = ElevatorConstants.kRightBound;
+      isColliding = true;
+    }else if(m_setposZ < ElevatorConstants.kLowerBound && outputZ < 0){
+      m_setposZ = ElevatorConstants.kLowerBound;
+      isColliding = true;
+    }else if(m_setposZ > ElevatorConstants.kUpperBound && outputZ > 0){
+      m_setposZ = ElevatorConstants.kUpperBound;
+      isColliding = true;
+    }
+    if(m_setposX < ElevatorConstants.kBumperCoord1 && m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
+      m_setposX = ElevatorConstants.kBumperCoord1;
+      isColliding = true;
+    }
+    if(m_measureX < ElevatorConstants.kBumperCoord1 && m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
+      m_setposZ = ElevatorConstants.kBumperCoord2;
+      isColliding = true;
+    }
+    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && m_setposX > ElevatorConstants.kMiddleBound){
+      m_setposX = ElevatorConstants.kMiddleBound;
+      isColliding = true;
+    }
+    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && m_setposX > ElevatorConstants.kMiddleBound){
+      m_setposZ = ElevatorConstants.kMiddleBoundLimit;
+      isColliding = true;
+    }
+    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && m_setposX > ElevatorConstants.kLowConeBound){
+      m_setposX = ElevatorConstants.kLowConeBound;
+      isColliding = true;
+    }
+    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && m_setposX > ElevatorConstants.kLowConeBound && outputZ < 0){
+      m_setposZ = ElevatorConstants.kLowConeBoundLimit;
+      isColliding = true;
+    }
+    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound){
+      m_setposZ = gridBoundZ;
+      isColliding = true;
+    }
+    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound && m_measureZ < ElevatorConstants.kLowConeBoundLimit){
+      m_setposX = gridBoundZ;
+
+
+      isColliding = true;
+    }
+    else{
+      isColliding = false;
+    }
   }
 
   public void drawSimTrajectory(Trajectory t){
@@ -239,7 +299,6 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("measureZ", m_measureZ);
     SmartDashboard.putNumber("measureA", m_encoderA.getPosition());
     SmartDashboard.putNumber("measureB", m_encoderB.getPosition());
+    SmartDashboard.putBoolean("Collision Detected", isColliding);
   }
-
-
 }

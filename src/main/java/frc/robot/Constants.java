@@ -151,6 +151,18 @@ public final class Constants {
     public static final Translation2d kLowSafePose = new Translation2d(0.263,0.716);
     public static final Translation2d kMidSafePose = new Translation2d(0.303,1.029);
     public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
+    
+    //Elevator Boundaries, meters
+    public static final double kLeftBound = 0; 
+    public static final double kRightBound = 1.16; 
+    public static final double kLowerBound = 0;
+    public static final double kUpperBound = 1.497;
+    public static final double kBumperCoord2 = 0.167925;
+    public static final double kBumperCoord1 = 0.386;
+    public static final double kMiddleBound = 0.444;
+    public static final double kMiddleBoundLimit = 0.605;
+    public static final double kLowConeBound = 0.630;
+    public static final double kLowConeBoundLimit = 0.878;
 
     public static final double kMaxSpeedMetersPerSecond = 5;
     public static final double kElevatorAngle = 55;
