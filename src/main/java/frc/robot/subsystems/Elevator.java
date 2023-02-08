@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -69,6 +71,7 @@ public class Elevator extends SubsystemBase {
   private Branch FD = new Branch(F, D); //LCONE -> HCUBE
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
+
 
   private Tree nodeTree;
 
@@ -244,6 +247,18 @@ public class Elevator extends SubsystemBase {
 
   public Node getElevatorNode(){
     return elevatorCurrentNode;
+  }
+
+  public Node getClosestNode(){
+    List<Translation2d> temp = new ArrayList<Translation2d>();
+    nodeTree.getNodes().stream().forEach(i -> temp.add(i.getPosition()));
+    Translation2d nearest = getPose().nearest(temp);
+    for(Node n : nodeTree.getNodes()){
+      if(n.getPosition().getX() == nearest.getX() && n.getPosition().getY() == nearest.getY()){
+        return n;
+      }
+    }
+    return null;
   }
 
   public void setElevatorNode(Node n){

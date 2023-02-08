@@ -32,7 +32,7 @@ public class NodePathCalculator {
             open.remove(current);
             closed.add(current);
             if(current.getIdentifier() == goal.getIdentifier()){
-                search(nodeTree, current, start, goal);
+                search(current, start, goal);
                 break;
             }
             List<Node> neighbors = calcCloseNodes(current);
@@ -57,7 +57,7 @@ public class NodePathCalculator {
         return new NodePath(tempFinalPath, elevator);
     }
 
-    private static void search(Tree nodeTree, Node n, Node start, Node goal){
+    private static void search(Node n, Node start, Node goal){
         try{
             if(n.getIdentifier().equals(goal.getIdentifier())){
                 finalPath.add(n);
@@ -65,11 +65,9 @@ public class NodePathCalculator {
             if(!n.getIdentifier().equals(start.getIdentifier())) {
                 if(!finalPath.contains(n.getParent())){
                     finalPath.add(n.getParent());
-                    search(nodeTree, n.getParent(), start, goal);
+                    // System.out.println(n.getIdentifier() + " -> " + n.getParent().getIdentifier());
+                    search(n.getParent(), start, goal);
                 }
-                // else{
-                //     System.out.println(n.getIdentifier() + " parent-> " + n.getParent().getIdentifier());
-                // }
             }
         }catch(NullPointerException | StackOverflowError e){
             // e.printStackTrace();

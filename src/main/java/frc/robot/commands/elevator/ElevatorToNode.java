@@ -31,7 +31,9 @@ public class ElevatorToNode extends CommandBase {
 
   @Override
   public void initialize(){
-    this.current = elevator.getElevatorNode();
+    // this.current = elevator.getElevatorNode();
+    this.current = elevator.getClosestNode();
+    elevator.setPose(this.current.getPosition());
     NodePath path = NodePathCalculator.shortestPath(elevator.getElevatorTree(), elevator, current, target);
     this.trajectory = path.translateToTrajectory();
     if(this.trajectory != null) elevator.drawSimTrajectory(trajectory);
@@ -49,7 +51,7 @@ public class ElevatorToNode extends CommandBase {
 
   @Override
   public void end(boolean interrupted){
-    elevator.setElevatorNode(target);
+    // elevator.setElevatorNode(target);
   }
 
   @Override
