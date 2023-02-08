@@ -32,7 +32,7 @@ public class NodePathCalculator {
             open.remove(current);
             closed.add(current);
             if(current.getIdentifier() == goal.getIdentifier()){
-                search(current, start, goal);
+                search(nodeTree, current, start, goal);
                 break;
             }
             List<Node> neighbors = calcCloseNodes(current);
@@ -53,22 +53,26 @@ public class NodePathCalculator {
         for(int i = finalPath.size() - 1; i >= 0; i--){
             tempFinalPath.add(finalPath.get(i));
         }
-        tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
+        // tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
         return new NodePath(tempFinalPath, elevator);
     }
 
-    private static void search(Node n, Node start, Node goal){
+    private static void search(Tree nodeTree, Node n, Node start, Node goal){
         try{
             if(n.getIdentifier().equals(goal.getIdentifier())){
                 finalPath.add(n);
             }
             if(!n.getIdentifier().equals(start.getIdentifier())) {
-                finalPath.add(n.getParent());
-                search(n.getParent(), start, goal);
+                if(!finalPath.contains(n.getParent())){
+                    finalPath.add(n.getParent());
+                    search(nodeTree, n.getParent(), start, goal);
+                }
+                // else{
+                //     System.out.println(n.getIdentifier() + " parent-> " + n.getParent().getIdentifier());
+                // }
             }
         }catch(NullPointerException | StackOverflowError e){
             // e.printStackTrace();
-            System.out.println(n.getIdentifier());
         }
     }
 

@@ -90,7 +90,6 @@ public class NodePath {
                 }
                 double startAngle = getPredictedBeginningAngle(poses.get(1), poses.get(0));
                 double endAngle = getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
-                System.out.println(translations.size());
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(poses.get(0).getTranslation(), new Rotation2d(startAngle)),
                     translations, 
