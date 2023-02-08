@@ -28,7 +28,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.Branch;
+import frc.robot.Utilities.DecisionTree.BranchExceptionError;
 import frc.robot.Utilities.DecisionTree.Node;
+import frc.robot.Utilities.DecisionTree.Tree;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class Elevator extends SubsystemBase {
@@ -53,6 +55,8 @@ public class Elevator extends SubsystemBase {
 
   private ElevatorSimulation m_elevatorSim;
 
+  private Node elevatorCurrentNode;
+
   public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP", false);
   public static final Node B = new Node(Constants.ElevatorConstants.kGroundSafePose, "GROUND_SAFE", true);
   public static final Node C = new Node(Constants.ElevatorConstants.kHighConePose, "HIGH_CONE", false);
@@ -68,12 +72,14 @@ public class Elevator extends SubsystemBase {
   private Branch AB = new Branch(A, B); //Ground -> GS
   private Branch BJ = new Branch(B, J); //GS -> Start
   private Branch BH = new Branch(B, H); //GS -> LS
-  private Branch HG = new Branch(H, G);//LS -> LCUBE
-  private Branch HI = new Branch(H, I);//LS -> MS
-  private Branch IF = new Branch(I, F);//MS -> LCONE
-  private Branch FD = new Branch(F, D);//LCONE -> HCUBE
-  private Branch IE = new Branch(I, E);//MS -> HS
-  private Branch EC = new Branch(E, C);//HS -> HCONE
+  private Branch HG = new Branch(H, G); //LS -> LCUBE
+  private Branch HI = new Branch(H, I); //LS -> MS
+  private Branch IF = new Branch(I, F); //MS -> LCONE
+  private Branch FD = new Branch(F, D); //LCONE -> HCUBE
+  private Branch IE = new Branch(I, E); //MS -> HS
+  private Branch EC = new Branch(E, C); //HS -> HCONE
+
+  private Tree nodeTree;
 
   public Elevator() {
 
@@ -106,6 +112,17 @@ public class Elevator extends SubsystemBase {
     map.put(H.getIdentifier(), H);
     map.put(I.getIdentifier(), I);
     map.put(J.getIdentifier(), J);
+
+    nodeTree = new Tree(map);
+    for (Branch branch : getElevatorBrances()) {
+        try{
+            nodeTree.addBranch(branch);
+        }catch(BranchExceptionError e){
+            e.printStackTrace();
+        }
+    }
+
+    this.elevatorCurrentNode = J;
   }
 
   @Override
@@ -131,11 +148,12 @@ public class Elevator extends SubsystemBase {
     //set motion positions
     m_elevatorMotorA.setVoltage(outputA);
     m_elevatorMotorB.setVoltage(outputB);
+
   }
 
   public void simulationInit(){
    //Setup the elevator simulation
-   m_elevatorSim = new ElevatorSimulation(m_elevatorMotorA, m_elevatorMotorB);
+   m_elevatorSim = new ElevatorSimulation(this, m_elevatorMotorA, m_elevatorMotorB);
   }
 
   @Override
@@ -213,12 +231,24 @@ public class Elevator extends SubsystemBase {
     m_setposZ = elevatorPose.getY();
   } 
 
+  public Node getElevatorNode(){
+    return elevatorCurrentNode;
+  }
+
+  public void setElevatorNode(Node n){
+    this.elevatorCurrentNode = n;
+  }
+
   public HashMap<String, Node> getMap(){
     return map;
   }
 
   public Branch[] getElevatorBrances(){
     return new Branch[]{AB, BJ, BH, HG, HI, IF, FD, IE, EC};
+  }
+
+  public Tree getElevatorTree(){
+    return nodeTree;
   }
 
    /**

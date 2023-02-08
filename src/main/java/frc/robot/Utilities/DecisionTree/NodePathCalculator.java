@@ -1,7 +1,6 @@
 package frc.robot.Utilities.DecisionTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,25 +8,16 @@ import frc.robot.subsystems.Elevator;
 
 public class NodePathCalculator {
 
-    public LinkedList<Node> finalPath = new LinkedList<>();
-    public Tree nodeTree;
-    private Elevator elevator;
+    private static LinkedList<Node> finalPath = new LinkedList<>();
 
-    public NodePathCalculator(Elevator elevator, HashMap<String, Node> nodes, Branch... branches){
-        this.elevator = elevator;
-        //Generate tree
-        nodeTree = new Tree(nodes);
-        for (Branch branch : branches) {
-            try{
-                nodeTree.addBranch(branch);
-            }catch(BranchExceptionError e){
-                e.printStackTrace();
-            }
-        }
-        // nodeTree.printRelationships();
-    }
+    // public NodePathCalculator(Elevator elevator, HashMap<String, Node> nodes, Branch... branches){
+    //     this.elevator = elevator;
+    //     //Generate tree
+        
+    // }
 
-    public NodePath shortestPath(Node start, Node goal){
+    public static NodePath shortestPath(Tree nodeTree, Elevator elevator, Node start, Node goal){
+        nodeTree.getNodes().stream().forEach(i -> i.reset());
         finalPath.clear();
         List<Node> open = new ArrayList<Node>(); //Open Nodes
         List<Node> closed = new ArrayList<Node>(); //Closed Nodes
@@ -50,7 +40,7 @@ public class NodePathCalculator {
                 if(n != null){
                     double newPath = n.getGScore() /*+ calculateScores(n, current)*/;
                     if(newPath < n.getGScore() || !open.contains(n)){
-                        n.setFinalScore(newPath + getDistance(start, n));
+                        n.setFinalScore(newPath + Math.abs(getDistance(start, n)));
                         n.setParent(current);
                         if(!open.contains(n)){
                             open.add(n);
@@ -63,10 +53,11 @@ public class NodePathCalculator {
         for(int i = finalPath.size() - 1; i >= 0; i--){
             tempFinalPath.add(finalPath.get(i));
         }
+        tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
         return new NodePath(tempFinalPath, elevator);
     }
 
-    private void search(Node n, Node start, Node goal){
+    private static void search(Node n, Node start, Node goal){
         try{
             if(n.getIdentifier().equals(goal.getIdentifier())){
                 finalPath.add(n);
@@ -75,12 +66,13 @@ public class NodePathCalculator {
                 finalPath.add(n.getParent());
                 search(n.getParent(), start, goal);
             }
-        }catch(NullPointerException e){
-            e.printStackTrace();
+        }catch(NullPointerException | StackOverflowError e){
+            // e.printStackTrace();
+            System.out.println(n.getIdentifier());
         }
     }
 
-    private LinkedList<Node> calcCloseNodes(Node n){
+    private static LinkedList<Node> calcCloseNodes(Node n){
         LinkedList<Node> neighbors = n.getNeighbors();
         for(Node curr : neighbors){
             curr.setGScore(n.getGScore() + 1);
@@ -90,10 +82,10 @@ public class NodePathCalculator {
         return neighbors;
     }
 
-    private double getDistance(Node a, Node b){
+    private static double getDistance(Node a, Node b){
         return Math.sqrt(
-            Math.pow((a.getPose().getX() - b.getPose().getX()), 2) +
-            Math.pow((a.getPose().getY() - b.getPose().getY()), 2)
+            Math.pow((Math.abs(a.getPose().getX() - b.getPose().getX())), 2) +
+            Math.pow((Math.abs(a.getPose().getY() - b.getPose().getY())), 2)
         ); 
     }
 

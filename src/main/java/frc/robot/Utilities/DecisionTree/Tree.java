@@ -2,6 +2,7 @@ package frc.robot.Utilities.DecisionTree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Tree{
 
@@ -16,6 +17,12 @@ public class Tree{
         if(nodeMap.containsValue(b.getA()) && nodeMap.containsValue(b.getB())){
             branches.add(b);
         }else throw new BranchExceptionError("Cannot add branch when both nodes do not exist");
+    }
+
+    public List<Node> getNodes(){
+        List<Node> ret = new ArrayList<Node>();
+        nodeMap.values().stream().forEach(i -> ret.add(i));
+        return ret;
     }
 
     public void printRelationships(){

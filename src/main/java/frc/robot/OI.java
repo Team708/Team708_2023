@@ -120,23 +120,23 @@ public class OI {
 		//OPERATOR//
 				
 		
-		new JoystickButton(operatorController, Button.kLeftBumper.value)
-				.onTrue(new ElevatorToNode(m_elevator, Elevator.A, Elevator.F));
+		// new JoystickButton(operatorController, Button.kLeftBumper.value)
+		// 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
 		
 		new JoystickButton(operatorController, Button.kRightBumper.value)
 				.toggleOnTrue(new IntakeCommand (m_intake));
 		
 		new JoystickButton(operatorController, Button.kB.value)
-				.onTrue(new ElevatorToLowCube(m_elevator));
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.G));
 				
 		new JoystickButton(operatorController, Button.kA.value)
-				.onTrue(new ElevatorToGround(m_elevator));
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.A));
 				
 		new JoystickButton(operatorController, Button.kX.value)
-				.onTrue(new ElevatorToStart(m_elevator));
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.J));
 
 		new JoystickButton(operatorController, Button.kY.value)
-		 		.onTrue(new ElevatorToHighCone(m_elevator));
+		 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
 
 		// new JoystickButton(operatorController, Button.kRightStick.value)
 		// 		.whenPressed(new /*Command*/);

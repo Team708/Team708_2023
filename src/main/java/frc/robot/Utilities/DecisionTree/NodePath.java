@@ -82,20 +82,25 @@ public class NodePath {
     public Trajectory translateToTrajectory(){
         ArrayList<Pose2d> poses = new ArrayList<Pose2d>();
         path.stream().forEach(i -> poses.add(i.getPose()));
-        if(poses.size() > 1){
-            ArrayList<Translation2d> translations = new ArrayList<Translation2d>();
-            for(int i = 1; i < poses.size() - 1; i++){
-                translations.add(poses.get(i).getTranslation());
+        try{
+            if(poses.size() > 1){
+                ArrayList<Translation2d> translations = new ArrayList<Translation2d>();
+                for(int i = 1; i < poses.size() - 1; i++){
+                    translations.add(poses.get(i).getTranslation());
+                }
+                double startAngle = getPredictedBeginningAngle(poses.get(1), poses.get(0));
+                double endAngle = getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
+                System.out.println(translations.size());
+                return TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(poses.get(0).getTranslation(), new Rotation2d(startAngle)),
+                    translations, 
+                    new Pose2d(poses.get(poses.size() - 1).getTranslation(), new Rotation2d(endAngle)), 
+                    config);
+            }else{
+                return TrajectoryGenerator.generateTrajectory(poses, config);
             }
-            double startAngle = getPredictedBeginningAngle(poses.get(1), poses.get(0));
-            double endAngle = getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
-            return TrajectoryGenerator.generateTrajectory(
-                new Pose2d(poses.get(0).getTranslation(), new Rotation2d(startAngle)),
-                translations, 
-                new Pose2d(poses.get(poses.size() - 1).getTranslation(), new Rotation2d(endAngle)), 
-                config);
-        }else{
-            return TrajectoryGenerator.generateTrajectory(poses, config);
+        }catch(IndexOutOfBoundsException e){
+            return null;
         }
     }
 

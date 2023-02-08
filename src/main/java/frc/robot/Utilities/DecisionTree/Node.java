@@ -31,6 +31,13 @@ public class Node {
         this.pose = new Pose2d(position, new Rotation2d(0));
     }  
 
+    public void reset(){
+        gScore = 0;
+        hScore = 0;
+        finalScore = -1;
+        parent = null;
+    }
+
     public Translation2d getPosition(){
         return position;
     }
