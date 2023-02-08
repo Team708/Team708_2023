@@ -1,4 +1,11 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -8,22 +15,26 @@
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {
-        "image": "C:\\Users\\rmcca\\OneDrive\\Documents\\GitHub\\Team708_2023\\Community, RH.png",
+        "image": "C:\\Users\\zlhartma\\OneDrive - Hatboro-Horsham School District\\Desktop\\Team708_2023\\Community, RH.png",
         "window": {
           "visible": true
         }
       },
       "/SmartDashboard/Elevator Trajectory Sim": {
         "Robot": {
-          "arrowSize": 3,
-          "style": "Line"
+          "arrowSize": 2,
+          "style": "Line",
+          "weight": 2.0
         },
         "height": 2.0,
-        "width": 3.884999990463257,
+        "width": 4.0,
         "window": {
           "visible": true
         }
       }
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

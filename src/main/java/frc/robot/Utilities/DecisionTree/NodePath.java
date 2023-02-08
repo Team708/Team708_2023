@@ -30,7 +30,7 @@ public class NodePath {
     private Elevator elevator;
 
     //TODO MAKE CONSTANTS
-    TrajectoryConfig config = new TrajectoryConfig(0.5, 2); 
+    TrajectoryConfig config = new TrajectoryConfig(1, 2); 
 
     public NodePath(List<Node> path, Elevator elevator){
         this.path = path;
@@ -88,13 +88,13 @@ public class NodePath {
                 for(int i = 1; i < poses.size() - 1; i++){
                     translations.add(poses.get(i).getTranslation());
                 }
-                double startAngle = getPredictedBeginningAngle(poses.get(1), poses.get(0));
-                double endAngle = getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
+                double startAngle = getPredictedBeginningAngle(poses.get(0), poses.get(1));
+                double endAngle = -getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(poses.get(0).getTranslation(), new Rotation2d(startAngle)),
                     translations, 
                     new Pose2d(poses.get(poses.size() - 1).getTranslation(), new Rotation2d(endAngle)), 
-                    config);
+                    config); //TODO Change trajectory config
             }else{
                 return TrajectoryGenerator.generateTrajectory(poses, config);
             }
