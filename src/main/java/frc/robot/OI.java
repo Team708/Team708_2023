@@ -125,7 +125,7 @@ public class OI {
 		
 		new JoystickButton(operatorController, Button.kRightBumper.value)
 				.toggleOnTrue(new IntakeCommand (m_intake));
-		
+	
 		new JoystickButton(operatorController, Button.kB.value)
 				.onTrue(new ElevatorToNode(m_elevator, Elevator.G));
 				

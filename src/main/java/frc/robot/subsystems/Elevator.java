@@ -5,15 +5,12 @@
 package frc.robot.subsystems;
 
 import java.util.HashMap;
-import javax.sound.sampled.Line;
-import javax.swing.border.LineBorder;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -21,7 +18,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -35,17 +31,12 @@ import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class Elevator extends SubsystemBase {
   /* Creates a new Elevator. */
-  private CANSparkMax m_elevatorMotorA,m_elevatorMotorB;
-  private RelativeEncoder m_encoderA,m_encoderB;
-  private double m_setposX,m_setposZ;
-  private ProfiledPIDController m_pidControllerX;
-  private ProfiledPIDController m_pidControllerZ;
-  private double outputX,outputZ,outputA,outputB;
-  private double m_measureX,m_measureZ;
-  private double xSpeed, zSpeed;
-
-  private double previousTime = HALUtil.getFPGATime();
-  private double currentTime, deltaTime;
+  private CANSparkMax m_elevatorMotorA, m_elevatorMotorB;
+  private RelativeEncoder m_encoderA, m_encoderB;
+  private double m_setposX, m_setposZ;
+  private ProfiledPIDController m_pidControllerX, m_pidControllerZ;
+  private double outputX, outputZ, outputA, outputB;
+  private double m_measureX, m_measureZ;
 
     //collision check
     boolean isColliding = false;
@@ -100,7 +91,8 @@ public class Elevator extends SubsystemBase {
     //each axis will require unique PID gains.
     m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  5));
     m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  5));
-    
+
+    //Generate a list of nodes as waypoints for the elevator
     map = new HashMap<String, Node>();
     map.put(A.getIdentifier(), A);
     map.put(B.getIdentifier(), B);
@@ -114,7 +106,7 @@ public class Elevator extends SubsystemBase {
     map.put(J.getIdentifier(), J);
 
     nodeTree = new Tree(map);
-    for (Branch branch : getElevatorBrances()) {
+    for (Branch branch : getElevatorBranches()) {
         try{
             nodeTree.addBranch(branch);
         }catch(BranchExceptionError e){
@@ -127,10 +119,6 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    currentTime = HALUtil.getFPGATime();
-    deltaTime = currentTime - previousTime;
-    previousTime = currentTime;
-
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
@@ -163,26 +151,29 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-  * @param A double position of motor A
-  * @param B double position of motor B
-  * @return horizontal position
+  * @return Horizontal position
   */ 
   public double getX() {
     return 0.5*(m_encoderA.getPosition() + m_encoderB.getPosition()); 
   }
+
   /**
-  * @param A double position of motor A
-  * @param B double position of motor B
-  * @return vertical position
+  * @return Vertical position
   */ 
   public double getZ() {
     return 0.5*(m_encoderA.getPosition() - m_encoderB.getPosition());
   }
 
+  /**
+  * @return Horizontal velocity
+  */ 
   public double getXVel() {
     return 0.5*(m_encoderA.getVelocity() + m_encoderB.getVelocity());
   }
 
+  /**
+  * @return Vertical velocity
+  */ 
   public double getZVel() {
     return 0.5*(m_encoderA.getVelocity() - m_encoderB.getVelocity());
   }
@@ -205,26 +196,46 @@ public class Elevator extends SubsystemBase {
     return X-Z;
   }
 
-  public Translation2d getPose() {
-    return new Translation2d(getX(),getZ());
-  }
-
+  /**
+   * Sets the desired X position 
+   * @param X position
+   */
   public void setX(double X){
     m_setposX = X;
   }
 
+  /**
+   * Sets the desired Z position 
+   * @param Z position
+   */
   public void setZ(double Z){
     m_setposZ = Z;
+  }
+
+  /**
+   * Position of the elevator. 
+   * X-axis relative to leading edge of robot frame,
+   * Z-axis relative to ground
+   * @return Translation2d position of the elevator.
+   */
+  public Translation2d getPose() {
+    return new Translation2d(getX(),getZ());
+  }
+
+  /**
+   * Position of the elevator. 
+   * X-axis relative to leading edge of robot frame,
+   * Z-axis relative to ground
+   * @return Pose2d position of the elevator.
+   */
+  public Pose2d getPose2d(){
+    return new Pose2d(new Translation2d(getX(), getZ()), new Rotation2d(0));
   }
 
   // public void setPose(Pose2d pose){
   //   m_setposX = pose.getX();
   //   m_setposZ = pose.getY();
   // }
-
-  public Pose2d getPose2d(){
-    return new Pose2d(new Translation2d(getX(), getZ()), new Rotation2d(0));
-  }
 
   public void setPose(Translation2d elevatorPose) {
     m_setposX = elevatorPose.getX();
@@ -243,7 +254,10 @@ public class Elevator extends SubsystemBase {
     return map;
   }
 
-  public Branch[] getElevatorBrances(){
+  /**
+   * @return List of branches between nodes
+   */
+  public Branch[] getElevatorBranches(){
     return new Branch[]{AB, BJ, BH, HG, HI, IF, FD, IE, EC};
   }
 
@@ -279,27 +293,33 @@ public class Elevator extends SubsystemBase {
       m_setposZ = ElevatorConstants.kUpperBound;
       isColliding = true;
     }
-    if(m_setposX < ElevatorConstants.kBumperCoord1 && m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
+    if(m_setposX < ElevatorConstants.kBumperCoord1 && 
+        m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
       m_setposX = ElevatorConstants.kBumperCoord1;
       isColliding = true;
     }
-    if(m_measureX < ElevatorConstants.kBumperCoord1 && m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
+    if(m_measureX < ElevatorConstants.kBumperCoord1 && 
+        m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
       m_setposZ = ElevatorConstants.kBumperCoord2;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && m_setposX > ElevatorConstants.kMiddleBound){
+    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && 
+        m_setposX > ElevatorConstants.kMiddleBound){
       m_setposX = ElevatorConstants.kMiddleBound;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && m_setposX > ElevatorConstants.kMiddleBound){
+    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && 
+        m_setposX > ElevatorConstants.kMiddleBound){
       m_setposZ = ElevatorConstants.kMiddleBoundLimit;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && m_setposX > ElevatorConstants.kLowConeBound){
+    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && 
+        m_setposX > ElevatorConstants.kLowConeBound){
       m_setposX = ElevatorConstants.kLowConeBound;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && m_setposX > ElevatorConstants.kLowConeBound && outputZ < 0){
+    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && 
+        m_setposX > ElevatorConstants.kLowConeBound && outputZ < 0){
       m_setposZ = ElevatorConstants.kLowConeBoundLimit;
       isColliding = true;
     }
@@ -307,10 +327,9 @@ public class Elevator extends SubsystemBase {
       m_setposZ = gridBoundZ;
       isColliding = true;
     }
-    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound && m_measureZ < ElevatorConstants.kLowConeBoundLimit){
+    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound && 
+        m_measureZ < ElevatorConstants.kLowConeBoundLimit){
       m_setposX = gridBoundZ;
-
-
       isColliding = true;
     }
     else{

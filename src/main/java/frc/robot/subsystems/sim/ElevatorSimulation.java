@@ -106,12 +106,28 @@ public class ElevatorSimulation {
     SmartDashboard.putData("Elevator Sim", m_mech2d);
     SmartDashboard.putData("Elevator Trajectory Sim", m_elevatorTrajectorySim);
 
-    makeLine(ElevatorConstants.kLeftBound, 0.0, ElevatorConstants.kLeftBound, ElevatorConstants.kUpperBound,
+    makeLine(ElevatorConstants.kLeftBound, ElevatorConstants.kBumperCoord2, ElevatorConstants.kLeftBound, ElevatorConstants.kUpperBound,
         "m_leftBound");
     makeLine(ElevatorConstants.kLeftBound, ElevatorConstants.kUpperBound, ElevatorConstants.kRightBound,
         ElevatorConstants.kUpperBound, "m_upperBound");
     makeLine(ElevatorConstants.kRightBound, ElevatorConstants.kLowerBound, ElevatorConstants.kRightBound,
         ElevatorConstants.kUpperBound, "m_rightBound");
+      makeLine(ElevatorConstants.kLowerBound, ElevatorConstants.kBumperCoord2, ElevatorConstants.kBumperCoord1, ElevatorConstants.kBumperCoord2, "m_bumperTopBound");
+      makeLine(ElevatorConstants.kBumperCoord1, 0, ElevatorConstants.kBumperCoord1, ElevatorConstants.kBumperCoord2, "m_bumperSideBound");
+      makeLine(ElevatorConstants.kMiddleBound, 0, ElevatorConstants.kMiddleBound, ElevatorConstants.kMiddleBoundLimit, "m_middleBound");
+      makeLine(ElevatorConstants.kLowConeBound, ElevatorConstants.kLowConeBoundLimit, ElevatorConstants.kRightBound, 0.7096*ElevatorConstants.kRightBound+0.4252, "m_diagBound");
+      makeLine(ElevatorConstants.kLowConeBound, ElevatorConstants.kMiddleBoundLimit, ElevatorConstants.kLowConeBound, ElevatorConstants.kLowConeBoundLimit, "m_lowConeBound");
+
+      makePoint(ElevatorConstants.kGroundPickupPose, "GroundPickupPose");
+      makePoint(ElevatorConstants.kGroundSafePose, "GroundSafePose");  
+      makePoint(ElevatorConstants.kStartPose, "StartPose");  
+      makePoint(ElevatorConstants.kLowConePose, "LowConePose");
+      makePoint(ElevatorConstants.kLowCubePose, "LowCubePose");
+      makePoint(ElevatorConstants.kLowSafePose, "LowSafePose");
+      makePoint(ElevatorConstants.kMidSafePose, "MidSafePose");
+      makePoint(ElevatorConstants.kHighConePose, "HighConePose");
+      makePoint(ElevatorConstants.kHighCubePose, "HighCubePose");
+      makePoint(ElevatorConstants.kHighSafePose, "HighSafePose");
   }
 
   // Boundary Lines
@@ -167,4 +183,13 @@ public class ElevatorSimulation {
     MechanismLigament2d m_lineEnd = m_lineStart.append(new MechanismLigament2d(name + "End",
         hypotenuse, lineAngle, 5, new Color8Bit(Color.kYellowGreen)));
   }
+
+    private void makePoint(double x, double y, String name){
+      MechanismRoot2d m_lineStart = m_mech2d.getRoot(name + "Start", m_elevatorOriginX + x, m_elevatorOriginY + y);
+      MechanismLigament2d m_lineEnd = m_lineStart.append( new MechanismLigament2d(name +"End", 0.015, 0, 5, new Color8Bit(Color.kRed)));
+    }
+
+    private void makePoint(Translation2d point, String name){
+      makePoint(point.getX(), point.getY(), name);
+    }
 }
