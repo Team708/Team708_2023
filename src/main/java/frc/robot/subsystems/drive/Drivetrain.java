@@ -12,16 +12,29 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator.ControlVectorList;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Timer;
-
+import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.Utilities.FieldRelativeAccel;
 import frc.robot.Utilities.FieldRelativeSpeed;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.PigeonTwo;
 
   /**
@@ -80,6 +93,9 @@ import frc.robot.subsystems.drive.PigeonTwo;
 
   private final SwerveDriveOdometry m_autoOdometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, pigeon.getAngle(), getModulePositions());
 
+  ProfiledPIDController thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
+    AutoConstants.kThetaControllerConstraints);
+
     /**
    * Constructs a Drivetrain and resets the Gyro and Keep Angle parameters
    */
@@ -90,6 +106,7 @@ import frc.robot.subsystems.drive.PigeonTwo;
     pigeon.reset();
     m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d());
     CommandScheduler.getInstance().registerSubsystem(this);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
   }
 
   /**
@@ -128,6 +145,7 @@ import frc.robot.subsystems.drive.PigeonTwo;
 
     setModuleStates(swerveModuleStates);
   }
+
   @Override
   public void periodic(){
       m_fieldRelVel = new FieldRelativeSpeed(getChassisSpeed(), getGyro());
@@ -158,6 +176,27 @@ import frc.robot.subsystems.drive.PigeonTwo;
         //Calls get pose function which sends the Pose information to the SmartDashboard
         getPose();
   }
+  
+  // public SwerveControllerCommand goToPoseCommand(Pose2d pose){
+  //   SwerveControllerCommand goToPoseCommand = new SwerveControllerCommand(
+  //     TrajectoryGenerator.generateTrajectory(
+  //       getPose(),
+  //       List.of(),
+  //       pose, 
+  //       new TrajectoryConfig(
+  //         Constants.DriveConstants.kMaxSpeedMetersPerSecond, 
+  //         Constants.DriveConstants.kMaxAcceleration)
+  //         .setKinematics(Constants.DriveConstants.kDriveKinematics)), 
+  //     () -> getPose(), 
+  //     Constants.DriveConstants.kDriveKinematics,
+  //     new HolonomicDriveController(
+  //       new PIDController(AutoConstants.kPXController, 0, 0), 
+  //       new PIDController(AutoConstants.kPYController, 0, 0),
+  //       thetaController),
+  //     this::setModuleStates,
+  //     this);
+  //     return goToPoseCommand;
+  // }
 
   /**
    * Sets the swerve ModuleStates.

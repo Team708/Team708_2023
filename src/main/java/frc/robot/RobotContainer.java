@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.Autonomizations.AutoAlign;
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.SigmoidPathAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
