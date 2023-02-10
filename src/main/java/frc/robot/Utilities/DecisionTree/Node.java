@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
-public class Node {
+public class Node implements Comparable<Node>{
 
     private Translation2d position;
     private Pose2d pose;
@@ -15,9 +15,9 @@ public class Node {
     private String identifier;
     private boolean isSafety;
 
-    private double gScore = 0; //set g-score to infinity by default
-    private double hScore = 0;
-    private double finalScore = -1;
+    private double gScore = Double.MAX_VALUE; //set g-score to infinity by default
+    private double hScore = Double.MAX_VALUE;
+    private double finalScore = Double.MAX_VALUE;
 
     private Node parent = null;
     private LinkedList<Node> neighbors = new LinkedList<Node>();
@@ -100,6 +100,11 @@ public class Node {
 
     public String getIdentifier(){
         return identifier;
+    }
+
+    @Override
+    public int compareTo(Node arg0) {
+        return Double.compare(this.getFinalScore(), arg0.getFinalScore());
     }
 
 }

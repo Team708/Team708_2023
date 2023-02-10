@@ -53,7 +53,10 @@ public class ElevatorToNode extends CommandBase {
 
   @Override
   public void end(boolean interrupted){
-    // elevator.setElevatorNode(target);
+    // Node temp = elevator.getClosestNode();
+    // elevator.setPose(temp.getPosition());
+    // elevator.setElevatorNode(temp);
+    elevator.setElevatorNode(target);
   }
 
   @Override
@@ -62,5 +65,6 @@ public class ElevatorToNode extends CommandBase {
     return (elevator.getPose().getDistance(
       trajectory.sample(trajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) 
     < Constants.ElevatorConstants.kPositionTolerance);
+    // return true;
   }
 }

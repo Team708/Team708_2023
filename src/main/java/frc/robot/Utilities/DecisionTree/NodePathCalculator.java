@@ -3,6 +3,7 @@ package frc.robot.Utilities.DecisionTree;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import frc.robot.subsystems.Elevator;
 
@@ -13,11 +14,11 @@ public class NodePathCalculator {
     public static NodePath shortestPath(Tree nodeTree, Elevator elevator, Node start, Node goal) {
         nodeTree.getNodes().stream().forEach(i -> i.reset());
         finalPath.clear();
-        List<Node> open = new ArrayList<Node>(); // Open Nodes
-        List<Node> closed = new ArrayList<Node>(); // Closed Nodes
+        PriorityQueue<Node> open = new PriorityQueue<Node>(); // Open Nodes
+        PriorityQueue<Node> closed = new PriorityQueue<Node>(); // Closed Nodes
         open.add(start); // Add the start node to open
         while (true) {
-            Node current = open.get(0);
+            Node current = open.peek();
             for (Node n : open) {
                 if (n.getFinalScore() < current.getFinalScore()) {
                     current = n;
@@ -32,12 +33,14 @@ public class NodePathCalculator {
             List<Node> neighbors = calcCloseNodes(current, goal);
             for (Node n : neighbors) {
                 if (n != null) {
-                    double newPath = n.getGScore() /* + calculateScores(n, current) */;
-                    if (newPath < n.getGScore() || !open.contains(n)) {
-                        n.setFinalScore(newPath + Math.abs(getDistance(start, n)));
-                        n.setParent(current);
-                        if (!open.contains(n)) {
-                            open.add(n);
+                    if(!closed.contains(n)){
+                        double newPath = n.getGScore() /* + calculateScores(n, current) */;
+                        if (newPath < n.getGScore() || !open.contains(n)) {
+                            n.setFinalScore(newPath + Math.abs(getDistance(start, n)));
+                            n.setParent(current);
+                            if (!open.contains(n)) {
+                                open.add(n);
+                            }
                         }
                     }
                 }
@@ -59,8 +62,6 @@ public class NodePathCalculator {
             if (!n.getIdentifier().equals(start.getIdentifier())) {
                 if (!finalPath.contains(n.getParent())) {
                     finalPath.add(n.getParent());
-                    // System.out.println(n.getIdentifier() + " -> " +
-                    // n.getParent().getIdentifier());
                     search(n.getParent(), start, goal);
                 }
             }
