@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.RollerIntake;
+import frc.robot.subsystems.intake.RollerIntake;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class OI {

@@ -50,16 +50,16 @@ public class Elevator extends SubsystemBase {
 
   private Node elevatorCurrentNode;
 
-  public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP");
-  public static final Node B = new Node(Constants.ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
-  public static final Node C = new Node(Constants.ElevatorConstants.kHighConePose, "HIGH_CONE");
-  public static final Node D = new Node(Constants.ElevatorConstants.kHighCubePose, "HIGH_CUBE");
-  public static final Node E = new Node(Constants.ElevatorConstants.kHighSafePose, "HIGH_SAFE");
-  public static final Node F = new Node(Constants.ElevatorConstants.kLowConePose, "LOW_CONE");
-  public static final Node G = new Node(Constants.ElevatorConstants.kLowCubePose, "LOW_CUBE");
-  public static final Node H = new Node(Constants.ElevatorConstants.kLowSafePose, "LOW_SAFE");
-  public static final Node I = new Node(Constants.ElevatorConstants.kMidSafePose, "MID_SAFE");
-  public static final Node J = new Node(Constants.ElevatorConstants.kStartPose, "START");
+  public static final Node A = new Node(ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP");
+  public static final Node B = new Node(ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
+  public static final Node C = new Node(ElevatorConstants.kHighConePose, "HIGH_CONE");
+  public static final Node D = new Node(ElevatorConstants.kHighCubePose, "HIGH_CUBE");
+  public static final Node E = new Node(ElevatorConstants.kHighSafePose, "HIGH_SAFE");
+  public static final Node F = new Node(ElevatorConstants.kLowConePose, "LOW_CONE");
+  public static final Node G = new Node(ElevatorConstants.kLowCubePose, "LOW_CUBE");
+  public static final Node H = new Node(ElevatorConstants.kLowSafePose, "LOW_SAFE");
+  public static final Node I = new Node(ElevatorConstants.kMidSafePose, "MID_SAFE");
+  public static final Node J = new Node(ElevatorConstants.kStartPose, "START");
   private HashMap<String, Node> map;
 
   private Branch AB = new Branch(A, B); //Ground -> GS
@@ -291,10 +291,11 @@ public class Elevator extends SubsystemBase {
     zSpeed = m_slewZ.calculate(zSpeed);
     m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
     m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
-    //grid boundary
-    double gridBoundZ = ElevatorConstants.kElevatorTanAngle*m_measureX+0.4252;  
-  
+    double gridBoundZ = 0.7096*m_measureX+0.4252;  
+    double gridBoundX = (m_measureZ-0.4252)/0.7096;
     //collision detection
+
+    //outer bounds
     if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
       m_setposX = ElevatorConstants.kLeftBound;
       isColliding = true;
@@ -308,6 +309,8 @@ public class Elevator extends SubsystemBase {
       m_setposZ = ElevatorConstants.kUpperBound;
       isColliding = true;
     }
+
+    //bumper bounds
     if(m_setposX < ElevatorConstants.kBumperCoord1 && 
         m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
       m_setposX = ElevatorConstants.kBumperCoord1;
@@ -318,35 +321,63 @@ public class Elevator extends SubsystemBase {
       m_setposZ = ElevatorConstants.kBumperCoord2;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && 
+
+    //front of grid to low cone node
+    if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && 
         m_setposX > ElevatorConstants.kMiddleBound){
       m_setposX = ElevatorConstants.kMiddleBound;
       isColliding = true;
-    }
-    if(m_measureZ < ElevatorConstants.kMiddleBoundLimit && 
-        m_setposX > ElevatorConstants.kMiddleBound){
-      m_setposZ = ElevatorConstants.kMiddleBoundLimit;
+     }
+    if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && 
+    m_measureX > ElevatorConstants.kMiddleBound){
+      m_setposZ = ElevatorConstants.kCubeMiddleShelf;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && 
-        m_setposX > ElevatorConstants.kLowConeBound){
-      m_setposX = ElevatorConstants.kLowConeBound;
+    if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
+        m_setposX > ElevatorConstants.kLowConeLeftBound){
+      m_setposX = ElevatorConstants.kLowConeLeftBound;
       isColliding = true;
     }
-    if(m_measureZ < ElevatorConstants.kLowConeBoundLimit && 
-        m_setposX > ElevatorConstants.kLowConeBound && outputZ < 0){
-      m_setposZ = ElevatorConstants.kLowConeBoundLimit;
+    //second half of grid
+    if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack
+     && ElevatorConstants.kLowConeUpperBound > m_setposZ) {
+      m_setposZ = ElevatorConstants.kLowConeUpperBound;
       isColliding = true;
-    }
-    if(m_setposZ > gridBoundZ){
-      m_setposZ = gridBoundZ;
+     }
+     if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf
+     && ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
+      m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
       isColliding = true;
-    }
-    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound && 
-        m_measureZ < ElevatorConstants.kLowConeBoundLimit){
-      m_setposX = gridBoundZ;
+     }
+     if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound
+     && ElevatorConstants.kCubeTopShelf > m_setposZ) {
+      m_setposZ = ElevatorConstants.kCubeTopShelf;
       isColliding = true;
-    }
+     }
+     if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack
+      && m_setposX > ElevatorConstants.kHighConeLeftBound) {
+      m_setposX = ElevatorConstants.kHighConeLeftBound;
+      isColliding = true;
+     }
+     if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound
+      && m_setposZ < ElevatorConstants.kHighConeUpperBound) {
+      m_setposZ = ElevatorConstants.kHighConeUpperBound;
+      isColliding = true;
+     }
+
+
+    // if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeLeftBound){
+    //   m_setposZ = gridBoundZ;
+    //   isColliding = true;
+    // }
+    // if(m_setposX > gridBoundX && m_measureZ > ElevatorConstants.kLowConeUpperBound){
+    //   m_setposX = gridBoundX;
+    //   isColliding = true;
+    // }
+    // if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_setposX > gridBoundZ){
+    //   m_setposX = m_measureX;
+    //   isColliding = true;
+    // }
     else{
       isColliding = false;
     }

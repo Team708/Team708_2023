@@ -22,12 +22,11 @@ public class Node implements Comparable<Node>{
     private Node parent = null;
     private LinkedList<Node> neighbors = new LinkedList<Node>();
 
-    public Node(Translation2d position, String identifier, boolean isSafety){
+    public Node(Translation2d position, String identifier){
         this.position = position;
         this.height = position.getY();
         this.extend = position.getX();
         this.identifier = identifier;
-        this.isSafety = isSafety;
         this.pose = new Pose2d(position, new Rotation2d(0));
     }  
 
