@@ -40,8 +40,8 @@ public class Elevator extends SubsystemBase {
   private double outputX, outputZ, outputA, outputB;
   private double m_measureX, m_measureZ;
 
-    //collision check
-    boolean isColliding = false;
+  //collision check
+  private boolean isColliding = false;
 
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewZ = new SlewRateLimiter(12.0);
@@ -50,16 +50,16 @@ public class Elevator extends SubsystemBase {
 
   private Node elevatorCurrentNode;
 
-  public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP", false);
-  public static final Node B = new Node(Constants.ElevatorConstants.kGroundSafePose, "GROUND_SAFE", true);
-  public static final Node C = new Node(Constants.ElevatorConstants.kHighConePose, "HIGH_CONE", false);
-  public static final Node D = new Node(Constants.ElevatorConstants.kHighCubePose, "HIGH_CUBE", false);
-  public static final Node E = new Node(Constants.ElevatorConstants.kHighSafePose, "HIGH_SAFE", true);
-  public static final Node F = new Node(Constants.ElevatorConstants.kLowConePose, "LOW_CONE", false);
-  public static final Node G = new Node(Constants.ElevatorConstants.kLowCubePose, "LOW_CUBE", false);
-  public static final Node H = new Node(Constants.ElevatorConstants.kLowSafePose, "LOW_SAFE", true);
-  public static final Node I = new Node(Constants.ElevatorConstants.kMidSafePose, "MID_SAFE", true);
-  public static final Node J = new Node(Constants.ElevatorConstants.kStartPose, "START", false);
+  public static final Node A = new Node(Constants.ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP");
+  public static final Node B = new Node(Constants.ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
+  public static final Node C = new Node(Constants.ElevatorConstants.kHighConePose, "HIGH_CONE");
+  public static final Node D = new Node(Constants.ElevatorConstants.kHighCubePose, "HIGH_CUBE");
+  public static final Node E = new Node(Constants.ElevatorConstants.kHighSafePose, "HIGH_SAFE");
+  public static final Node F = new Node(Constants.ElevatorConstants.kLowConePose, "LOW_CONE");
+  public static final Node G = new Node(Constants.ElevatorConstants.kLowCubePose, "LOW_CUBE");
+  public static final Node H = new Node(Constants.ElevatorConstants.kLowSafePose, "LOW_SAFE");
+  public static final Node I = new Node(Constants.ElevatorConstants.kMidSafePose, "MID_SAFE");
+  public static final Node J = new Node(Constants.ElevatorConstants.kStartPose, "START");
   private HashMap<String, Node> map;
 
   private Branch AB = new Branch(A, B); //Ground -> GS
@@ -133,7 +133,7 @@ public class Elevator extends SubsystemBase {
     outputZ = m_pidControllerZ.calculate(m_measureZ, m_setposZ);
         
     //convert cartesian setpoints to motor positions
-    outputA = getA(outputX, outputZ);
+    outputA = getA(outputZ);
     outputB = getB(outputX, outputZ);
 
     //set motion positions
@@ -186,7 +186,7 @@ public class Elevator extends SubsystemBase {
    * @param Z vertical distance
    * @return position of motor A
    */
-  public double getA(double X, double Z) {
+  public double getA(double Z) {
     return Z / ElevatorConstants.kElevatorSinAngle;
   }
 
@@ -196,7 +196,7 @@ public class Elevator extends SubsystemBase {
    * @return position of motor B
    */
   public double getB(double X, double Z) {
-    return X - (Z / Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle)));
+    return X - Z / ElevatorConstants.kElevatorTanAngle;
   }
 
   /**
@@ -292,7 +292,7 @@ public class Elevator extends SubsystemBase {
     m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
     m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
     //grid boundary
-    double gridBoundZ = 0.7096*m_measureX+0.4252;  
+    double gridBoundZ = ElevatorConstants.kElevatorTanAngle*m_measureX+0.4252;  
   
     //collision detection
     if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
@@ -338,7 +338,7 @@ public class Elevator extends SubsystemBase {
       m_setposZ = ElevatorConstants.kLowConeBoundLimit;
       isColliding = true;
     }
-    if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeBound){
+    if(m_setposZ > gridBoundZ){
       m_setposZ = gridBoundZ;
       isColliding = true;
     }
