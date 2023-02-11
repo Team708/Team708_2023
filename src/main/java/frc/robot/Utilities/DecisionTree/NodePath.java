@@ -90,13 +90,14 @@ public class NodePath {
                 }
                 SmartDashboard.putString("CURRENT NODE", path.get(0).getIdentifier());
                 double startAngle = getPredictedBeginningAngle(poses.get(0), poses.get(1));
-                double endAngle = -getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
+                double endAngle = getPredictedBeginningAngle(poses.get(poses.size() - 2), poses.get(poses.size() - 1));
                 return TrajectoryGenerator.generateTrajectory(
                         new Pose2d(poses.get(0).getTranslation(), new Rotation2d(startAngle)),
                         translations,
                         new Pose2d(poses.get(poses.size() - 1).getTranslation(), new Rotation2d(endAngle)),
                         config); // TODO Change trajectory config
             } else {
+                System.out.println("ENCOUNTERED");
                 return TrajectoryGenerator.generateTrajectory(poses, config);
             }
         } catch (IndexOutOfBoundsException e) {

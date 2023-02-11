@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.OI;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.*;
 import frc.robot.subsystems.Elevator;
@@ -64,7 +65,9 @@ public class ElevatorToNode extends CommandBase {
     if(this.trajectory == null) return true;
     return (elevator.getPose().getDistance(
       trajectory.sample(trajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) 
-    < Constants.ElevatorConstants.kPositionTolerance);
+    < Constants.ElevatorConstants.kPositionTolerance) ||
+    Math.abs(OI.getOperatorLeftY()) > 0.1 ||
+    Math.abs(OI.getOperatorRightX()) > 0.1;
     // return true;
   }
 }
