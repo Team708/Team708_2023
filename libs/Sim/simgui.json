@@ -28,7 +28,6 @@
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {
-        "image": "C:\\Users\\rmcca\\Downloads\\Community, RH.png",
         "window": {
           "visible": true
         }

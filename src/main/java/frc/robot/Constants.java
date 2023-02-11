@@ -141,34 +141,41 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final int kMotorAID = 31;
     public static final int kMotorBID = 32;
+    
     // Elevator trig constants
     public static final double kElevatorCosAngle = Math.cos(Math.toRadians(ElevatorConstants.kElevatorAngle));
     public static final double kElevatorSinAngle = Math.sin(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    public static final double kElevatorTanAngle = Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    
     //x and z in meters
     //Reference point is from front of Robot frame and ground
-    public static final Translation2d kGroundPickupPose = new Translation2d(0.197,0.062); 
-    public static final Translation2d kStartPose = new Translation2d(-0.143,0.190); 
-    public static final Translation2d kLowCubePose = new Translation2d(0.660,0.716); 
-    public static final Translation2d kLowConePose = new Translation2d(0.660,1.029); 
+    public static final Translation2d kGroundPickupPose = new Translation2d(0.197+0.1,0.062); 
+    public static final Translation2d kStartPose = new Translation2d(-0.143+0.1,0.190); 
+    public static final Translation2d kLowCubePose = new Translation2d(0.660-0.1,0.716); 
+    public static final Translation2d kLowConePose = new Translation2d(0.660-0.1,1.029); 
     public static final Translation2d kHighCubePose = new Translation2d(1.069,1.029); 
-    public static final Translation2d kHighConePose = new Translation2d(1.151,1.283);
+    public static final Translation2d kHighConePose = new Translation2d(1.151-0.1,1.283);
     
-    public static final Translation2d kGroundSafePose = new Translation2d(0.197,0.190);
-    public static final Translation2d kLowSafePose = new Translation2d(0.263,0.716);
-    public static final Translation2d kMidSafePose = new Translation2d(0.303,1.029);
+    public static final Translation2d kGroundSafePose = new Translation2d(0.197+0.1,0.190+0.05);
+    public static final Translation2d kLowSafePose = new Translation2d(0.263+0.17,0.716);
+    public static final Translation2d kMidSafePose = new Translation2d(0.303+0.3,1.029);
     public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
     
     //Elevator Boundaries, meters
-    public static final double kLeftBound = 0; 
+    public static final double kLeftBound = -0.051; 
     public static final double kRightBound = 1.16; 
     public static final double kLowerBound = 0;
     public static final double kUpperBound = 1.497;
     public static final double kBumperCoord2 = 0.167925;
-    public static final double kBumperCoord1 = 0.386;
+    public static final double kBumperCoord1 = 0.25;
     public static final double kMiddleBound = 0.444;
-    public static final double kMiddleBoundLimit = 0.605;
-    public static final double kLowConeBound = 0.630;
-    public static final double kLowConeBoundLimit = 0.878;
+    public static final double kLowConeLeftBound = 0.638;
+    public static final double kLowConeUpperBound = 0.878;
+    public static final double kCubeMiddleShelf = 0.607;
+    public static final double kCubeMiddleShelfBack = 0.877;
+    public static final double kCubeTopShelf = 0.907;
+    public static final double kHighConeLeftBound = 1.065;
+    public static final double kHighConeUpperBound = 1.181;
 
     public static final double kMaxSpeedMetersPerSecond = 5;
     public static final double kElevatorAngle = 55;
@@ -180,19 +187,23 @@ public final class Constants {
     public static final double kMaxElevatorHeight = 1.5; //m
     public static final double kMinElevatorReach = -0.2; //m
     public static final double kMaxElevatorReach = 1.219; //m
-    
+   
     // distance per pulse = (distance per revolution) / (pulses per revolution)
     //  = (Pi * D) / ppr
     public static final double kElevatorEncoderConversionFactor =
         (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
     
     public static final double kRobotBumperThickness = Units.inchesToMeters(3);//m
-    public static final double kEndEffectorLength = Units.inchesToMeters(22.585);//m
-    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(37.557); //m
+    public static final double kEndEffectorLength = Units.inchesToMeters(0.01); //22.585);//m
+    public static final double kElevatorSetbackFromOrigin = 0.797; //m
+    public static final double kElevatorXLength = 0.574;//m
+    public static final double kElevatorHeightFromOrigin = 0.215;
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
     public static final double kPositionTolerance = 0.001; //m
+    
+    
   }
   
   /**
