@@ -4,30 +4,19 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.GoalConstants;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.ControllerConstants;
-import frc.robot.Utilities.JoystickLeftTrigger;
-import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.DriveByController;
 import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.sim.ElevatorSimulation;
+import frc.robot.subsystems.intake.RollerIntake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
@@ -43,7 +32,7 @@ public class RobotContainer {
 
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
-  private final Intake m_intake = new Intake();
+  private final RollerIntake m_intake = new RollerIntake();
 
   private final DriveByController m_driveByController
     = new DriveByController(m_drive, OI.driverController);
