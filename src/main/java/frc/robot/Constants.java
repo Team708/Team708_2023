@@ -135,6 +135,9 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final int kMotorAID = 31;
     public static final int kMotorBID = 32;
+    // Elevator trig constants
+    public static final double kElevatorCosAngle = Math.cos(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    public static final double kElevatorSinAngle = Math.sin(Math.toRadians(ElevatorConstants.kElevatorAngle));
     //x and z in meters
     //Reference point is from front of Robot frame and ground
     public static final Translation2d kGroundPickupPose = new Translation2d(0.197,0.062); 
@@ -178,8 +181,8 @@ public final class Constants {
         (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
     
     public static final double kRobotBumperThickness = Units.inchesToMeters(3);//m
-    public static final double kEndEffectorLength = Units.inchesToMeters(12);//m
-    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(18.0); //m
+    public static final double kEndEffectorLength = Units.inchesToMeters(22.585);//m
+    public static final double kElevatorSetbackFromOrigin = Units.inchesToMeters(37.557); //m
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;

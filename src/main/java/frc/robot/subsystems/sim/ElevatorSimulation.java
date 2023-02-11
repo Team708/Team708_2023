@@ -32,6 +32,7 @@ public class ElevatorSimulation {
 
   private CANSparkMax motorA, motorB;
   private RelativeEncoder encoderA, encoderB;
+  private double m_elevatorA, m_elevatorB;
 
   private final Field2d m_elevatorTrajectorySim;
   Trajectory t = null;
@@ -64,7 +65,7 @@ public class ElevatorSimulation {
   private final double screenHeight = 2.00; // m
   private final double m_endEffectorOffsetX = ElevatorConstants.kElevatorSetbackFromOrigin
       - (ElevatorConstants.kEndEffectorLength); // m
-  private final double m_endEffectorOffsetZ = 0.10; // m
+  private final double m_endEffectorOffsetZ = 0.215265; // m
   private final double m_elevatorOriginX = (screenWidth - SimConstants.kGridDepth
       - ElevatorConstants.kRobotBumperThickness);
   private final double m_elevatorOriginY = 0.0;
@@ -74,11 +75,11 @@ public class ElevatorSimulation {
   private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", m_elevatorPositionX, 0);
 
   private final MechanismLigament2d m_elevatorLiftMech2d = m_mech2dRoot.append(new MechanismLigament2d("ElevatorLift",
-      1, 90, 5, new Color8Bit(Color.kRed)));
+      1,ElevatorConstants.kElevatorAngle, 5, new Color8Bit(Color.kRed)));
 
   private final MechanismLigament2d m_elevatorArmMech2d = m_elevatorLiftMech2d
       .append(new MechanismLigament2d("ElevatorArm",
-          1, -90, 5, new Color8Bit(Color.kPurple)));
+          1, -ElevatorConstants.kElevatorAngle, 5, new Color8Bit(Color.kPurple)));
 
   private final MechanismLigament2d m_elevatorArm2Mech2d = m_elevatorArmMech2d
       .append(new MechanismLigament2d("ElevatorArm2",
@@ -143,21 +144,23 @@ public class ElevatorSimulation {
 
     // In this method, we update our simulation of what our elevator is doing
     // First, we set our "inputs" (voltages)
-    m_elevatorXSim.setInput(0.5 * (motorA.getAppliedOutput() + motorB.getAppliedOutput()));
-    m_elevatorZSim.setInput(0.5 * (motorA.getAppliedOutput() - motorB.getAppliedOutput()));
+    m_elevatorXSim.setInput(motorB.getAppliedOutput() + (motorA.getAppliedOutput() * ElevatorConstants.kElevatorCosAngle));
+    m_elevatorZSim.setInput(motorA.getAppliedOutput() *  ElevatorConstants.kElevatorSinAngle);
 
     // Next, we update it. The standard loop time is 20ms.
     m_elevatorXSim.update(GlobalConstants.kLoopTime);
     m_elevatorZSim.update(GlobalConstants.kLoopTime);
 
+    m_elevatorA = m_elevatorZSim.getPositionMeters() / ElevatorConstants.kElevatorSinAngle;
+    m_elevatorB = m_elevatorXSim.getPositionMeters() - (m_elevatorZSim.getPositionMeters() / Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle)));
     // Finally, we set our simulated encoder's readings and simulated battery
     // voltage
-    encoderA.setPosition(m_elevatorXSim.getPositionMeters() + m_elevatorZSim.getPositionMeters());
-    encoderB.setPosition(m_elevatorXSim.getPositionMeters() - m_elevatorZSim.getPositionMeters());
+    encoderA.setPosition(m_elevatorA);
+    encoderB.setPosition(m_elevatorB);
 
     // Update elevator visualization with simulated position
-    m_elevatorLiftMech2d.setLength(m_elevatorZSim.getPositionMeters() + m_endEffectorOffsetZ);
-    m_elevatorArmMech2d.setLength(m_elevatorXSim.getPositionMeters() + m_endEffectorOffsetX);
+    m_elevatorLiftMech2d.setLength(m_elevatorA + m_endEffectorOffsetZ);
+    m_elevatorArmMech2d.setLength(m_elevatorB + m_endEffectorOffsetX);
 
     Pose2d elevatorPose = new Pose2d(
         new Translation2d(m_elevatorOriginX + m_setposX, m_setposZ), new Rotation2d());

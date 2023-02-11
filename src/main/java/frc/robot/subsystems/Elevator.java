@@ -157,28 +157,28 @@ public class Elevator extends SubsystemBase {
   * @return Horizontal position
   */ 
   public double getX() {
-    return 0.5*(m_encoderA.getPosition() + m_encoderB.getPosition()); 
+    return m_encoderB.getPosition() + (m_encoderA.getPosition() * ElevatorConstants.kElevatorCosAngle); 
   }
 
   /**
   * @return Vertical position
   */ 
   public double getZ() {
-    return 0.5*(m_encoderA.getPosition() - m_encoderB.getPosition());
+    return m_encoderA.getPosition() *  ElevatorConstants.kElevatorSinAngle;
   }
 
   /**
   * @return Horizontal velocity
   */ 
   public double getXVel() {
-    return 0.5*(m_encoderA.getVelocity() + m_encoderB.getVelocity());
+    return m_encoderB.getVelocity() + (m_encoderA.getVelocity() * ElevatorConstants.kElevatorCosAngle);
   }
 
   /**
   * @return Vertical velocity
   */ 
   public double getZVel() {
-    return 0.5*(m_encoderA.getVelocity() - m_encoderB.getVelocity());
+    return m_encoderA.getVelocity() * ElevatorConstants.kElevatorSinAngle;
   }
 
   /**
@@ -187,7 +187,7 @@ public class Elevator extends SubsystemBase {
    * @return position of motor A
    */
   public double getA(double X, double Z) {
-    return X+Z;
+    return Z / ElevatorConstants.kElevatorSinAngle;
   }
 
   /**
@@ -196,7 +196,7 @@ public class Elevator extends SubsystemBase {
    * @return position of motor B
    */
   public double getB(double X, double Z) {
-    return X-Z;
+    return X - (Z / Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle)));
   }
 
   /**
