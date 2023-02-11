@@ -4,20 +4,16 @@
 
 package frc.robot.commands.Autonomizations;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.drive.DriveUntilBalanced;
-import frc.robot.commands.drive.LockWheels;
-import frc.robot.commands.drive.TurnToZero;
+import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.vision.AlignWithReflectiveTape;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class AutoAlign extends SequentialCommandGroup {
   public AutoAlign(Drivetrain dr) {
     addCommands(
-      new TurnToZero(dr, new Pose2d(dr.getPose().getX(), dr.getPose().getY(), new Rotation2d(0)))
-      // new AlignWithReflectiveTape(dr)
+      new TurnToCommand(0, dr),
+      new AlignWithReflectiveTape(dr)
     );
   }
 }

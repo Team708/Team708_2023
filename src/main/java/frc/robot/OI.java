@@ -1,7 +1,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.drive.AutoBalance;
+// import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.TurnToCommand;
 
@@ -139,8 +139,8 @@ public class OI {
 		// new JoystickButton(operatorController, Button.kRightStick.value)
 		// 		.whileTrue(new DeployGamePiece(m_robotDrive));
 
-		new JoystickButton(operatorController, Button.kA.value)
-				.onTrue(new AutoBalance(m_robotDrive));
+		// new JoystickButton(operatorController, Button.kA.value)
+		// 		.onTrue(new AutoBalance(m_robotDrive));
 				
 		// new JoystickButton(operatorController, Button.kB.value)
 		// 		.onTrue(new IntakeOut(m_elevator));
