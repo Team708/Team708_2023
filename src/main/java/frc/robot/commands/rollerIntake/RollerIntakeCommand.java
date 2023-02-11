@@ -5,7 +5,7 @@
 package frc.robot.commands.rollerIntake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.RollerIntake;
+import frc.robot.subsystems.intake.RollerIntake;
 
 public class RollerIntakeCommand extends CommandBase {
   /** Creates a new Intake. */
