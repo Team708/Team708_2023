@@ -12,18 +12,24 @@ import frc.robot.Constants.CurrentLimit;
 public class GrabberIntake extends SubsystemBase{
     
     private CANSparkMax m_intakeMotor;
-    private RelativeEncoder m_intakeEncoder;
+    private CANSparkMax m_clampMotor;
+    private RelativeEncoder m_clampEncoder;
 
     private boolean isOpen = false;
 
     public GrabberIntake(){
+        m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
+        m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
+        m_clampMotor.setInverted(false);
+        m_clampMotor.setIdleMode(IdleMode.kBrake);
+
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorID, MotorType.kBrushless);
         m_intakeMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
         m_intakeMotor.setInverted(false);
         m_intakeMotor.setIdleMode(IdleMode.kBrake);
 
-        m_intakeEncoder = m_intakeMotor.getEncoder();
-        m_intakeEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
+        m_clampEncoder = m_clampMotor.getEncoder();
+        m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
     }
 
     @Override
@@ -32,17 +38,17 @@ public class GrabberIntake extends SubsystemBase{
     }
 
     public void setCamPosition(double rotations){
-        m_intakeEncoder.setPosition(rotations);
+        m_clampEncoder.setPosition(rotations);
     }
 
-    public void openIntake(){
+    public void openClamp(){
         if(!isOpen){
             setCamPosition(IntakeConstants.kCamOpenPose);
             this.isOpen = true;
         }
     }
 
-    public void closeIntake(){
+    public void closeClamp(){
         if(isOpen){
             setCamPosition(IntakeConstants.kCamClosedPose);
             this.isOpen = false;
@@ -55,6 +61,18 @@ public class GrabberIntake extends SubsystemBase{
 
     public void setIsOpen(boolean isOpen){
         this.isOpen = isOpen;
+    }
+
+    public void intakeOn(){
+        this.m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
+    }
+
+    public void intakeOff(){
+        this.m_intakeMotor.set(0);
+    }
+
+    public void intakeReverse(){
+        this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
     }
 
 }

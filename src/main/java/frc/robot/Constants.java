@@ -127,12 +127,16 @@ public final class Constants {
    */
   public static final class IntakeConstants {
     public static final int kIntakeMotorID = 40;
-    public static final int kRollerGearRatio = 3; // 54 / 18
+    public static final int kClampMotorID = 41;
     public static final int kIntakeEncoderCPR = 42;
+
+    public static final int kRollerGearRatio = 3; // 54 / 18
+    public static final double kRollerIntakeSpeed = 0.3;
     
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
     public static final double kCamOpenPose = 0.25;
     public static final double kCamClosedPose = 0.0;
+    public static final double kCamIntakeSpeed = 0.5;
   }
   
   /**

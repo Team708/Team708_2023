@@ -2,7 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.elevator.ElevatorToNode;
-import frc.robot.commands.rollerIntake.RollerIntakeCommand;
+import frc.robot.commands.rollerIntake.RollerIntakeOn;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -119,7 +119,7 @@ public class OI {
 		// 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
 		
 		new JoystickButton(operatorController, Button.kRightBumper.value)
-				.toggleOnTrue(new RollerIntakeCommand(m_intake));
+				.toggleOnTrue(new RollerIntakeOn(m_intake));
 	
 		new JoystickButton(operatorController, Button.kB.value)
 				.onTrue(new ElevatorToNode(m_elevator, Elevator.G));
