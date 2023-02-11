@@ -3,9 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.robot.Utilities.LinearInterpolationTable;
-
-import java.awt.geom.Point2D;
 
   /**
    * Static method containing all constant values for the robot in one location
