@@ -22,7 +22,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.Branch;
@@ -118,6 +117,9 @@ public class Elevator extends SubsystemBase {
     }
 
     this.elevatorCurrentNode = J;
+
+    m_encoderA.setPosition(0);
+    m_encoderB.setPosition(0);
   }
 
   @Override
@@ -131,6 +133,9 @@ public class Elevator extends SubsystemBase {
 
     //outputZ calculates the error between getZ and setposZ
     outputZ = m_pidControllerZ.calculate(m_measureZ, m_setposZ);
+
+    // outputX = m_slewX.calculate(outputX);
+    // outputZ = m_slewZ.calculate(outputZ);
         
     //convert cartesian setpoints to motor positions
     outputA = getA(outputZ);
@@ -296,74 +301,74 @@ public class Elevator extends SubsystemBase {
     //collision detection
 
     //outer bounds
-    if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
-      m_setposX = ElevatorConstants.kLeftBound;
-      isColliding = true;
-    } else if(m_setposX > ElevatorConstants.kRightBound && outputX > 0){
-      m_setposX = ElevatorConstants.kRightBound;
-      isColliding = true;
-    }else if(m_setposZ < ElevatorConstants.kLowerBound && outputZ < 0){
-      m_setposZ = ElevatorConstants.kLowerBound;
-      isColliding = true;
-    }else if(m_setposZ > ElevatorConstants.kUpperBound && outputZ > 0){
-      m_setposZ = ElevatorConstants.kUpperBound;
-      isColliding = true;
-    }
+    // if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
+    //   m_setposX = ElevatorConstants.kLeftBound;
+    //   isColliding = true;
+    // } else if(m_setposX > ElevatorConstants.kRightBound && outputX > 0){
+    //   m_setposX = ElevatorConstants.kRightBound;
+    //   isColliding = true;
+    // }else if(m_setposZ < ElevatorConstants.kLowerBound && outputZ < 0){
+    //   m_setposZ = ElevatorConstants.kLowerBound;
+    //   isColliding = true;
+    // }else if(m_setposZ > ElevatorConstants.kUpperBound && outputZ > 0){
+    //   m_setposZ = ElevatorConstants.kUpperBound;
+    //   isColliding = true;
+    // }
 
-    //bumper bounds
-    if(m_setposX < ElevatorConstants.kBumperCoord1 && 
-        m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
-      m_setposX = ElevatorConstants.kBumperCoord1;
-      isColliding = true;
-    }
-    if(m_measureX < ElevatorConstants.kBumperCoord1 && 
-        m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
-      m_setposZ = ElevatorConstants.kBumperCoord2;
-      isColliding = true;
-    }
+    // //bumper bounds
+    // if(m_setposX < ElevatorConstants.kBumperCoord1 && 
+    //     m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
+    //   m_setposX = ElevatorConstants.kBumperCoord1;
+    //   isColliding = true;
+    // }
+    // if(m_measureX < ElevatorConstants.kBumperCoord1 && 
+    //     m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
+    //   m_setposZ = ElevatorConstants.kBumperCoord2;
+    //   isColliding = true;
+    // }
 
-    //front of grid to low cone node
-    if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && 
-        m_setposX > ElevatorConstants.kMiddleBound){
-      m_setposX = ElevatorConstants.kMiddleBound;
-      isColliding = true;
-     }
-    if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && 
-    m_measureX > ElevatorConstants.kMiddleBound){
-      m_setposZ = ElevatorConstants.kCubeMiddleShelf;
-      isColliding = true;
-    }
-    if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
-        m_setposX > ElevatorConstants.kLowConeLeftBound){
-      m_setposX = ElevatorConstants.kLowConeLeftBound;
-      isColliding = true;
-    }
-    //second half of grid
-    if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack
-     && ElevatorConstants.kLowConeUpperBound > m_setposZ) {
-      m_setposZ = ElevatorConstants.kLowConeUpperBound;
-      isColliding = true;
-     }
-     if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf
-     && ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
-      m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
-      isColliding = true;
-     }
-     if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound
-     && ElevatorConstants.kCubeTopShelf > m_setposZ) {
-      m_setposZ = ElevatorConstants.kCubeTopShelf;
-      isColliding = true;
-     }
-     if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack
-      && m_setposX > ElevatorConstants.kHighConeLeftBound) {
-      m_setposX = ElevatorConstants.kHighConeLeftBound;
-      isColliding = true;
-     }
-     if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound
-      && m_setposZ < ElevatorConstants.kHighConeUpperBound) {
-      m_setposZ = ElevatorConstants.kHighConeUpperBound;
-      isColliding = true;
-     }
+    // //front of grid to low cone node
+    // if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && 
+    //     m_setposX > ElevatorConstants.kMiddleBound){
+    //   m_setposX = ElevatorConstants.kMiddleBound;
+    //   isColliding = true;
+    //  }
+    // if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && 
+    // m_measureX > ElevatorConstants.kMiddleBound){
+    //   m_setposZ = ElevatorConstants.kCubeMiddleShelf;
+    //   isColliding = true;
+    // }
+    // if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
+    //     m_setposX > ElevatorConstants.kLowConeLeftBound){
+    //   m_setposX = ElevatorConstants.kLowConeLeftBound;
+    //   isColliding = true;
+    // }
+    // //second half of grid
+    // if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack
+    //  && ElevatorConstants.kLowConeUpperBound > m_setposZ) {
+    //   m_setposZ = ElevatorConstants.kLowConeUpperBound;
+    //   isColliding = true;
+    //  }
+    //  if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf
+    //  && ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
+    //   m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
+    //   isColliding = true;
+    //  }
+    //  if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound
+    //  && ElevatorConstants.kCubeTopShelf > m_setposZ) {
+    //   m_setposZ = ElevatorConstants.kCubeTopShelf;
+    //   isColliding = true;
+    //  }
+    //  if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack
+    //   && m_setposX > ElevatorConstants.kHighConeLeftBound) {
+    //   m_setposX = ElevatorConstants.kHighConeLeftBound;
+    //   isColliding = true;
+    //  }
+    //  if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound
+    //   && m_setposZ < ElevatorConstants.kHighConeUpperBound) {
+    //   m_setposZ = ElevatorConstants.kHighConeUpperBound;
+    //   isColliding = true;
+    //  }
 
 
     // if(m_setposZ < gridBoundZ && m_measureX > ElevatorConstants.kLowConeLeftBound){
@@ -378,14 +383,14 @@ public class Elevator extends SubsystemBase {
     //   m_setposX = m_measureX;
     //   isColliding = true;
     // }
-    else{
-      isColliding = false;
-    }
+    // else{
+    //   isColliding = false;
+    // }
   }
 
-  public void drawSimTrajectory(Trajectory t){
-    m_elevatorSim.drawTrajectory(t);
-  }
+  // public void drawSimTrajectory(Trajectory t){
+  //   m_elevatorSim.drawTrajectory(t);
+  // }
 
   public void sendToDashboard(){
     SmartDashboard.putNumber("elevatorPoseX", m_setposX);

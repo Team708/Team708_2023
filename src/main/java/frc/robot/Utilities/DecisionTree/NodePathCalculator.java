@@ -16,7 +16,7 @@ public class NodePathCalculator {
         PriorityQueue<Node> open = new PriorityQueue<Node>(); // Open Nodes
         PriorityQueue<Node> closed = new PriorityQueue<Node>(); // Closed Nodes
         open.add(start); // Add the start node to open
-        while (true) {
+        while (!open.isEmpty()) {
             Node current = open.peek();
             for (Node n : open) {
                 if (n.getFinalScore() < current.getFinalScore()) {
@@ -27,7 +27,7 @@ public class NodePathCalculator {
             closed.add(current);
             if (current.getIdentifier() == goal.getIdentifier()) {
                 search(current, start, goal);
-                break;
+                // break;
             }
             List<Node> neighbors = calcCloseNodes(current, goal);
             for (Node n : neighbors) {
@@ -49,7 +49,7 @@ public class NodePathCalculator {
         for (int i = finalPath.size() - 1; i >= 0; i--) {
             tempFinalPath.add(finalPath.get(i));
         }
-        tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
+        // tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
         return new NodePath(tempFinalPath, elevator);
     }
 

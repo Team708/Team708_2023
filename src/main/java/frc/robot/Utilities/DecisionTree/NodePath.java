@@ -97,7 +97,6 @@ public class NodePath {
                         new Pose2d(poses.get(poses.size() - 1).getTranslation(), new Rotation2d(endAngle)),
                         config); // TODO Change trajectory config
             } else {
-                System.out.println("ENCOUNTERED");
                 return TrajectoryGenerator.generateTrajectory(poses, config);
             }
         } catch (IndexOutOfBoundsException e) {
