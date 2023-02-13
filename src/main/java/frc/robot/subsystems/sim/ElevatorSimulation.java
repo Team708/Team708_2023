@@ -40,20 +40,20 @@ public class ElevatorSimulation {
   Elevator e;
 
   // ElevatorSimulations help us simulate what's going on, including gravity.
-  private final ElevatorSim m_elevatorXSim = new ElevatorSim(
+  private final ElevatorSim m_elevatorBSim = new ElevatorSim(
       m_elevatorGearbox,
-      ElevatorConstants.kElevatorGearing,
+      ElevatorConstants.kElevatorGearingB,
       kCarriageMass,
-      ElevatorConstants.kElevatorDrumRadius,
+      ElevatorConstants.kElevatorPulleyRadiusB,
       ElevatorConstants.kMinElevatorReach,
       ElevatorConstants.kMaxElevatorReach,
       false,
       VecBuilder.fill(0.0001));
-  private final ElevatorSim m_elevatorZSim = new ElevatorSim(
+  private final ElevatorSim m_elevatorASim = new ElevatorSim(
       m_elevatorGearbox,
-      ElevatorConstants.kElevatorGearing,
+      ElevatorConstants.kElevatorGearingA,
       kCarriageMass,
-      ElevatorConstants.kElevatorDrumRadius,
+      ElevatorConstants.kElevatorPulleyRadiusA,
       ElevatorConstants.kMinElevatorHeight,
       ElevatorConstants.kMaxElevatorHeight,
       false,
@@ -63,6 +63,9 @@ public class ElevatorSimulation {
   private final Double screenWidth = SimConstants.kChargeStationWidth * 0.5 + SimConstants.kCommunitWidth
       + SimConstants.kGridDepth; // m
   private final double screenHeight = 2.00; // m
+  private final double m_endEffectorOffsetX = ElevatorConstants.kElevatorSetbackFromOrigin
+      - (ElevatorConstants.kEndEffectorLength); // m
+  private final double m_endEffectorOffsetZ = 0.10; // m
   private final double m_elevatorOriginX = (screenWidth - SimConstants.kGridDepth
       - ElevatorConstants.kRobotBumperThickness);
   private final double m_elevatorOriginY = 0.0;
@@ -105,8 +108,8 @@ public class ElevatorSimulation {
     SmartDashboard.putData("Elevator Trajectory Sim", m_elevatorTrajectorySim);
 
     makeLine(ElevatorConstants.kLeftBound, ElevatorConstants.kBumperCoord2, 
-        ElevatorConstants.kLeftBound, ElevatorConstants.kUpperBound, "m_leftBound");
-    makeLine(ElevatorConstants.kLeftBound, ElevatorConstants.kUpperBound, 
+        ElevatorConstants.kLeftBound, e.elevatorDiagZ(ElevatorConstants.kLeftBound), "m_leftBound");
+    makeLine(e.elevatorDiagX(ElevatorConstants.kUpperBound), ElevatorConstants.kUpperBound, 
         ElevatorConstants.kRightBound, ElevatorConstants.kUpperBound, "m_upperBound");
     makeLine(ElevatorConstants.kRightBound, ElevatorConstants.kHighConeUpperBound, 
         ElevatorConstants.kRightBound, ElevatorConstants.kUpperBound, "m_rightBound");
@@ -117,7 +120,7 @@ public class ElevatorSimulation {
     makeLine(ElevatorConstants.kMiddleBound, 0, 
         ElevatorConstants.kMiddleBound, ElevatorConstants.kCubeMiddleShelf, "m_middleBound");
     
-    makeLine(ElevatorConstants.kLowConeLeftBound, ElevatorConstants.kCubeMiddleShelf, 
+        makeLine(ElevatorConstants.kLowConeLeftBound, ElevatorConstants.kCubeMiddleShelf, 
         ElevatorConstants.kLowConeLeftBound, ElevatorConstants.kLowConeUpperBound, "m_lowConeLeftBound");
     makeLine(ElevatorConstants.kMiddleBound, ElevatorConstants.kCubeMiddleShelf, 
         ElevatorConstants.kLowConeLeftBound, ElevatorConstants.kCubeMiddleShelf, "m_middleBoundLimit");
@@ -127,21 +130,23 @@ public class ElevatorSimulation {
         ElevatorConstants.kCubeMiddleShelfBack, ElevatorConstants.kCubeTopShelf, "m_cubeMiddleShelfBack");
     makeLine(ElevatorConstants.kCubeMiddleShelfBack, ElevatorConstants.kCubeTopShelf, 
         ElevatorConstants.kHighConeLeftBound, ElevatorConstants.kCubeTopShelf, "m_cubeTopShelf");
-    makeLine(ElevatorConstants.kHighConeLeftBound, ElevatorConstants.kCubeTopShelf, 
+        makeLine(ElevatorConstants.kHighConeLeftBound, ElevatorConstants.kCubeTopShelf, 
         ElevatorConstants.kHighConeLeftBound, ElevatorConstants.kHighConeUpperBound, "m_highConeLeftBound");
     makeLine(ElevatorConstants.kHighConeLeftBound, ElevatorConstants.kHighConeUpperBound, 
         ElevatorConstants.kRightBound, ElevatorConstants.kHighConeUpperBound, "m_highConeUpperBound");
-
-    makePoint(ElevatorConstants.kGroundPickupPose, "GroundPickupPose");
-    makePoint(ElevatorConstants.kGroundSafePose, "GroundSafePose");  
-    makePoint(ElevatorConstants.kStartPose, "StartPose");  
-    makePoint(ElevatorConstants.kLowConePose, "LowConePose");
-    makePoint(ElevatorConstants.kLowCubePose, "LowCubePose");
-    makePoint(ElevatorConstants.kLowSafePose, "LowSafePose");
-    makePoint(ElevatorConstants.kMidSafePose, "MidSafePose");
-    makePoint(ElevatorConstants.kHighConePose, "HighConePose");
-    makePoint(ElevatorConstants.kHighCubePose, "HighCubePose");
-    makePoint(ElevatorConstants.kHighSafePose, "HighSafePose");
+    makeLine(ElevatorConstants.kLeftBound, e.elevatorDiagZ(ElevatorConstants.kLeftBound), 
+        e.elevatorDiagX(ElevatorConstants.kUpperBound), ElevatorConstants.kUpperBound, "m_diagonalBound");
+ 
+      makePoint(ElevatorConstants.kGroundPickupPose, "GroundPickupPose");
+      makePoint(ElevatorConstants.kGroundSafePose, "GroundSafePose");  
+      makePoint(ElevatorConstants.kStartPose, "StartPose");  
+      makePoint(ElevatorConstants.kLowConePose, "LowConePose");
+      makePoint(ElevatorConstants.kLowCubePose, "LowCubePose");
+      makePoint(ElevatorConstants.kLowSafePose, "LowSafePose");
+      makePoint(ElevatorConstants.kMidSafePose, "MidSafePose");
+      makePoint(ElevatorConstants.kHighConePose, "HighConePose");
+      makePoint(ElevatorConstants.kHighCubePose, "HighCubePose");
+      makePoint(ElevatorConstants.kHighSafePose, "HighSafePose");
 
     encoderA.setPosition(0.5);
     encoderB.setPosition(0.5);
@@ -160,15 +165,15 @@ public class ElevatorSimulation {
 
     // In this method, we update our simulation of what our elevator is doing
     // First, we set our "inputs" (voltages)
-    m_elevatorXSim.setInput(motorB.getAppliedOutput() + (motorA.getAppliedOutput() * ElevatorConstants.kElevatorCosAngle));
-    m_elevatorZSim.setInput(motorA.getAppliedOutput() *  ElevatorConstants.kElevatorSinAngle);
+    m_elevatorBSim.setInput(motorB.getAppliedOutput());
+    m_elevatorASim.setInput(motorA.getAppliedOutput());
 
     // Next, we update it. The standard loop time is 20ms.
-    m_elevatorXSim.update(GlobalConstants.kLoopTime);
-    m_elevatorZSim.update(GlobalConstants.kLoopTime);
+    m_elevatorBSim.update(GlobalConstants.kLoopTime);
+    m_elevatorASim.update(GlobalConstants.kLoopTime);
 
-    m_elevatorA = m_elevatorZSim.getPositionMeters() / ElevatorConstants.kElevatorSinAngle;
-    m_elevatorB = m_elevatorXSim.getPositionMeters() - (m_elevatorZSim.getPositionMeters() / Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle)));
+    m_elevatorA = m_elevatorASim.getPositionMeters();
+    m_elevatorB = m_elevatorBSim.getPositionMeters();
     // Finally, we set our simulated encoder's readings and simulated battery
     // voltage
     encoderA.setPosition(m_elevatorA);
@@ -203,12 +208,12 @@ public class ElevatorSimulation {
         hypotenuse, lineAngle, 3, new Color8Bit(Color.kYellowGreen)));
   }
 
-  private void makePoint(double x, double y, String name){
+    private void makePoint(double x, double y, String name){
     MechanismRoot2d m_lineStart = m_mech2d.getRoot(name + "Start", m_elevatorOriginX + x, m_elevatorOriginY + ElevatorConstants.kElevatorHeightFromOrigin + y);
-    MechanismLigament2d m_lineEnd = m_lineStart.append( new MechanismLigament2d(name +"End", 0.015, 0, 5, new Color8Bit(Color.kRed)));
-  }
+      MechanismLigament2d m_lineEnd = m_lineStart.append( new MechanismLigament2d(name +"End", 0.015, 0, 5, new Color8Bit(Color.kRed)));
+    }
 
-  private void makePoint(Translation2d point, String name){
-    makePoint(point.getX(), point.getY(), name);
-  }
+    private void makePoint(Translation2d point, String name){
+      makePoint(point.getX(), point.getY(), name);
+    }
 }

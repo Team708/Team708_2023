@@ -164,7 +164,7 @@ public final class Constants {
     public static final Translation2d kLowSafePose = new Translation2d(0.263+0.17,0.716);
     public static final Translation2d kMidSafePose = new Translation2d(0.303+0.3,1.029);
     public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
-    
+
     //Elevator Boundaries, meters
     public static final double kLeftBound = -0.051; 
     public static final double kRightBound = 1.16; 
@@ -180,23 +180,29 @@ public final class Constants {
     public static final double kCubeTopShelf = 0.907;
     public static final double kHighConeLeftBound = 1.065;
     public static final double kHighConeUpperBound = 1.181;
+    public static final double diagy1 = .2;
 
-    public static final double kMaxSpeedMetersPerSecond = 5;
+    public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;
-    public static final double []kPID_X = {8,0,0.5};
-    public static final double []kPID_Z = {8,0,0.5}; //{50,0.5,1};
-    public static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
-    public static final double kElevatorGearing = 5.0;
+    public static final double []kPID_X = {20,0,0.0};
+    public static final double []kPID_Z = {20,0,0.0}; //{50,0.5,1};
+    public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.563);
+    public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);
+    public static final double kElevatorGearingA = 200/33; //40:12, 40:22
+    public static final double kElevatorGearingB = 44/9; //40:12, 44:30
     public static final double kMinElevatorHeight = 0.0; //m
     public static final double kMaxElevatorHeight = 1.5; //m
     public static final double kMinElevatorReach = -0.2; //m
     public static final double kMaxElevatorReach = 1.219; //m
-   
+    
     // distance per pulse = (distance per revolution) / (pulses per revolution)
     //  = (Pi * D) / ppr
-    public static final double kElevatorEncoderConversionFactor =
-        (2.0 * Math.PI * kElevatorDrumRadius) / kElevatorGearing;
-    
+    public static final double kElevatorEncoderConversionFactorA =
+        (2.0 * Math.PI * kElevatorPulleyRadiusA) / kElevatorGearingA;
+
+    public static final double kElevatorEncoderConversionFactorB =
+        (2.0 * Math.PI * kElevatorPulleyRadiusB) / kElevatorGearingB;
+     
     public static final double kRobotBumperThickness = Units.inchesToMeters(3);//m
     public static final double kEndEffectorLength = Units.inchesToMeters(0.01); //22.585);//m
     public static final double kElevatorSetbackFromOrigin = 0.797; //m
@@ -206,8 +212,9 @@ public final class Constants {
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
     public static final double kPositionTolerance = 0.001; //m
-    
-    
+
+    public static final double kTrajConfigMaxVelocityMPS = 1;
+    public static final double kTrajConfigMaxAccelMPSS = 2;
   }
   
   /**

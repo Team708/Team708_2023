@@ -15,6 +15,7 @@ import frc.robot.OI;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.*;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class ElevatorToNode extends CommandBase {
 
@@ -39,7 +40,7 @@ public class ElevatorToNode extends CommandBase {
     elevator.setPose(this.current.getPosition());
     NodePath path = NodePathCalculator.shortestPath(elevator.getElevatorTree(), elevator, current, target);
     this.trajectory = path.translateToTrajectory();
-    // if(this.trajectory != null) elevator.drawSimTrajectory(trajectory);
+    if(this.trajectory != null && elevator.getSim() != null) elevator.getSim().drawTrajectory(trajectory);
     i = 0;
   }
 

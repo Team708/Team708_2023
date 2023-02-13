@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.commands.elevator.ElevatorToGround;
 import frc.robot.commands.elevator.ElevatorToGroundSafe;
 import frc.robot.commands.elevator.ElevatorToHighCone;
@@ -28,8 +29,8 @@ public class NodePath {
     private List<Node> path;
     private Elevator elevator;
 
-    // TODO MAKE CONSTANTS
-    TrajectoryConfig config = new TrajectoryConfig(1, 2);
+    TrajectoryConfig config = new TrajectoryConfig(ElevatorConstants.kTrajConfigMaxVelocityMPS,
+                                                   ElevatorConstants.kTrajConfigMaxAccelMPSS);
 
     public NodePath(List<Node> path, Elevator elevator) {
         this.path = path;
