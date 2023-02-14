@@ -120,8 +120,19 @@ public final class Constants {
   
     public static final int kVisionLedOn = 0;
     public static final int kVisionLedOff = 1;
+
+    public static final double kLineupSpeed = 0.5;
+    public static final double kLineupAccuracy = 0.2;
+    public static final double kLineupDriveAllowance = -4.5;
   }
   
+  public static final class CandleConstants {
+    public static final int kCANdleID    = 1;
+  public static final int kMaxBrightnessAngle  = 90;
+  public static final int kMidBrightnessAngle  = 180;
+  public static final int kZeroBrightnessAngle = 270;
+  }
+
   /**
    * Static method containing all Intake constants 
    */

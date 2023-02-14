@@ -12,6 +12,9 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -52,17 +55,24 @@ public class DriveByController extends CommandBase {
   @Override
   public void execute() {
     double maxLinear = DriveConstants.kMaxSpeedMetersPerSecond;
-    double desiredX = -inputTransform(1.0*OI.getDriverLeftY())*maxLinear;
+    double desiredX = -inputTransform(OI.getDriverLeftY())*maxLinear;
     double desiredY = inputTransform(OI.getDriverLeftX())*maxLinear;
     Translation2d desiredTranslation = new Translation2d(desiredX, desiredY);
     double desiredMag = desiredTranslation.getDistance(new Translation2d());
 
     double desiredRot = inputTransform(OI.getDriverRightX())* DriveConstants.kMaxAngularSpeed;
 
+    // Pose2d temp = new Pose2d(desiredTranslation, new Rotation2d(desiredRot));
+    // temp = temp.transformBy(new Transform2d(new Translation2d(1, 0),new Rotation2d(desiredRot)));
+
     if(desiredMag >= maxLinear){
       desiredTranslation.times(maxLinear/desiredMag);
     }
-    m_robotDrive.drive(desiredTranslation.getX(), desiredTranslation.getY(),desiredRot,false,false);
+    m_robotDrive.drive(desiredTranslation.getX(), 
+                       desiredTranslation.getY(),
+                       desiredRot,
+                       true,
+                       true);
   }
 
   @Override

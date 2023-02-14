@@ -14,10 +14,16 @@ import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.RollerIntake;
+
+import frc.robot.commands.Autos.DriveStraightAuto;
+import frc.robot.commands.Autos.SigmoidPathAuto;
+import frc.robot.commands.Autos.DriveToPieceAuto;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.subsystems.drive.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -41,6 +47,9 @@ public class RobotContainer {
     = new OperateByController(m_elevator);
 
   private final Command doNothin = new WaitCommand(20.0);
+  private final Command SigmoidPath = new SigmoidPathAuto(m_drive, 1);
+  private final Command DriveStraight = new DriveStraightAuto(m_drive, 1);
+  private final Command DriveToPiece = new DriveToPieceAuto(m_drive, 1);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -66,13 +75,14 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
     OI.configureButtonBindings(m_drive, m_elevator, m_intake);
-
   }
 
 
   private void configureAutoChooser(){
     m_chooser.addOption("Do Nothing", doNothin);
-    
+    m_chooser.addOption("Sigmoid", SigmoidPath);
+    m_chooser.addOption("DriveStraight", DriveStraight);
+    m_chooser.addOption("DriveToPiece", DriveToPiece);
     m_chooser.setDefaultOption("Do Nothing", doNothin);
     SmartDashboard.putData(m_chooser);  
   }
