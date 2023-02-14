@@ -14,6 +14,7 @@ import frc.robot.Constants.IntakeConstants;
 public class RollerIntake extends SubsystemBase {
 
   private CANSparkMax m_intakeMotor;
+  boolean isReversed = false;
   
   /** Creates a new Intake. */
   public RollerIntake() {
@@ -28,6 +29,7 @@ public class RollerIntake extends SubsystemBase {
 
   public void intakeOn(){
     m_intakeMotor.set(IntakeConstants.kRollerIntakeSpeed);
+    isReversed = false;
   }
   
   public void intakeOff(){
@@ -36,5 +38,10 @@ public class RollerIntake extends SubsystemBase {
 
   public void intakeReverse(){
     m_intakeMotor.set(-IntakeConstants.kRollerIntakeSpeed);
+    isReversed = true;
+  }
+
+  public boolean getReversed(){
+    return isReversed;
   }
 }

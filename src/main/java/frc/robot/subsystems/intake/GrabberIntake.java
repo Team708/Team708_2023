@@ -16,6 +16,7 @@ public class GrabberIntake extends SubsystemBase{
     private RelativeEncoder m_clampEncoder;
 
     private boolean isOpen = false;
+    private boolean isReversed = false;
 
     public GrabberIntake(){
         m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
@@ -65,6 +66,7 @@ public class GrabberIntake extends SubsystemBase{
 
     public void intakeOn(){
         this.m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
+        isReversed = false;
     }
 
     public void intakeOff(){
@@ -73,6 +75,11 @@ public class GrabberIntake extends SubsystemBase{
 
     public void intakeReverse(){
         this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
+        isReversed = true;
+    }
+
+    public boolean getIsReversed(){
+        return isReversed;
     }
 
 }
