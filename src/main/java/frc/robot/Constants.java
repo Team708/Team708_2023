@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
   /**
    * Static method containing all constant values for the robot in one location
@@ -136,18 +137,95 @@ public final class Constants {
    * Static method containing all Intake constants 
    */
   public static final class IntakeConstants {
+    public static final int kIntakeMotorID = 40;
+    public static final int kClampMotorID = 41;
+    public static final int kIntakeEncoderCPR = 42;
+
+    public static final int kRollerGearRatio = 3; // 54 / 18
+    public static final double kRollerIntakeSpeed = 0.3;
     
+    public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
+    public static final double kCamOpenPose = 0.25;
+    public static final double kCamClosedPose = 0.0;
+    public static final double kCamIntakeSpeed = 0.5;
   }
   
   /**
    * Static method containing all Elevator constants 
    */
   public static final class ElevatorConstants {
-    //public static final int kMotor1ID = 31;
-    //public static final int kMotor2ID = 16;
-    //public static final double []kPIDF = {0.000075,0,0,0.000091};
+    public static final int kMotorAID = 31;
+    public static final int kMotorBID = 32;
+    
+    // Elevator trig constants
+    public static final double kElevatorCosAngle = Math.cos(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    public static final double kElevatorSinAngle = Math.sin(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    public static final double kElevatorTanAngle = Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle));
+    
+    //x and z in meters
+    //Reference point is from front of Robot frame and ground
+    public static final Translation2d kGroundPickupPose = new Translation2d(0.197+0.1,0.062); 
+    public static final Translation2d kStartPose = new Translation2d(-0.143+0.1,0.190); 
+    public static final Translation2d kLowCubePose = new Translation2d(0.660-0.1,0.716); 
+    public static final Translation2d kLowConePose = new Translation2d(0.660-0.1,1.029); 
+    public static final Translation2d kHighCubePose = new Translation2d(1.069,1.029); 
+    public static final Translation2d kHighConePose = new Translation2d(1.151-0.1,1.283);
+    
+    public static final Translation2d kGroundSafePose = new Translation2d(0.197+0.1,0.190+0.05);
+    public static final Translation2d kLowSafePose = new Translation2d(0.263+0.17,0.716);
+    public static final Translation2d kMidSafePose = new Translation2d(0.303+0.3,1.029);
+    public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
+
+    //Elevator Boundaries, meters
+    public static final double kLeftBound = -0.051; 
+    public static final double kRightBound = 1.16; 
+    public static final double kLowerBound = 0;
+    public static final double kUpperBound = 1.497;
+    public static final double kBumperCoord2 = 0.167925;
+    public static final double kBumperCoord1 = 0.25;
+    public static final double kMiddleBound = 0.444;
+    public static final double kLowConeLeftBound = 0.638;
+    public static final double kLowConeUpperBound = 0.878;
+    public static final double kCubeMiddleShelf = 0.607;
+    public static final double kCubeMiddleShelfBack = 0.877;
+    public static final double kCubeTopShelf = 0.907;
+    public static final double kHighConeLeftBound = 1.065;
+    public static final double kHighConeUpperBound = 1.181;
+    public static final double diagy1 = .2;
+
+    public static final double kMaxSpeedMetersPerSecond = 10;
+    public static final double kElevatorAngle = 55;
+    public static final double []kPID_X = {20,0,0.0};
+    public static final double []kPID_Z = {20,0,0.0}; //{50,0.5,1};
+    public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.563);
+    public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);
+    public static final double kElevatorGearingA = 200/33; //40:12, 40:22
+    public static final double kElevatorGearingB = 44/9; //40:12, 44:30
+    public static final double kMinElevatorHeight = 0.0; //m
+    public static final double kMaxElevatorHeight = 1.5; //m
+    public static final double kMinElevatorReach = -0.2; //m
+    public static final double kMaxElevatorReach = 1.219; //m
+    
+    // distance per pulse = (distance per revolution) / (pulses per revolution)
+    //  = (Pi * D) / ppr
+    public static final double kElevatorEncoderConversionFactorA =
+        (2.0 * Math.PI * kElevatorPulleyRadiusA) / kElevatorGearingA;
+
+    public static final double kElevatorEncoderConversionFactorB =
+        (2.0 * Math.PI * kElevatorPulleyRadiusB) / kElevatorGearingB;
+     
+    public static final double kRobotBumperThickness = Units.inchesToMeters(3);//m
+    public static final double kEndEffectorLength = Units.inchesToMeters(0.01); //22.585);//m
+    public static final double kElevatorSetbackFromOrigin = 0.797; //m
+    public static final double kElevatorXLength = 0.574;//m
+    public static final double kElevatorHeightFromOrigin = 0.215;
+
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
+    public static final double kPositionTolerance = 0.001; //m
+
+    public static final double kTrajConfigMaxVelocityMPS = 1;
+    public static final double kTrajConfigMaxAccelMPSS = 2;
   }
   
   /**
@@ -174,6 +252,34 @@ public final class Constants {
       public static final int kDriverControllerPort = 0;    //When making use of multiple controllers for drivers each controller will be on a different port
       public static final int kOperatorControllerPort = 1;  //When making use of multiple controllers for drivers each controller will be on a different port
       
+    }
+
+    /**
+    * Static method containing all robot simulation constants 
+    */
+    public static final class SimConstants {
+      //Game Specific
+      //Grid
+      public static final double kGridDepth = 1.38; //m
+      public static final double kGridHeight = 1.17; //m
+      public static final double kBarrierHeight = 0.13; //m
+      public static final double kGridRampStart = 0.41; //m
+      public static final double kMidConeNodeDepth = 0.58; //m
+      public static final double kMidConeNodeHeight = 0.87; //m
+      public static final double kHighConeNodeDepth = 1.01; //m
+      public static final double kHighConeNodeHeight = 1.17; //m
+      public static final double kConeNodeDiameter = 0.04; //m
+      public static final double kMidCubeNodeDepth = 0.36; //m
+      public static final double kMidCubeNodeHeight = 0.90; //m
+      public static final double kHighCubeNodeDepth = 0.80; //m
+      public static final double kHighCubeNodeHeight = 0.60; //m
+      //Charge Station
+      public static final double kChargeStationWidth = 1.93; //m
+      public static final double kChargeStationPlatformWidth = 1.22; //m
+      public static final double kChargeStationHeight = 0.23; //m
+      public static final double kCommunitWidth = 1.54; //m
+
+
     }
   }
   

@@ -10,9 +10,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.OperateByController;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.intake.RollerIntake;
+
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.SigmoidPathAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -31,9 +37,14 @@ public class RobotContainer {
   // private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
   private final Drivetrain m_drive = new Drivetrain();
+  private final Elevator m_elevator = new Elevator();
+  private final RollerIntake m_intake = new RollerIntake();
 
   private final DriveByController m_driveByController
     = new DriveByController(m_drive, OI.driverController);
+
+  private final OperateByController m_operateByController
+    = new OperateByController(m_elevator);
 
   private final Command doNothin = new WaitCommand(20.0);
   private final Command SigmoidPath = new SigmoidPathAuto(m_drive, 1);
@@ -49,6 +60,7 @@ public class RobotContainer {
     configureAutoChooser();
 
     m_drive.setDefaultCommand(m_driveByController);
+    m_elevator.setDefaultCommand(m_operateByController);
   }
 
   /**
@@ -62,8 +74,7 @@ public class RobotContainer {
     new POVButton(OI.driverController, 0)
         .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
 
-    OI.configureButtonBindings(m_drive);
-
+    OI.configureButtonBindings(m_drive, m_elevator, m_intake);
   }
 
 
@@ -86,7 +97,17 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
+  public void simulationInit(){
+    m_elevator.simulationInit();
+  }
+
+  /** This function is called periodically whilst in simulation. */
+  public void simulationPeriodic() {
+    m_elevator.simulationPeriodic();
+  }
+
   public void sendToDashboard() {
     m_drive.sendToDashboard();
+    m_elevator.sendToDashboard();
   }
 }

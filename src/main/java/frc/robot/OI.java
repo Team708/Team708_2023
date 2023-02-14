@@ -1,6 +1,8 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.elevator.ElevatorToNode;
+import frc.robot.commands.rollerIntake.RollerIntakeOn;
 // import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.TurnToCommand;
@@ -8,6 +10,9 @@ import frc.robot.commands.drive.TurnToCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.intake.RollerIntake;
+import frc.robot.subsystems.sim.ElevatorSimulation;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class OI {
@@ -46,17 +51,17 @@ public class OI {
 	// 	return deadBand(operatorController.getLeftX(), ControllerConstants.kOperatorDeadBandLeftX);
 	// }
 
-	// public static double getOperatorRightX() {
-	// 	return deadBand(operatorController.getRightX(), ControllerConstants.kOperatorDeadBandRightX);
-	// }
+	public static double getOperatorRightX() {
+		return operatorController.getRightX();
+	}
 
-	// public static double getOperatorLeftY() {
-	// 	return deadBand(operatorController.getLeftY(), ControllerConstants.kOperatorDeadBandLeftY);
-	// }
+	public static double getOperatorLeftY() {
+		return operatorController.getLeftY();
+	}
 
-	// public static double getOperatorRightY() {
-	// 	return deadBand(operatorController.getRightY(), ControllerConstants.kOperatorDeadBandRightY);
-	// }
+	public static double getOperatorRightY() {
+		return operatorController.getRightY();
+	}
 
 	// public static double getClimberLeftY() {
 	// 	return deadBand(climberController.getLeftY(), ControllerConstants.kClimberDeadBandLeftY);
@@ -67,7 +72,7 @@ public class OI {
 	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
 	// }
 
-	public static void configureButtonBindings(Drivetrain m_robotDrive) {
+	public static void configureButtonBindings(Drivetrain m_robotDrive,Elevator m_elevator,RollerIntake m_intake) {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
@@ -112,8 +117,7 @@ public class OI {
 				// 		.whenPressed(new /*Command*/);
 
 		// new JoystickButton(driverController, Button.kB.value)
-		// 		.whileHeld(new /*Command*/)
-		// 		.whenReleased(new /*Command*/);
+		// 		.whenPressed(new /*Command*/);
 				
 		// new JoystickButton(driverController, Button.kStart.value)
 		// 		.whenPressed(new /*Command*/);
@@ -128,10 +132,29 @@ public class OI {
 		// 		.whenPressed(new /*Command*/);
 		
 		// new DPadButton(driverController, DPadButton.Direction.DOWN)
-		// 		.whileHeld(new /*Command*/);
-		
-		
+		// 		.whenPressed(new /*Command*/);
+
+
 		//OPERATOR//
+				
+		
+		// new JoystickButton(operatorController, Button.kLeftBumper.value)
+		// 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
+		
+		new JoystickButton(operatorController, Button.kRightBumper.value)
+				.toggleOnTrue(new RollerIntakeOn(m_intake));
+	
+		new JoystickButton(operatorController, Button.kB.value)
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.G));
+				
+		new JoystickButton(operatorController, Button.kA.value)
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.A));
+				
+		new JoystickButton(operatorController, Button.kX.value)
+				.onTrue(new ElevatorToNode(m_elevator, Elevator.J));
+
+		new JoystickButton(operatorController, Button.kY.value)
+		 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
 		
 		// new JoystickButton(operatorController, Button.kLeftStick.value)
 		// 				.whileTrue(new (m_robotDrive));
