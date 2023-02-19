@@ -195,8 +195,8 @@ public final class Constants {
 
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;
-    public static final double []kPID_X = {20,0,0.0};
-    public static final double []kPID_Z = {20,0,0.0}; //{50,0.5,1};
+    public static final double []kPID_A = {20,0,0.0};
+    public static final double []kPID_B = {5,0,0.0}; //{50,0.5,1};
     public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.563);
     public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);
     public static final double kElevatorGearingA = 200/33; //40:12, 40:22

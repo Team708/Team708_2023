@@ -35,16 +35,13 @@ public class Elevator extends SubsystemBase {
   /* Creates a new Elevator. */
   private CANSparkMax m_elevatorMotorA, m_elevatorMotorB;
   private RelativeEncoder m_encoderA, m_encoderB;
-  private double m_setposX, m_setposZ;
-  private ProfiledPIDController m_pidControllerX, m_pidControllerZ;
+  private double m_setposX = 0.5, m_setposZ;
+  private ProfiledPIDController m_pidControllerA, m_pidControllerB;
   private double outputX, outputZ, outputA, outputB;
   private double m_measureX, m_measureZ;
 
     //collision check
   private boolean isColliding = false;
-
-  private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
-  private final SlewRateLimiter m_slewZ = new SlewRateLimiter(12.0);
 
   private ElevatorSimulation m_elevatorSim = null;
 
@@ -91,8 +88,8 @@ public class Elevator extends SubsystemBase {
     
     //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
     //each axis will require unique PID gains.
-    m_pidControllerX = new ProfiledPIDController(ElevatorConstants.kPID_X[0], ElevatorConstants.kPID_X[1], ElevatorConstants.kPID_X[2], new Constraints(30.0,  10));
-    m_pidControllerZ = new ProfiledPIDController(ElevatorConstants.kPID_Z[0], ElevatorConstants.kPID_Z[1], ElevatorConstants.kPID_Z[2],new Constraints(30.0,  10));
+    m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(30.0,  5));
+    m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2],new Constraints(30.0,  5));
 
     //Generate a list of nodes as waypoints for the elevator
     map = new HashMap<String, Node>();
@@ -124,16 +121,17 @@ public class Elevator extends SubsystemBase {
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
-    checkBoundary(m_setposX, m_measureZ);
-    //outputX calculates the error between getX and setposX
-    outputX = m_pidControllerX.calculate(m_measureX, m_setposX);
+    // checkBoundary();
 
-    //outputZ calculates the error between getZ and setposZ
-    outputZ = m_pidControllerZ.calculate(m_measureZ, m_setposZ);
-        
     //convert cartesian setpoints to motor positions
-    outputA = getA(outputZ);
-    outputB = getB(outputX, outputZ);
+    double setPointA = getA(m_setposZ);
+    double setPointB = getB(m_setposX, m_setposZ);
+
+    //outputA calculates the error between A motor position and the A setpoint
+    outputA = m_pidControllerA.calculate(m_encoderA.getPosition(), setPointA);
+
+    //outputB calculates the error between B motor position and the B setpoint
+    outputB = m_pidControllerB.calculate(m_encoderB.getPosition(), setPointB);
 
     //set motion positions
     m_elevatorMotorA.setVoltage(outputA);
@@ -185,7 +183,6 @@ public class Elevator extends SubsystemBase {
   }
 
   /**
-   * @param X horizontal distance
    * @param Z vertical distance
    * @return position of motor A
    */
@@ -307,7 +304,7 @@ public class Elevator extends SubsystemBase {
     m_elevatorSim.drawTrajectory(t);
   }
 
-  private void checkBoundary(double X, double Z){
+  private void checkBoundary(){
     //outer bounds
     if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
       m_setposX = ElevatorConstants.kLeftBound;
