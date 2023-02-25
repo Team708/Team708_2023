@@ -16,7 +16,6 @@ public class DriveStraightAuto extends SequentialCommandGroup {
   public DriveStraightAuto(Drivetrain dr, double maxSpeed) {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveStraight", maxSpeed, true);
     addCommands(
-      new ResetDriveCommand(dr, new Rotation2d()),
       path
       );
   }
