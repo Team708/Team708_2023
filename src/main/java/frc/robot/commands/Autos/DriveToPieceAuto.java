@@ -18,6 +18,7 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
       new InvertDriveCommand(dr),
       new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
       path,
-      new InvertDriveCommand(dr));
+      andThen(new InvertDriveCommand(dr)));
   }
+    
 }
