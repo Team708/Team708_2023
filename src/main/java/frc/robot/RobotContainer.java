@@ -47,7 +47,7 @@ public class RobotContainer {
   private final GrabberIntake m_intake = new GrabberIntake();
 
   private final DriveByController m_driveByController
-    = new DriveByController(m_drive, OI.driverController);
+    =  DriveByController.getInstance(m_drive);
 
   private final OperateByController m_operateByController
     = new OperateByController(m_elevator);

@@ -41,7 +41,8 @@ import frc.robot.Utilities.FieldRelativeSpeed;
   private double lastDriveTime = 0.0;   //Double to store the time of the last translation command
 
   private boolean m_readyToShoot = false;
-
+  private boolean fieldOrient = true;
+  
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewY = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewRot = new SlewRateLimiter(20.0);
@@ -172,6 +173,16 @@ import frc.robot.Utilities.FieldRelativeSpeed;
 
         m_field.getRobotObject().setPose(getPose());
   }
+
+
+  public void setFieldOrient(boolean fieldOrient){
+    this.fieldOrient = fieldOrient;
+  }
+
+  public boolean getFieldOrient(){
+    return fieldOrient;
+  }
+
 
   /**
    * Sets the swerve ModuleStates.
