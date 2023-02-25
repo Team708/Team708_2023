@@ -14,8 +14,10 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
   public DriveToPieceAuto(Drivetrain dr, double maxSpeed) {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
     addCommands(
+      new InvertDriveCommand(dSubsystem),
       new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
       path
-      );
+      )
+      new InvertDriveCommand(dSubsystem);
   }
 }

@@ -193,6 +193,15 @@ public class SwerveModule extends SubsystemBase {
     return m_velocity;
   }
 
+  public void invertDrive(){
+    if (m_driveMotor.getInverted()){
+      m_driveMotor.setInverted(false);
+    }
+    else {
+      m_driveMotor.setInverted(true);
+    }
+  }
+
   /**
    * Obtains the negative of the turning absolute encoder value as this encoder reads opposite of the module rotation on 
    * 2910 MK2 swerve.

@@ -344,6 +344,15 @@ import frc.robot.Utilities.FieldRelativeSpeed;
       m_backRight.getPosition()};
   }
 
+  public void invertDrive(){
+    m_frontLeft.invertDrive();
+    m_frontRight.invertDrive();
+    m_backLeft.invertDrive();
+    m_backRight.invertDrive();
+  }
+
   public void sendToDashboard() {
   }
+
+
 }
