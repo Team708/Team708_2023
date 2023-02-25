@@ -186,7 +186,7 @@ public final class Constants {
     //x and z in meters
     //Reference point is from front of Robot frame and ground
     //NEW
-    public static final Translation2d kGroundPickupPose = new Translation2d(0.5236,-0.006); 
+    public static final Translation2d kGroundPickupPose = new Translation2d(0.5736,-0.006); 
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2); 
     public static final Translation2d kLowCubePose = new Translation2d(0.7204,0.7989); 
     public static final Translation2d kLowConePose = new Translation2d(0.8222,1.1065); 
