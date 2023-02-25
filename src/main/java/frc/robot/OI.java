@@ -102,17 +102,30 @@ public class OI {
 		new JoystickButton(driverController, Button.kRightStick.value)
 				.whileTrue(new LockWheels(m_robotDrive));
 				
-		new JoystickButton(driverController, Button.kA.value)
-				.onTrue(new TurnToCommand(180, m_robotDrive));
+		// new JoystickButton(driverController, Button.kA.value)
+		// 		.onTrue(new TurnToCommand(180, m_robotDrive));
 								
+		// new JoystickButton(driverController, Button.kB.value)
+		// 		.onTrue(new TurnToCommand(90, m_robotDrive));
+				
+		// new JoystickButton(driverController, Button.kX.value)
+		// 		.onTrue(new TurnToCommand(270, m_robotDrive));
+				
+		// new JoystickButton(driverController, Button.kY.value)
+		// 		.onTrue(new TurnToCommand(0, m_robotDrive));
+
+		new JoystickButton(driverController, Button.kA.value)
+		.whileTrue(new InstantCommand(() -> DriveByController.getInstance(m_robotDrive).setAutoRotate(180)));
+
 		new JoystickButton(driverController, Button.kB.value)
-				.onTrue(new TurnToCommand(90, m_robotDrive));
-				
+				.onTrue(new InstantCommand(() -> DriveByController.getInstance(m_robotDrive).setAutoRotate(270)));
+
 		new JoystickButton(driverController, Button.kX.value)
-				.onTrue(new TurnToCommand(270, m_robotDrive));
-				
+				.onTrue(new InstantCommand(() -> DriveByController.getInstance(m_robotDrive).setAutoRotate(90)));
+
 		new JoystickButton(driverController, Button.kY.value)
-				.onTrue(new TurnToCommand(0, m_robotDrive));
+				.whileTrue(new InstantCommand(() -> DriveByController.getInstance(m_robotDrive).setAutoRotate(0)));
+
 
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new ResetDriveCommand(m_robotDrive));
