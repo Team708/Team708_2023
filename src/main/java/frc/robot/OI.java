@@ -7,6 +7,7 @@ import frc.robot.commands.rollerIntake.RollerIntakeOff;
 import frc.robot.commands.rollerIntake.RollerIntakeOn;
 // import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
+import frc.robot.commands.drive.ResetDriveCommand;
 import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.grabberIntake.GrabberIntakeOff;
@@ -17,6 +18,7 @@ import frc.robot.commands.grabberIntake.ToggleGrabberForwardReverse;
 import frc.robot.commands.grabberIntake.ToggleGrabberOpenClosed;
 import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
+import frc.robot.commands.drive.ResetDriveCommand;
 
 import java.time.Instant;
 
@@ -111,6 +113,9 @@ public class OI {
 				
 		new JoystickButton(driverController, Button.kY.value)
 				.onTrue(new TurnToCommand(0, m_robotDrive));
+
+		new JoystickButton(driverController, Button.kBack.value)
+				.onTrue(new ResetDriveCommand(m_robotDrive));
 				
 				// new JoystickButton(driverController, Button.kRightBumper.value)
 				// 		.whenPressed(() -> /*Command*/)

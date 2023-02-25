@@ -51,10 +51,10 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderPort = 13;    //Analog Port of the Module Absolute Encoder
     public static final int kBackRightTurningEncoderPort = 11;   //Analog Port of the Module Absolute Encoder
 
-    public static final double kFrontLeftOffset = -96.85278568891435;//Encoder Offset in Degrees
-    public static final double kFrontRightOffset = -122.25731340671564;  //Encoder Offset in Degrees
-    public static final double kBackLeftOffset = 0.1776169164905552;   //Encoder Offset in Degrees
-    public static final double kBackRightOffset = -111.97272098411736;  //Encoder Offset in Degrees
+    public static final double kFrontLeftOffset = 180-96.85278568891435;//Encoder Offset in Degrees
+    public static final double kFrontRightOffset = 180-122.25731340671564;  //Encoder Offset in Degrees
+    public static final double kBackLeftOffset = 0.1776169164905552-180;   //Encoder Offset in Degrees
+    public static final double kBackRightOffset = 180-111.97272098411736;  //Encoder Offset in Degrees
 
     //Drive motor PID is best done on the roboRIO currently as the SparkMAX does not allow for static gain values on the PID controller, 
     //    these are necessary to have high accuracy when moving at extremely low RPMs
@@ -70,10 +70,10 @@ public final class Constants {
 
     //.324 - sideways
     //.414 - longways
-    public static final Translation2d kFrontLeftLocation = new Translation2d(0.414,-0.324); // +X is forward, +Y is to the right 
-    public static final Translation2d kFrontRightLocation = new Translation2d(0.414,0.324); // +X is forward, +Y is to the right
-    public static final Translation2d kBackLeftLocation = new Translation2d(-0.414,-0.324); // +X is forward, +Y is to the right
-    public static final Translation2d kBackRightLocation = new Translation2d(-0.414,0.324); // +X is forward, +Y is to the right
+    public static final Translation2d kFrontLeftLocation = new Translation2d(0.414,0.324); // +X is forward, +Y is to the right 
+    public static final Translation2d kFrontRightLocation = new Translation2d(0.414,-0.324); // +X is forward, +Y is to the right
+    public static final Translation2d kBackLeftLocation = new Translation2d(-0.414,0.324); // +X is forward, +Y is to the right
+    public static final Translation2d kBackRightLocation = new Translation2d(-0.414,-0.324); // +X is forward, +Y is to the right
     // public static final Translation2d kFrontLeftLocation = new Translation2d(0.33,-0.264); // +X is forward, +Y is to the right 
     // public static final Translation2d kFrontRightLocation = new Translation2d(0.33,0.264); // +X is forward, +Y is to the right
     // public static final Translation2d kBackLeftLocation = new Translation2d(-0.376,-0.264); // +X is forward, +Y is to the right

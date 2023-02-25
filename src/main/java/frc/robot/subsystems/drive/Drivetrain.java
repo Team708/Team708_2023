@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -19,6 +20,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.*;
 import frc.robot.Utilities.FieldRelativeAccel;
 import frc.robot.Utilities.FieldRelativeSpeed;
@@ -82,6 +84,7 @@ import frc.robot.Utilities.FieldRelativeSpeed;
   ProfiledPIDController thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0,
     AutoConstants.kThetaControllerConstraints);
 
+  private final Field2d m_field;
     /**
    * Constructs a Drivetrain and resets the Gyro and Keep Angle parameters
    */
@@ -93,7 +96,12 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d());
     CommandScheduler.getInstance().registerSubsystem(this);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
-  }
+
+    m_field = new Field2d();
+
+    SmartDashboard.putData("Field", m_field);
+    }
+
 
   /**
    * Method to drive the robot using joystick info.
@@ -161,6 +169,8 @@ import frc.robot.Utilities.FieldRelativeSpeed;
 
         //Calls get pose function which sends the Pose information to the SmartDashboard
         getPose();
+
+        m_field.getRobotObject().setPose(getPose());
   }
 
   /**

@@ -56,11 +56,11 @@ public class DriveByController extends CommandBase {
   public void execute() {
     double maxLinear = DriveConstants.kMaxSpeedMetersPerSecond;
     double desiredX = -inputTransform(OI.getDriverLeftY())*maxLinear;
-    double desiredY = inputTransform(OI.getDriverLeftX())*maxLinear;
+    double desiredY = -inputTransform(OI.getDriverLeftX())*maxLinear;
     Translation2d desiredTranslation = new Translation2d(desiredX, desiredY);
     double desiredMag = desiredTranslation.getDistance(new Translation2d());
 
-    double desiredRot = inputTransform(OI.getDriverRightX())* DriveConstants.kMaxAngularSpeed;
+    double desiredRot = -inputTransform(OI.getDriverRightX())* DriveConstants.kMaxAngularSpeed;
 
     // Pose2d temp = new Pose2d(desiredTranslation, new Rotation2d(desiredRot));
     // temp = temp.transformBy(new Transform2d(new Translation2d(1, 0),new Rotation2d(desiredRot)));
