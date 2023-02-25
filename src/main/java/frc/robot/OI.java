@@ -23,6 +23,7 @@ import frc.robot.commands.drive.ResetDriveCommand;
 
 import java.time.Instant;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -129,7 +130,7 @@ public class OI {
 
 
 		new JoystickButton(driverController, Button.kBack.value)
-				.onTrue(new ResetDriveCommand(m_robotDrive));
+				.onTrue(new ResetDriveCommand(m_robotDrive, new Rotation2d()));
 				
 				// new JoystickButton(driverController, Button.kRightBumper.value)
 				// 		.whenPressed(() -> /*Command*/)

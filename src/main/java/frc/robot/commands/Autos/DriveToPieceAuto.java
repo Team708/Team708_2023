@@ -4,10 +4,12 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Utilities.AutoFromPathPlanner;
 import frc.robot.commands.drive.InvertDriveCommand;
+import frc.robot.commands.drive.ResetDriveCommand;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class DriveToPieceAuto extends SequentialCommandGroup {
@@ -15,8 +17,8 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
   public DriveToPieceAuto(Drivetrain dr, double maxSpeed) {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
     addCommands(
+      new ResetDriveCommand(dr, new Rotation2d()),
       new InvertDriveCommand(dr),
-      new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
       path,
       new InvertDriveCommand(dr)
       );
