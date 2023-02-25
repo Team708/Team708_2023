@@ -6,6 +6,7 @@ import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
 import frc.robot.commands.rollerIntake.RollerIntakeOff;
 import frc.robot.commands.rollerIntake.RollerIntakeOn;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.drive.InvertDriveCommand;
 // import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.ResetDriveCommand;
@@ -128,6 +129,8 @@ public class OI {
 		new JoystickButton(driverController, Button.kY.value)
 				.whileTrue(new InstantCommand(() -> DriveByController.getInstance(m_robotDrive).setAutoRotate(0)));
 
+		new JoystickButton(driverController, Button.kStart.value)
+				.onTrue(new InvertDriveCommand(m_robotDrive));
 
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new ResetDriveCommand(m_robotDrive, new Rotation2d()));
