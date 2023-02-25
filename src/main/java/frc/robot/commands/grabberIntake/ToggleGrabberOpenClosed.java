@@ -19,11 +19,11 @@ public class ToggleGrabberOpenClosed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(intake.getIsOpen()){
-      intake.closeClamp();
-    }else{
-      intake.openClamp();
-    }
+    // if(intake.getIsOpen()){
+    //   intake.closeClamp();
+    // }else{
+    //   intake.openClamp();
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

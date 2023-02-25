@@ -151,7 +151,7 @@ public final class Constants {
     public static final double kRollerIntakeSpeed = 1.0;
     
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
-    public static final double kCamOpenPose = 0.25;
+    public static final double kCamOpenPose = 2275.0;
     public static final double kCamClosedPose = 0.0;
     public static final double kCamIntakeSpeed = 0.5; //.5
     
@@ -191,10 +191,10 @@ public final class Constants {
     public static final Translation2d kLowCubePose = new Translation2d(0.7204,0.7989); 
     public static final Translation2d kLowConePose = new Translation2d(0.8222,1.1065); 
     public static final Translation2d kHighCubePose = new Translation2d(1.2129,1.1570); 
-    public static final Translation2d kHighConePose = new Translation2d(1.3258,1.3721);
+    public static final Translation2d kHighConePose = new Translation2d(1.3258,1.3221);
     
-    public static final Translation2d kGroundSafePose = new Translation2d(0.197+0.1,0.190+0.05);
-    public static final Translation2d kLowSafePose = new Translation2d(0.4128,0.3086);
+    public static final Translation2d kGroundSafePose = new Translation2d(0.4128,0.3086);
+    public static final Translation2d kLowSafePose = new Translation2d(0.6128,0.7989);
     public static final Translation2d kMidSafePose = new Translation2d(0.6806,0.9637);
     public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.3976);
 
@@ -218,7 +218,7 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;
     public static final double []kPID_A = {20,0,0.0}; //20,0,0
-    public static final double []kPID_B = {8,0,0.0}; //{50,0.5,1};
+    public static final double []kPID_B = {20,0,0.0}; //{8,0.0,0};
     public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.6365);
     public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);
     public static final double kElevatorGearingA = 44/9; //40:12, 44:30

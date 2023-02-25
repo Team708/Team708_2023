@@ -10,18 +10,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.commands.elevator.ElevatorToGround;
-import frc.robot.commands.elevator.ElevatorToGroundSafe;
-import frc.robot.commands.elevator.ElevatorToHighCone;
-import frc.robot.commands.elevator.ElevatorToHighCube;
-import frc.robot.commands.elevator.ElevatorToHighSafe;
-import frc.robot.commands.elevator.ElevatorToLowCone;
-import frc.robot.commands.elevator.ElevatorToLowCube;
-import frc.robot.commands.elevator.ElevatorToLowSafe;
-import frc.robot.commands.elevator.ElevatorToMidSafe;
-import frc.robot.commands.elevator.ElevatorToStart;
 import frc.robot.subsystems.Elevator;
 
 public class NodePath {
@@ -40,38 +29,6 @@ public class NodePath {
     public List<Translation2d> getTranslationPath() {
         ArrayList<Translation2d> ret = new ArrayList<Translation2d>();
         path.stream().forEach(i -> ret.add(i.getPosition()));
-        return ret;
-    }
-
-    /**
-     * @deprecated
-     * @return A list of commands that sort of represent the elevator's movements
-     */
-    public List<Command> translateToCommandPath() {
-        ArrayList<Command> ret = new ArrayList<Command>();
-        for (Node n : path) {
-            if (n.getIdentifier().equals("GROUND_PICKUP")) {
-                ret.add(new ElevatorToGround(elevator));
-            } else if (n.getIdentifier().equals("GROUND_SAFE")) {
-                ret.add(new ElevatorToGroundSafe(elevator));
-            } else if (n.getIdentifier().equals("HIGH_CONE")) {
-                ret.add(new ElevatorToHighCone(elevator));
-            } else if (n.getIdentifier().equals("HIGH_CUBE")) {
-                ret.add(new ElevatorToHighCube(elevator));
-            } else if (n.getIdentifier().equals("HIGH_SAFE")) {
-                ret.add(new ElevatorToHighSafe(elevator));
-            } else if (n.getIdentifier().equals("LOW_CONE")) {
-                ret.add(new ElevatorToLowCone(elevator));
-            } else if (n.getIdentifier().equals("LOW_CUBE")) {
-                ret.add(new ElevatorToLowCube(elevator));
-            } else if (n.getIdentifier().equals("LOW_SAFE")) {
-                ret.add(new ElevatorToLowSafe(elevator));
-            } else if (n.getIdentifier().equals("MID_SAFE")) {
-                ret.add(new ElevatorToMidSafe(elevator));
-            } else if (n.getIdentifier().equals("START")) {
-                ret.add(new ElevatorToStart(elevator));
-            }
-        }
         return ret;
     }
 

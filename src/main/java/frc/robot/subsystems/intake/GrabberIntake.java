@@ -20,8 +20,6 @@ public class GrabberIntake extends SubsystemBase{
     private boolean isOpen = false;
     private boolean isReversed = false;
 
-    PIDController controller = new PIDController(1, 0, 0); //SET AS CONSTANTS
-
     public GrabberIntake(){
         m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
         m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
@@ -35,6 +33,7 @@ public class GrabberIntake extends SubsystemBase{
 
         m_clampEncoder = m_clampMotor.getEncoder();
         m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
+        m_clampEncoder.setPosition(0.0);
     }
 
     @Override
@@ -42,10 +41,13 @@ public class GrabberIntake extends SubsystemBase{
       // This method will be called once per scheduler run
     }
 
-    public void setCamPosition(double angle){
-        // double output = controller.calculate(m_clampEncoder.getPosition(), angle);
+    public void setCamSpeed(double output){
         // m_clampMotor.setVoltage(output);
-        m_clampMotor.set(angle);
+        m_clampMotor.set(output);
+    }
+
+    public void setCamPosition(double position){
+        m_clampEncoder.setPosition(position);
     }
 
     public double getCamPosition(){

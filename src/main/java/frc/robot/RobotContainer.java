@@ -20,7 +20,7 @@ import frc.robot.subsystems.intake.RollerIntake;
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.SigmoidPathAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
-
+import frc.robot.commands.Autos.LineAndBalanceAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -55,6 +55,8 @@ public class RobotContainer {
   private final Command SigmoidPath = new SigmoidPathAuto(m_drive, 1);
   private final Command DriveStraight = new DriveStraightAuto(m_drive, 1);
   private final Command DriveToPiece = new DriveToPieceAuto(m_drive, 1);
+  
+  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive, 1, m_elevator, m_intake);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -88,6 +90,7 @@ public class RobotContainer {
     m_chooser.addOption("Sigmoid", SigmoidPath);
     m_chooser.addOption("DriveStraight", DriveStraight);
     m_chooser.addOption("DriveToPiece", DriveToPiece);
+    m_chooser.addOption("ScoreLineBalance", ScoreLineBalance);
     m_chooser.setDefaultOption("Do Nothing", doNothin);
     SmartDashboard.putData(m_chooser);  
   }

@@ -15,7 +15,6 @@ import frc.robot.OI;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.*;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class ElevatorToNode extends CommandBase {
 

@@ -12,30 +12,16 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.Trajectory.State;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator.ControlVectorList;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.SPI;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.Utilities.FieldRelativeAccel;
 import frc.robot.Utilities.FieldRelativeSpeed;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.drive.PigeonTwo;
 
   /**
    * Implements a swerve Drivetrain Subsystem for the Robot
@@ -123,9 +109,9 @@ import frc.robot.subsystems.drive.PigeonTwo;
     SmartDashboard.putBoolean("fieldRelative", fieldRelative);
     SmartDashboard.putBoolean("keepAngle", keepAngle);
 
-    if(keepAngle){
-      rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
-    }
+    // if(keepAngle){
+    //   rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
+    // }
     
     xSpeed = m_slewX.calculate(xSpeed);
     ySpeed = m_slewY.calculate(ySpeed);
@@ -176,27 +162,6 @@ import frc.robot.subsystems.drive.PigeonTwo;
         //Calls get pose function which sends the Pose information to the SmartDashboard
         getPose();
   }
-  
-  // public SwerveControllerCommand goToPoseCommand(Pose2d pose){
-  //   SwerveControllerCommand goToPoseCommand = new SwerveControllerCommand(
-  //     TrajectoryGenerator.generateTrajectory(
-  //       getPose(),
-  //       List.of(),
-  //       pose, 
-  //       new TrajectoryConfig(
-  //         Constants.DriveConstants.kMaxSpeedMetersPerSecond, 
-  //         Constants.DriveConstants.kMaxAcceleration)
-  //         .setKinematics(Constants.DriveConstants.kDriveKinematics)), 
-  //     () -> getPose(), 
-  //     Constants.DriveConstants.kDriveKinematics,
-  //     new HolonomicDriveController(
-  //       new PIDController(AutoConstants.kPXController, 0, 0), 
-  //       new PIDController(AutoConstants.kPYController, 0, 0),
-  //       thetaController),
-  //     this::setModuleStates,
-  //     this);
-  //     return goToPoseCommand;
-  // }
 
   /**
    * Sets the swerve ModuleStates.

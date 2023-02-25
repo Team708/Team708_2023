@@ -13,7 +13,7 @@ public class GrabberIntakeOn extends CommandBase {
 
   public GrabberIntakeOn(GrabberIntake m_intake) {
     this.m_intake = m_intake;
-    addRequirements(m_intake);
+    // addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.

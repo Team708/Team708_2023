@@ -13,14 +13,14 @@ public class GrabberIntakeOpen extends CommandBase {
 
   public GrabberIntakeOpen(GrabberIntake m_intake) {
     this.m_intake = m_intake;
-    addRequirements(m_intake);
+    // addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // m_intake.openClamp();
-    m_intake.setCamPosition(0.6);
+    m_intake.openClamp();
+    // m_intake.setCamSpeed(0.6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
