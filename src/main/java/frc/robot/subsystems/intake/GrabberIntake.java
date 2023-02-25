@@ -5,6 +5,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.CurrentLimit;
@@ -17,6 +19,8 @@ public class GrabberIntake extends SubsystemBase{
 
     private boolean isOpen = false;
     private boolean isReversed = false;
+
+    PIDController controller = new PIDController(1, 0, 0); //SET AS CONSTANTS
 
     public GrabberIntake(){
         m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
@@ -38,8 +42,14 @@ public class GrabberIntake extends SubsystemBase{
       // This method will be called once per scheduler run
     }
 
-    public void setCamPosition(double rotations){
-        m_clampEncoder.setPosition(rotations);
+    public void setCamPosition(double angle){
+        // double output = controller.calculate(m_clampEncoder.getPosition(), angle);
+        // m_clampMotor.setVoltage(output);
+        m_clampMotor.set(angle);
+    }
+
+    public double getCamPosition(){
+        return m_clampEncoder.getPosition();
     }
 
     public void openClamp(){
@@ -80,6 +90,10 @@ public class GrabberIntake extends SubsystemBase{
 
     public boolean getIsReversed(){
         return isReversed;
+    }
+
+    public void sendToDashboard(){
+        SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
     }
 
 }

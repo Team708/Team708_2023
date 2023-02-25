@@ -14,7 +14,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,7 +21,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.OI;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.Branch;
@@ -35,8 +34,9 @@ public class Elevator extends SubsystemBase {
   /* Creates a new Elevator. */
   private CANSparkMax m_elevatorMotorA, m_elevatorMotorB;
   private RelativeEncoder m_encoderA, m_encoderB;
-  private double m_setposX = 0.5, m_setposZ;
+  private double m_setposX = 0.0, m_setposZ = 0.0;
   private ProfiledPIDController m_pidControllerA, m_pidControllerB;
+  // PIDController m_pidControllerA, m_pidControllerB;
   private double outputX, outputZ, outputA, outputB;
   private double m_measureX, m_measureZ;
 
@@ -78,6 +78,8 @@ public class Elevator extends SubsystemBase {
     m_elevatorMotorB = new CANSparkMax(ElevatorConstants.kMotorBID, MotorType.kBrushless);
     m_elevatorMotorA.setIdleMode(IdleMode.kBrake);
     m_elevatorMotorB.setIdleMode(IdleMode.kBrake);
+    m_elevatorMotorA.setInverted(true);
+    m_elevatorMotorB.setInverted(true);
 
     //Creates the encoders for the tracking of the elevator position in meters. 
     //X and Z positions require knowing both positions of motors A and B 
@@ -85,11 +87,20 @@ public class Elevator extends SubsystemBase {
     m_encoderB = m_elevatorMotorB.getEncoder();
     m_encoderA.setPositionConversionFactor(ElevatorConstants.kElevatorEncoderConversionFactorA);
     m_encoderB.setPositionConversionFactor(ElevatorConstants.kElevatorEncoderConversionFactorB);
+    //Reset encoders at the beginning of every match
+    m_encoderA.setPosition(0.0);
+    m_encoderB.setPosition(0.0);
     
     //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
     //each axis will require unique PID gains.
     m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(30.0,  5));
     m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2],new Constraints(30.0,  5));
+
+    m_pidControllerA.setTolerance(0.00000000001);
+    m_pidControllerB.setTolerance(0.00000000001);
+
+    // m_pidControllerA = new PIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2]);
+    // m_pidControllerB = new PIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2]);
 
     //Generate a list of nodes as waypoints for the elevator
     map = new HashMap<String, Node>();
@@ -114,7 +125,10 @@ public class Elevator extends SubsystemBase {
     }
 
     this.elevatorCurrentNode = J;
+    m_setposX = J.getPose().getX();
+    m_setposZ = J.getPose().getY();
   }
+
 
   @Override
   public void periodic() {
@@ -123,9 +137,8 @@ public class Elevator extends SubsystemBase {
     m_measureZ = getZ();
     // checkBoundary();
 
-    //convert cartesian setpoints to motor positions
     double setPointA = getA(m_setposZ);
-    double setPointB = getB(m_setposX, m_setposZ);
+    double setPointB = getB(m_setposX, m_setposZ); //TODO m_setposZ
 
     //outputA calculates the error between A motor position and the A setpoint
     outputA = m_pidControllerA.calculate(m_encoderA.getPosition(), setPointA);
@@ -289,7 +302,9 @@ public class Elevator extends SubsystemBase {
    */
   public void commandedVelocity(double xSpeed, double zSpeed) {
     m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
-    m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
+    if(Math.abs(OI.getOperatorLeftY()) > 0.2){
+      m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
+    }
   }
 
   public double elevatorDiagX(double Z){

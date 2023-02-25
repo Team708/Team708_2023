@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -13,6 +14,7 @@ import frc.robot.commands.DriveByController;
 import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.intake.GrabberIntake;
 import frc.robot.subsystems.intake.RollerIntake;
 
 import frc.robot.commands.Autos.DriveStraightAuto;
@@ -36,9 +38,12 @@ public class RobotContainer {
   // private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
   // private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
+  private final DigitalInput dIO = new DigitalInput(0);
+
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
-  private final RollerIntake m_intake = new RollerIntake();
+  // private final RollerIntake m_intake = new RollerIntake(dIO);
+  private final GrabberIntake m_intake = new GrabberIntake();
 
   private final DriveByController m_driveByController
     = new DriveByController(m_drive, OI.driverController);
@@ -109,5 +114,6 @@ public class RobotContainer {
   public void sendToDashboard() {
     m_drive.sendToDashboard();
     m_elevator.sendToDashboard();
+    m_intake.sendToDashboard();
   }
 }

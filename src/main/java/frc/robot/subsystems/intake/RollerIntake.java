@@ -5,8 +5,12 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
@@ -14,12 +18,19 @@ import frc.robot.Constants.IntakeConstants;
 public class RollerIntake extends SubsystemBase {
 
   private CANSparkMax m_intakeMotor;
+  private RelativeEncoder m_intakeEncoder;
   boolean isReversed = false;
+
+  DigitalInput m_dIOSensor;
   
   /** Creates a new Intake. */
-  public RollerIntake() {
+  public RollerIntake(DigitalInput m_dIOSensor) {
     m_intakeMotor = new CANSparkMax(Constants.IntakeConstants.kIntakeMotorID, MotorType.kBrushless);
     m_intakeMotor.setIdleMode(IdleMode.kBrake);
+
+    m_intakeEncoder = m_intakeMotor.getEncoder();
+
+    this.m_dIOSensor = m_dIOSensor;
   }
 
   @Override
@@ -37,11 +48,25 @@ public class RollerIntake extends SubsystemBase {
   }
 
   public void intakeReverse(){
-    m_intakeMotor.set(-IntakeConstants.kRollerIntakeSpeed);
+    m_intakeMotor.set(-IntakeConstants.kRollerIntakeSpeed); //ESTABLISH SLOWER CONSTANT
     isReversed = true;
   }
 
   public boolean getReversed(){
     return isReversed;
   }
+
+  public void setReversed(boolean isReversed){
+    this.isReversed = isReversed;
+  }
+
+  public boolean sensorDetected(){
+    return !m_dIOSensor.get();
+  }
+
+  public void sendToDashboard(){
+    SmartDashboard.putNumber("Intake Count", m_intakeEncoder.getPosition());
+    SmartDashboard.putBoolean("Sensor", sensorDetected());
+  }
+
 }

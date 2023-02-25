@@ -1,16 +1,24 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.elevator.ElevatorToNode;
+import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
+import frc.robot.commands.rollerIntake.RollerIntakeOff;
 import frc.robot.commands.rollerIntake.RollerIntakeOn;
 // import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.TurnToCommand;
-
+import frc.robot.commands.elevator.ElevatorToNode;
+import frc.robot.commands.grabberIntake.GrabberIntakeOff;
+import frc.robot.commands.grabberIntake.GrabberIntakeOn;
+import frc.robot.commands.grabberIntake.GrabberIntakeOpen;
+import frc.robot.commands.grabberIntake.ToggleGrabberForwardReverse;
+import frc.robot.commands.grabberIntake.ToggleGrabberOpenClosed;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.intake.GrabberIntake;
 import frc.robot.subsystems.intake.RollerIntake;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 import frc.robot.subsystems.drive.Drivetrain;
@@ -72,7 +80,8 @@ public class OI {
 	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
 	// }
 
-	public static void configureButtonBindings(Drivetrain m_robotDrive,Elevator m_elevator,RollerIntake m_intake) {
+	public static void configureButtonBindings(Drivetrain m_robotDrive,Elevator m_elevator,
+	/*RollerIntake m_intake,*/ GrabberIntake m_intake) {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
@@ -137,11 +146,24 @@ public class OI {
 
 		//OPERATOR//
 		
+		//_________________________________________________________________
 		// new JoystickButton(operatorController, Button.kLeftBumper.value)
-		// 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
+		// 		.onTrue(new RollerIntakeOff(m_intake));
+		
+		// new JoystickButton(operatorController, Button.kRightBumper.value)
+		// 		.onTrue(new ToggleRollerForwardReverse(m_intake));
+
+		new JoystickButton(operatorController, Button.kLeftBumper.value)
+				.whileTrue(new GrabberIntakeOpen(m_intake))
+				.onFalse(new InstantCommand(() -> m_intake.setCamPosition(0.0)));
 		
 		new JoystickButton(operatorController, Button.kRightBumper.value)
-				.toggleOnTrue(new RollerIntakeOn(m_intake));
+				.onTrue(new ToggleGrabberForwardReverse(m_intake));
+
+		// new JoystickButton(operatorController, Button.kB.value)
+		// 		.onTrue(new GrabberIntakeOff(m_intake));
+
+		//__________________________________________________________________
 	
 		new JoystickButton(operatorController, Button.kB.value)
 				.onTrue(new ElevatorToNode(m_elevator, Elevator.G));
@@ -149,8 +171,8 @@ public class OI {
 		new JoystickButton(operatorController, Button.kA.value)
 				.onTrue(new ElevatorToNode(m_elevator, Elevator.A));
 				
-		new JoystickButton(operatorController, Button.kX.value)
-				.onTrue(new ElevatorToNode(m_elevator, Elevator.J));
+		// new JoystickButton(operatorController, Button.kX.value)
+		// 		.onTrue(new ElevatorToNode(m_elevator, Elevator.J));
 
 		new JoystickButton(operatorController, Button.kY.value)
 		 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
