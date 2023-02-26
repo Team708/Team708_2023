@@ -15,12 +15,14 @@ import frc.robot.subsystems.drive.Drivetrain;
 public class DriveToPieceAuto extends SequentialCommandGroup {
 
   public DriveToPieceAuto(Drivetrain dr, double maxSpeed) {
-    AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", -maxSpeed, true);
+    AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
     addCommands(
-      new ResetDriveCommand(dr, new Rotation2d()),
-      new InvertDriveCommand(dr),
-      path,
-      new InvertDriveCommand(dr)
+      new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
+
+      // new ResetDriveCommand(dr, new Rotation2d()),
+      // new InvertDriveCommand(dr),
+      path
+      // new InvertDriveCommand(dr)
       );
   }
     
