@@ -193,8 +193,6 @@ public class OI {
 		new JoystickButton(operatorController, Button.kY.value)
 		 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
 		
-		new JoystickButton(operatorController, Button.kBack.value)
-						 .onTrue(new GrabberIntakeOut(m_intake));
 		// new JoystickButton(operatorController, Button.kLeftStick.value)
 		// 				.whileTrue(new (m_robotDrive));
 

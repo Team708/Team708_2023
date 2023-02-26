@@ -15,10 +15,12 @@ public class GrabberIntakeRetraction extends CommandBase {
   GrabberIntake m_intake;
   double counts;
   boolean greater = false;
+  boolean first = true;
 
   public GrabberIntakeRetraction(GrabberIntake m_intake, double counts) {
     this.m_intake = m_intake;
     this.counts = counts;
+
     // addRequirements(m_intake);
   }
 
