@@ -85,6 +85,10 @@ public class GrabberIntake extends SubsystemBase{
         this.m_intakeMotor.set(0);
     }
 
+    public void intakeOut(){
+        this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
+    }
+
     public void intakeReverse(){
         this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
         isReversed = true;
