@@ -29,9 +29,11 @@ public class GrabberIntakeRetraction extends CommandBase {
   public void initialize() {
     if(counts > m_intake.getCamPosition()){
       m_intake.setCamSpeed(IntakeConstants.kCamIntakeSpeed);
+      // m_intake.setCamPoint(2500.0);
       greater = true;
     }else{
       m_intake.setCamSpeed(-IntakeConstants.kCamIntakeSpeed);
+      // m_intake.setCamPoint(0.0);
       greater = false;
     }
   }
@@ -55,5 +57,6 @@ public class GrabberIntakeRetraction extends CommandBase {
     }else{
       return m_intake.getCamPosition() <= counts;
     }
+    // return true;
   }
 }

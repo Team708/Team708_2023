@@ -415,5 +415,8 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("measureA", m_encoderA.getPosition());
     SmartDashboard.putNumber("measureB", m_encoderB.getPosition());
     SmartDashboard.putBoolean("Collision Detected", isColliding);
+
+    SmartDashboard.putNumber("Axis-Right", OI.operatorController.getRightTriggerAxis());
+    SmartDashboard.putNumber("Axis-Left", OI.operatorController.getLeftTriggerAxis());
   }
 }

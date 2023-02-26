@@ -1,14 +1,17 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.OI;
 import frc.robot.Constants.CurrentLimit;
 
 public class GrabberIntake extends SubsystemBase{
@@ -32,6 +35,7 @@ public class GrabberIntake extends SubsystemBase{
         m_intakeMotor.setIdleMode(IdleMode.kBrake);
 
         m_clampEncoder = m_clampMotor.getEncoder();
+
         m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
         m_clampEncoder.setPosition(0.0);
     }
@@ -53,6 +57,10 @@ public class GrabberIntake extends SubsystemBase{
     public double getCamPosition(){
         return m_clampEncoder.getPosition();
     }
+
+    // public void setCamPoint(double position){
+    //         m_clampEncoder.setPoint(position);
+    //     }
 
     public void openClamp(){
         if(!isOpen){

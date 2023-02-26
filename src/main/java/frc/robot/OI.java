@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Utilities.JoystickRightTrigger;
 // import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
 // import frc.robot.commands.rollerIntake.RollerIntakeOff;
 // import frc.robot.commands.rollerIntake.RollerIntakeOn;
@@ -33,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.intake.RollerIntake;
 import frc.robot.subsystems.sim.ElevatorSimulation;
+import frc.robot.util.AxisDown;
 import frc.robot.subsystems.drive.Drivetrain;
 
 public class OI {
@@ -136,73 +138,82 @@ public class OI {
 				
 				// new JoystickButton(driverController, Button.kX.value)
 				// 		.whenPressed(new /*Command*/);
-
-		// new JoystickButton(driverController, Button.kB.value)
-		// 		.whenPressed(new /*Command*/);
 				
-		// new JoystickButton(driverController, Button.kStart.value)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(driverController, Button.kRightStick.value)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new JoystickButton(driverController, Button.kLeftStick.value)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new DPadButton(driverController, DPadButton.Direction.UP)
-		// 		.whenPressed(new /*Command*/);
-		
-		// new DPadButton(driverController, DPadButton.Direction.DOWN)
-		// 		.whenPressed(new /*Command*/);
-		
-		
-		//OPERATOR//
-		
-		//_________________________________________________________________
-		// new JoystickButton(operatorController, Button.kLeftBumper.value)
-		// 		.onTrue(new RollerIntakeOff(m_intake));
-		
-		// new JoystickButton(operatorController, Button.kRightBumper.value)
-		// 		.onTrue(new ToggleRollerForwardReverse(m_intake));
-		
-		//MANUAL INTAKE CONTROL
-		// new JoystickButton(operatorController, Button.kB.value)
-		// 	.whileTrue(new InstantCommand(() -> m_intake.setCamSpeed(0.5), m_intake))
-		// 	.onFalse(new ParallelCommandGroup(
-			// 		new InstantCommand(() -> m_intake.setCamSpeed(0.0)),
-			// 		new InstantCommand(() -> m_intake.setCamPosition(0.0))));
-			
-		new JoystickButton(operatorController, Button.kLeftBumper.value)
-				.onTrue(new ClampAndStopWheels(m_intake));
-		
-		new JoystickButton(operatorController, Button.kRightBumper.value)
-				.onTrue(new OpenAndRunWheels(m_intake));
-		
-		new JoystickButton(operatorController, Button.kBack.value)
-				.onTrue(new GrabberIntakeOut(m_intake));
-	
-		new JoystickButton(operatorController, Button.kB.value)
-		.onTrue(new ElevatorToNode(m_elevator, Elevator.F));
+				// new JoystickButton(driverController, Button.kB.value)
+				// 		.whenPressed(new /*Command*/);
 				
-		new JoystickButton(operatorController, Button.kA.value)
-		.onTrue(new ElevatorToNode(m_elevator, Elevator.A));
+				// new JoystickButton(driverController, Button.kStart.value)
+				// 		.whenPressed(new /*Command*/);
 				
-		new JoystickButton(operatorController, Button.kX.value)
-				.onTrue(new ElevatorToNode(m_elevator, Elevator.B));
-
-		new JoystickButton(operatorController, Button.kY.value)
-		 		.onTrue(new ElevatorToNode(m_elevator, Elevator.C));
-		
-		// new JoystickButton(operatorController, Button.kLeftStick.value)
-		// 				.whileTrue(new (m_robotDrive));
-
-		// new JoystickButton(operatorController, Button.kRightStick.value)
-		// 		.whileTrue(new DeployGamePiece(m_robotDrive));
-
-		// new JoystickButton(operatorController, Button.kA.value)
-		// 		.onTrue(new AutoBalance(m_robotDrive));
+				// new JoystickButton(driverController, Button.kRightStick.value)
+				// 		.whenPressed(new /*Command*/);
 				
-		// new JoystickButton(operatorController, Button.kB.value)
+				// new JoystickButton(driverController, Button.kLeftStick.value)
+				// 		.whenPressed(new /*Command*/);
+				
+				// new DPadButton(driverController, DPadButton.Direction.UP)
+				// 		.whenPressed(new /*Command*/);
+				
+				// new DPadButton(driverController, DPadButton.Direction.DOWN)
+				// 		.whenPressed(new /*Command*/);
+				
+				
+				//OPERATOR//
+				
+				//_________________________________________________________________
+				// new JoystickButton(operatorController, Button.kLeftBumper.value)
+				// 		.onTrue(new RollerIntakeOff(m_intake));
+				
+				// new JoystickButton(operatorController, Button.kRightBumper.value)
+				// 		.onTrue(new ToggleRollerForwardReverse(m_intake));
+				
+				//MANUAL INTAKE CONTROL
+				// new JoystickButton(operatorController, Button.kB.value)
+				// 	.whileTrue(new InstantCommand(() -> m_intake.setCamSpeed(0.5), m_intake))
+				// 	.onFalse(new ParallelCommandGroup(
+					// 		new InstantCommand(() -> m_intake.setCamSpeed(0.0)),
+					// 		new InstantCommand(() -> m_intake.setCamPosition(0.0))));
+					
+					new JoystickButton(operatorController, Button.kLeftBumper.value)
+					.onTrue(new ClampAndStopWheels(m_intake));
+					
+					new JoystickButton(operatorController, Button.kRightBumper.value)
+					.onTrue(new OpenAndRunWheels(m_intake));
+					
+					new JoystickButton(operatorController, Button.kBack.value)
+					.onTrue(new GrabberIntakeOut(m_intake));
+					
+					new JoystickButton(operatorController, Button.kB.value)
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.F)); //Low/Mid Cone	
+
+					new JoystickButton(operatorController, Button.kB.value)
+					.and(new JoystickRightTrigger(operatorController))
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.G)); //Low/Mid Cube
+					
+					new JoystickButton(operatorController, Button.kA.value)
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.A));   //Ground Pickup
+					
+					new JoystickButton(operatorController, Button.kX.value)
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.B)); // Ground Safe
+					
+					new JoystickButton(operatorController, Button.kY.value)
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.C)); //High Cone
+					
+					new JoystickButton(operatorController, Button.kY.value)
+					.and(new JoystickRightTrigger(operatorController))
+					.onTrue(new ElevatorToNode(m_elevator, Elevator.D)); //High Cube
+
+					//operatorController.getRawAxis(0)
+					// new JoystickButton(operatorController, Button.kLeftStick.value)
+					// 				.whileTrue(new (m_robotDrive));
+					
+					// new JoystickButton(operatorController, Button.kRightStick.value)
+					// 		.whileTrue(new DeployGamePiece(m_robotDrive));
+					
+					// new JoystickButton(operatorController, Button.kA.value)
+					// 		.onTrue(new AutoBalance(m_robotDrive));
+					
+					// new JoystickButton(operatorController, Button.kB.value)
 		// 		.onTrue(new IntakeOut(m_elevator));
 				
 		// new JoystickButton(operatorController, Button.kX.value)
