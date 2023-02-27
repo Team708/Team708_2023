@@ -10,6 +10,9 @@ import frc.robot.Utilities.JoystickRightTrigger;
 // import frc.robot.commands.rollerIntake.RollerIntakeReverse;
 // import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.drive.LockWheels;
+import frc.robot.commands.drive.ResetDrive;
+import frc.robot.commands.drive.SetRumble;
+import frc.robot.commands.drive.ToggleFieldOrient;
 import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.subsystems.intake.GrabberIntake;
@@ -25,6 +28,8 @@ import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
 
 import java.time.Instant;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -101,6 +106,9 @@ public class OI {
 
 		// new JoystickButton(driverController, Button.kLeftStick.value)
 		// 		.whileTrue(new Aim(m_robotDrive));
+	
+		new JoystickButton(driverController, Button.kLeftStick.value)
+				.whileTrue(new ToggleFieldOrient(m_robotDrive)).onFalse(new ToggleFieldOrient(m_robotDrive));
 
 		new JoystickButton(driverController, Button.kRightStick.value)
 				.whileTrue(new LockWheels(m_robotDrive));
@@ -116,7 +124,10 @@ public class OI {
 				
 		new JoystickButton(driverController, Button.kY.value)
 				.onTrue(new TurnToCommand(0, m_robotDrive));
-				
+
+		new JoystickButton(driverController, Button.kBack.value)
+				.onTrue(new ResetDrive(m_robotDrive, new Rotation2d()))
+				.onFalse(new SetRumble());
 				
 				// new JoystickButton(driverController, Button.kRightBumper.value)
 				// 		.whenPressed(() -> /*Command*/)

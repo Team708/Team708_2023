@@ -15,7 +15,9 @@ public class DropConeHigh extends SequentialCommandGroup {
   public DropConeHigh(Elevator m_elevator, GrabberIntake m_intake) {
     addCommands(
       new ElevatorToNode(m_elevator, Elevator.C),
-      new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose)
+      new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
+      new ElevatorToNode(m_elevator, Elevator.B)
+
     );
   }
 }

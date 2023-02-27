@@ -38,7 +38,11 @@ import frc.robot.Utilities.FieldRelativeSpeed;
   private double timeSinceDrive = 0.0;  //Double to store the time since last translation command
   private double lastDriveTime = 0.0;   //Double to store the time of the last translation command
 
+  private double radius = 1;//0.450;
+
   private boolean m_readyToShoot = false;
+
+  private boolean fieldOrient = true;
 
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewY = new SlewRateLimiter(12.0);
@@ -124,7 +128,9 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     //creates an array of the desired swerve module states based on driver command and if the commands are field relative or not
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, pigeon.getAngle())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+            : new ChassisSpeeds(xSpeed * pigeon.getAngle().getCos() + ySpeed * pigeon.getAngle().getSin(), 
+            (-xSpeed * pigeon.getAngle().getSin() + ySpeed * pigeon.getAngle().getCos()) - (radius * rot), 
+            rot));
 
     //normalize wheel speeds so all individual states are scaled to achievable velocities
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond); 
@@ -161,6 +167,14 @@ import frc.robot.Utilities.FieldRelativeSpeed;
 
         //Calls get pose function which sends the Pose information to the SmartDashboard
         getPose();
+  }
+
+  public void setFieldOrient(boolean fieldOrient){
+    this.fieldOrient = fieldOrient;
+  }
+
+  public boolean getFieldOrient(){
+    return fieldOrient;
   }
 
   /**

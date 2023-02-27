@@ -71,7 +71,7 @@ public class DriveByController extends CommandBase {
     m_robotDrive.drive(desiredTranslation.getX(), 
                        desiredTranslation.getY(),
                        desiredRot,
-                       true,
+                       m_robotDrive.getFieldOrient(),
                        true);
   }
 
