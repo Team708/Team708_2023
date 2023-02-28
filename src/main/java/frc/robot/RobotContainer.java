@@ -78,8 +78,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    new POVButton(OI.driverController, 0)
-        .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
+    // new POVButton(OI.driverController, 0)
+    //     .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));  //JNP
 
     OI.configureButtonBindings(m_drive, m_elevator, m_intake);
   }

@@ -3,6 +3,8 @@ package frc.robot;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.JoystickRightTrigger;
+import frc.robot.commands.Autonomizations.AutoAlign;
+import frc.robot.commands.Autonomizations.AutoBalance;
 // import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
 // import frc.robot.commands.rollerIntake.RollerIntakeOff;
 // import frc.robot.commands.rollerIntake.RollerIntakeOn;
@@ -26,6 +28,8 @@ import frc.robot.commands.grabberIntake.ToggleGrabberForwardReverse;
 import frc.robot.commands.grabberIntake.ToggleGrabberOpenClosed;
 import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
+import frc.robot.commands.vision.ActivateAprilTag;
+import frc.robot.commands.vision.ActivateLED;
 
 import java.time.Instant;
 
@@ -104,31 +108,40 @@ public class OI {
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
 
-		// new JoystickButton(driverController, Button.kLeftStick.value)
-		// 		.whileTrue(new Aim(m_robotDrive));
-	
+		new JoystickButton(driverController, Button.kLeftBumper.value)
+				.onTrue(new ActivateLED())
+				.onTrue(new AutoAlign(m_robotDrive));
+
+		new JoystickButton(driverController, Button.kLeftBumper.value)
+				.and(new JoystickRightTrigger(driverController))
+				.onTrue(new ActivateAprilTag())
+				.onTrue(new AutoAlign(m_robotDrive));	
+
 		new JoystickButton(driverController, Button.kLeftStick.value)
 				.whileTrue(new ToggleFieldOrient(m_robotDrive)).onFalse(new ToggleFieldOrient(m_robotDrive));
 
 		new JoystickButton(driverController, Button.kRightStick.value)
 				.whileTrue(new LockWheels(m_robotDrive));
 				
-		new JoystickButton(driverController, Button.kA.value)
-				.onTrue(new TurnToCommand(180, m_robotDrive));
+		// new JoystickButton(driverController, Button.kA.value)
+		// 		.onTrue(new TurnToCommand(180, m_robotDrive));
 								
-		new JoystickButton(driverController, Button.kB.value)
-				.onTrue(new TurnToCommand(90, m_robotDrive));
+		// new JoystickButton(driverController, Button.kB.value)
+		// 		.onTrue(new TurnToCommand(90, m_robotDrive));
 				
-		new JoystickButton(driverController, Button.kX.value)
-				.onTrue(new TurnToCommand(270, m_robotDrive));
+		// new JoystickButton(driverController, Button.kX.value)
+		// 		.onTrue(new TurnToCommand(270, m_robotDrive));
 				
-		new JoystickButton(driverController, Button.kY.value)
-				.onTrue(new TurnToCommand(0, m_robotDrive));
+		// new JoystickButton(driverController, Button.kY.value)
+		// 		.onTrue(new TurnToCommand(0, m_robotDrive));
 
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new ResetDrive(m_robotDrive, new Rotation2d()))
 				.onFalse(new SetRumble());
 				
+		new JoystickButton(driverController, Button.kStart.value)
+				.onTrue(new AutoBalance(m_robotDrive));
+
 				// new JoystickButton(driverController, Button.kRightBumper.value)
 				// 		.whenPressed(() -> /*Command*/)
 				// 		.whenReleased(() -> /*Command*/);
@@ -193,6 +206,9 @@ public class OI {
 					
 					new JoystickButton(operatorController, Button.kBack.value)
 					.onTrue(new GrabberIntakeOut(m_intake));
+
+					new JoystickButton(operatorController, Button.kStart.value)
+					.onTrue(new InstantCommand(() -> m_intake.intakeOn()));
 					
 					new JoystickButton(operatorController, Button.kB.value)
 					.onTrue(new ElevatorToNode(m_elevator, Elevator.F)); //Low/Mid Cone	

@@ -94,7 +94,8 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     keepAngleTimer.start();
     m_keepAnglePID.enableContinuousInput(-Math.PI, Math.PI);
     pigeon.reset();
-    m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d());
+    // m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d()); //JNP 
+    m_odometry.resetPosition(pigeon.getAngle().times(1.0), getModulePositions(), new Pose2d()); //JNP 
     CommandScheduler.getInstance().registerSubsystem(this);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
   }

@@ -12,7 +12,7 @@ import frc.robot.subsystems.drive.Drivetrain;
 public class AutoAlign extends SequentialCommandGroup {
   public AutoAlign(Drivetrain dr) {
     addCommands(
-      new TurnToCommand(0, dr),
+      // new TurnToCommand(0, dr),
       new AlignWithReflectiveTape(dr)
     );
   }

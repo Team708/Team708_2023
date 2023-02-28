@@ -127,9 +127,8 @@ public final class Constants {
     public static final int kVisionLedOn = 0;
     public static final int kVisionLedOff = 1;
 
-    public static final double kLineupSpeed = 0.5;
-    public static final double kLineupAccuracy = 0.2;
-    public static final double kLineupDriveAllowance = -4.5;
+    public static final double kLineupSpeed = 0.3;
+    public static final double kLineupAccuracy = 2.0;
   }
   
   public static final class CandleConstants {
@@ -155,7 +154,7 @@ public final class Constants {
     public static final double kCamClosedPose = 0.0;
     public static final double kCamIntakeSpeed = 0.5; //.5
     
-    public static final int kIntakeMode = 0; //0 = Roller, 1 = Clamp
+    public static final int kIntakeMode = 1; //0 = Roller, 1 = Clamp
   }
   
   /**
