@@ -7,11 +7,11 @@ package frc.robot.commands.grabberIntake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake.GrabberIntake;
 
-public class GrabberIntakeIncClamp extends CommandBase {
+public class GrabberIntakeOn extends CommandBase {
 
   GrabberIntake m_intake;
 
-  public GrabberIntakeIncClamp(GrabberIntake m_intake) {
+  public GrabberIntakeOn(GrabberIntake m_intake) {
     this.m_intake = m_intake;
     // addRequirements(m_intake);
   }
@@ -19,7 +19,7 @@ public class GrabberIntakeIncClamp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.incClamp();
+    m_intake.intakeOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,13 +28,11 @@ public class GrabberIntakeIncClamp extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_intake.stopClamp();
-  }
+  public void end(boolean interrupted) {  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
