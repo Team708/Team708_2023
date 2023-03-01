@@ -180,15 +180,9 @@ import frc.robot.Utilities.FieldRelativeSpeed;
         m_field.getRobotObject().setPose(getPose());
   }
 
-
   public void setFieldOrient(boolean fieldOrient){
     this.fieldOrient = fieldOrient;
   }
-
-  public void setFieldOrient(boolean fieldOrient){
-    this.fieldOrient = fieldOrient;
-  }
-
 
   public boolean getFieldOrient(){
     return fieldOrient;
