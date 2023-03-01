@@ -22,7 +22,7 @@ import frc.robot.subsystems.intake.Intake;
 public class LineAndBalanceAuto extends SequentialCommandGroup {
 
   public LineAndBalanceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake) {
-    AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "Sigmoid", maxSpeed, true);
+    AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DropConeAndBalance", maxSpeed, true);
     addCommands(
         new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
 

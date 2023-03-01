@@ -4,28 +4,17 @@
 
 package frc.robot.commands.Autos;
 
-import com.pathplanner.lib.auto.MecanumAutoBuilder;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.AutoFromPathPlanner;
-import frc.robot.commands.Autonomizations.AutoBalance;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.intake.*;
-import frc.robot.commands.groups.DropConeHigh;
 import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.commands.drive.InvertDriveCommand;
-import frc.robot.commands.drive.ResetDriveCommand;
+
 
 public class DriveToPieceAuto extends SequentialCommandGroup {
 
