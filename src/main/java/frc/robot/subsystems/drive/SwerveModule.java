@@ -80,7 +80,7 @@ public class SwerveModule extends SubsystemBase {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);      //Define the drive motor as the SparkMAX with the input driveMotorChannel
     m_driveMotor.setSmartCurrentLimit(CurrentLimit.kTranslation);        //Set current limit for the drive motor
     m_driveMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);    //Enable voltage compensation so feedforward and gains scale with bus voltage
-    m_driveMotor.setInverted(false);                                              //Motor direction is not inverted
+    m_driveMotor.setInverted(true);                                              //Motor direction is not inverted
     m_driveEncoder = m_driveMotor.getEncoder();                                   //Obtain the driveEncoder from the drive SparkMAX
     m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kVelocityFactor);
     m_driveEncoder.setPositionConversionFactor(ModuleConstants.kVelocityFactor*60.0);
@@ -89,7 +89,7 @@ public class SwerveModule extends SubsystemBase {
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);  //Define the drive motor as the SparkMAX with the input driveMotorChannel
     m_turningMotor.setSmartCurrentLimit(CurrentLimit.kRotation);       //Set current limit for the drive motor
     m_turningMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);  //Enable voltage compensation so gains scale with bus voltage
-    m_turningMotor.setInverted(false);
+    m_turningMotor.setInverted(true);
     m_turningMotor.setIdleMode(IdleMode.kBrake);                                            //Motor direction is not inverted
 
     //Creates the analog potentiometer for the tracking of the swerve module position converted to the range of 0-2*PI in radians offset by the tuned module offset
@@ -193,6 +193,15 @@ public class SwerveModule extends SubsystemBase {
     return m_velocity;
   }
 
+  public void invertDrive(){
+    if (m_driveMotor.getInverted()){
+      m_driveMotor.setInverted(false);
+    }
+    else {
+      m_driveMotor.setInverted(true);
+    }
+  }
+
   /**
    * Obtains the negative of the turning absolute encoder value as this encoder reads opposite of the module rotation on 
    * 2910 MK2 swerve.
@@ -200,6 +209,6 @@ public class SwerveModule extends SubsystemBase {
    * @return the modified absolute encoder value.
    */
   public double getTurnEncoder() {
-    return -1.0 * m_turningEncoder.getAbsolutePosition();
+    return 1.0 * m_turningEncoder.getAbsolutePosition();
   }
 }

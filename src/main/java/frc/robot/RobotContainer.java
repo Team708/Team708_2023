@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -46,7 +47,7 @@ public class RobotContainer {
   private final GrabberIntake m_intake = new GrabberIntake(dIO);
 
   private final DriveByController m_driveByController
-    = new DriveByController(m_drive, OI.driverController);
+    =  DriveByController.getInstance(m_drive);
 
   private final OperateByController m_operateByController
     = new OperateByController(m_elevator);
@@ -69,6 +70,8 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(m_driveByController);
     m_elevator.setDefaultCommand(m_operateByController);
+
+    m_drive.resetOdometry(new Pose2d()); //added to test JP
   }
 
   /**
