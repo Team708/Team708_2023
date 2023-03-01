@@ -139,7 +139,7 @@ public class Intake extends SubsystemBase{
     }
 
     public double getRollerSpeed(){
-        return(this.m_intakeMotor.getEncoder().getVelocity());
+        return(-this.m_intakeMotor.getEncoder().getVelocity());
     }
 
     public void sendToDashboard(){

@@ -38,6 +38,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Elevator Sim": "Mechanism2d",
       "/SmartDashboard/Elevator Trajectory Sim": "Field2d",
+      "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {

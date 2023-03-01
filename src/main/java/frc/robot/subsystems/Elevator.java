@@ -71,7 +71,7 @@ public class Elevator extends SubsystemBase {
   private Branch HG = new Branch(H, G); //LS -> LCUBE
   private Branch HI = new Branch(H, I); //LS -> MS
   private Branch IF = new Branch(H, F); //LS -> LCONE
-  private Branch FD = new Branch(F, D); //LCONE -> HCUBE
+  private Branch ED = new Branch(E, D); //LCONE -> HCUBE
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
 
@@ -294,7 +294,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AB, BJ, BH, HG, HI, IF, FD, IE, EC};
+    return new Branch[]{AB, BJ, BH, HG, HI, IF, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){
