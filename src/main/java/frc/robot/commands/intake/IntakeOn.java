@@ -13,24 +13,24 @@ public class IntakeOn extends CommandBase {
   Intake m_intake;
   Elevator m_elevator;
 
-  public IntakeOn(Intake m_intake, Elevator m_elevator) {
+  public IntakeOn(Intake m_intake) {
     this.m_intake = m_intake;
-    this.m_elevator = m_elevator;
 
-    // addRequirements(m_intake);
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_intake.setHasPiece(false);
-
-    m_intake.intakeOn();  }
+    m_intake.resetRollerPosition();
+    m_intake.intakeOn();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        if (m_intake.getRollerSpeed()<=100 || m_intake.sensorDetected()){
+        if (m_intake.getRollerSpeed()<=100 & Math.abs(m_intake.getRollerPosition()) > 100){
           m_intake.setHasPiece(true);
       }
   }

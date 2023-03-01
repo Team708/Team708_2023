@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase{
     private CANSparkMax m_intakeMotor;
     private CANSparkMax m_clampMotor;
     private RelativeEncoder m_clampEncoder;
+    private RelativeEncoder m_intakeEncoder;
     private SparkMaxPIDController pidController;
     
     private boolean isOpen = false;
@@ -39,7 +40,11 @@ public class Intake extends SubsystemBase{
         m_intakeMotor.setInverted(false);
         m_intakeMotor.setIdleMode(IdleMode.kBrake);
 
+        m_intakeEncoder = m_intakeMotor.getEncoder();
         m_clampEncoder = m_clampMotor.getEncoder();
+
+        m_intakeEncoder.setVelocityConversionFactor(100);
+        m_intakeEncoder.setPositionConversionFactor(100);
 
         m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
         m_clampEncoder.setPosition(0.0);
@@ -105,7 +110,7 @@ public class Intake extends SubsystemBase{
     }
 
     public void intakeOn(){
-        this.m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
+        m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
         isReversed = false;
     }
 
@@ -139,13 +144,22 @@ public class Intake extends SubsystemBase{
     }
 
     public double getRollerSpeed(){
-        return(-this.m_intakeMotor.getEncoder().getVelocity());
+        return(this.m_intakeEncoder.getVelocity());
+    }
+
+    public void resetRollerPosition(){
+        m_intakeEncoder.setPosition(0);
+    }
+
+    public double getRollerPosition(){
+        return m_intakeEncoder.getPosition();
     }
 
     public void sendToDashboard(){
         SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
         SmartDashboard.putBoolean("Sensor", sensorDetected());
         SmartDashboard.putNumber("intake speed", getRollerSpeed());
+        SmartDashboard.putNumber("intake Position", getRollerPosition());
         SmartDashboard.putBoolean("has Piece", getHasPiece());
     }
 

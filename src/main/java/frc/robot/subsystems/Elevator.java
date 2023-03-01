@@ -50,7 +50,8 @@ public class Elevator extends SubsystemBase {
 
   private Node elevatorCurrentNode;
 
-  public static final Node A = new Node(ElevatorConstants.kGroundPickupPose, "GROUND_PICKUP");
+  public static final Node A = new Node(ElevatorConstants.kConeIntakePose, "CONE_INTAKE");
+  public static final Node K = new Node(ElevatorConstants.kCubeIntakePose, "CUBE_INTAKE");
   public static final Node B = new Node(ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
   public static final Node C = new Node(ElevatorConstants.kHighConePose, "HIGH_CONE");
   public static final Node D = new Node(ElevatorConstants.kHighCubePose, "HIGH_CUBE");
@@ -65,7 +66,8 @@ public class Elevator extends SubsystemBase {
 
   private HashMap<String, Node> map;
 
-  private Branch AB = new Branch(A, B); //Ground -> GS
+  private Branch AK = new Branch(A, K); //ConeIn -> CubeIn
+  private Branch KB = new Branch(K, B); //CubeIn -> GS
   private Branch BJ = new Branch(B, J); //GS -> Start
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
@@ -294,7 +296,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AB, BJ, BH, HG, HI, IF, ED, IE, EC};
+    return new Branch[]{AK, KB, BJ, BH, HG, HI, IF, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){

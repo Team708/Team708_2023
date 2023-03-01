@@ -185,17 +185,18 @@ public final class Constants {
     // public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.3976);
 
     //ROLLER
-    public static final Translation2d kGroundPickupPose = new Translation2d(0.5236,-0.0897);
+    public static final Translation2d kConeIntakePose = new Translation2d(0.45,-0.1007);
+    public static final Translation2d kCubeIntakePose = new Translation2d(0.45,-0.0507);
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
-    public static final Translation2d kLowCubePose = new Translation2d(0.7795,0.6799);
-    public static final Translation2d kLowConePose = new Translation2d(0.8073,0.7399);
-    public static final Translation2d kHighCubePose = new Translation2d(1.2161,1.0919);
-    public static final Translation2d kHighConePose = new Translation2d(1.2583,1.1241);   //1.4583,1.1141)
+    public static final Translation2d kLowCubePose = new Translation2d(0.7395,0.6399);
+    public static final Translation2d kLowConePose = new Translation2d(0.6173,0.7699);
+    public static final Translation2d kHighCubePose = new Translation2d(1.0561,0.9519);
+    public static final Translation2d kHighConePose = new Translation2d(1.1583,1.1241);   //1.4583,1.1141)
     
     public static final Translation2d kGroundSafePose = new Translation2d(0.4528,0.3086);
     public static final Translation2d kLowSafePose = new Translation2d(0.4218,0.7359);
     public static final Translation2d kMidSafePose = new Translation2d(0.600,1.05);
-    public static final Translation2d kHighSafePose = new Translation2d(0.9884,1.1576);
+    public static final Translation2d kHighSafePose = new Translation2d(1.0884,1.1576);
 
     //Elevator Boundaries, meters
     public static final double kLeftBound = -0.051; 
@@ -212,11 +213,11 @@ public final class Constants {
     public static final double kCubeTopShelf = 0.907;
     public static final double kHighConeLeftBound = 1.065;
     public static final double kHighConeUpperBound = 1.181;
-    public static final double diagy1 = .2;
+    public static final double diagy1 = .13;
 
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;
-    public static final double []kPID_A = {20,0,0.0}; //50,0,0
+    public static final double []kPID_A = {50,0,0.0}; //30,0,0
     public static final double []kPID_B = {20,0,0.0}; //{8,0.0,0};
     public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.6365);
     public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);

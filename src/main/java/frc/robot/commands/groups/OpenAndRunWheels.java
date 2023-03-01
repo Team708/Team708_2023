@@ -14,7 +14,7 @@ import frc.robot.subsystems.intake.Intake;
 public class OpenAndRunWheels extends ParallelCommandGroup {
   public OpenAndRunWheels(Intake m_intake, Elevator m_elevator) {
     addCommands(
-      new IntakeOn(m_intake, m_elevator),
+      new IntakeOn(m_intake),
       new IntakeRetraction(m_intake, IntakeConstants.kCamOpenPose)
       );
   }

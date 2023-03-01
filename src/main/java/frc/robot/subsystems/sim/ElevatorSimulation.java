@@ -137,7 +137,8 @@ public class ElevatorSimulation {
     makeLine(ElevatorConstants.kLeftBound, e.elevatorDiagZ(ElevatorConstants.kLeftBound), 
         e.elevatorDiagX(ElevatorConstants.kUpperBound), ElevatorConstants.kUpperBound, "m_diagonalBound");
  
-      makePoint(ElevatorConstants.kGroundPickupPose, "GroundPickupPose");
+      makePoint(ElevatorConstants.kConeIntakePose, "ConeIntakePos");
+      makePoint(ElevatorConstants.kCubeIntakePose, "CubeIntakePos");
       makePoint(ElevatorConstants.kGroundSafePose, "GroundSafePose");  
       makePoint(ElevatorConstants.kStartPose, "StartPose");  
       makePoint(ElevatorConstants.kLowConePose, "LowConePose");
