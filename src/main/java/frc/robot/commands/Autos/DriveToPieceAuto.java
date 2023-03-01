@@ -30,11 +30,13 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
+      
       new ParallelDeadlineGroup(
         new ElevatorToNode(m_elevator, Elevator.C),
         new GrabberIntakeOn(m_intake)
       ),
       new GrabberIntakeOut(m_intake).withTimeout(.2),
+      
       new ElevatorToNode(m_elevator, Elevator.A),
       new GrabberIntakeOn(m_intake),
       path,

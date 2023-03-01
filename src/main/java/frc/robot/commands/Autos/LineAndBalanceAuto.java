@@ -6,12 +6,15 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.AutoFromPathPlanner;
 import frc.robot.commands.Autonomizations.AutoBalance;
 import frc.robot.commands.elevator.ElevatorToNode;
+import frc.robot.commands.grabberIntake.GrabberIntakeOn;
+import frc.robot.commands.grabberIntake.GrabberIntakeOut;
 import frc.robot.commands.grabberIntake.GrabberIntakeRetraction;
 import frc.robot.commands.groups.DropConeHigh;
 import frc.robot.subsystems.Elevator;
@@ -24,8 +27,18 @@ public class LineAndBalanceAuto extends SequentialCommandGroup {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "Sigmoid", maxSpeed, true);
     addCommands(
         new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
-        new ElevatorToNode(m_elevator, Elevator.C),
-        new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
+
+        //grabber head
+        // new ElevatorToNode(m_elevator, Elevator.C),
+        // new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
+        
+        //spinner head
+        new ParallelDeadlineGroup(
+          new ElevatorToNode(m_elevator, Elevator.C),
+          new GrabberIntakeOn(m_intake)
+        ),
+        new GrabberIntakeOut(m_intake).withTimeout(.2),
+        
         new ElevatorToNode(m_elevator, Elevator.B),
         new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
 
