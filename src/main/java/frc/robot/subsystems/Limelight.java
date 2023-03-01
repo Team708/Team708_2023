@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.VisionConstants;
@@ -57,6 +58,11 @@ public class Limelight {
     public static Number[] tcornxy(){
         return table.getEntry("tcornxy").getNumberArray(new Number[]{-1, -1, -1, -1});
     }
+    
+    //Corners of blue box
+    public static void setLED(int led){
+        table.getEntry("ledMode").setNumber(led);
+    }
 
     //Length of horizontal side of bb
     public static double thor(){
@@ -84,6 +90,10 @@ public class Limelight {
 
     public static void disable() {
         table.getEntry("ledMode").setNumber(1);
+    }
+
+    public static void setPipeline(int pipeline){
+        table.getEntry("pipeline").setNumber(pipeline);
     }
     
 }

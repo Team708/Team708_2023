@@ -40,9 +40,12 @@ import frc.robot.Utilities.FieldRelativeSpeed;
   private double timeSinceDrive = 0.0;  //Double to store the time since last translation command
   private double lastDriveTime = 0.0;   //Double to store the time of the last translation command
 
+  private double radius = 1;//0.450;
+
   private boolean m_readyToShoot = false;
+
   private boolean fieldOrient = true;
-  
+
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewY = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewRot = new SlewRateLimiter(20.0);
@@ -94,7 +97,8 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     keepAngleTimer.start();
     m_keepAnglePID.enableContinuousInput(-Math.PI, Math.PI);
     pigeon.reset();
-    m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d());
+    // m_odometry.resetPosition(pigeon.getAngle().times(-1.0), getModulePositions(), new Pose2d()); //JNP 
+    m_odometry.resetPosition(pigeon.getAngle().times(1.0), getModulePositions(), new Pose2d()); //JNP 
     CommandScheduler.getInstance().registerSubsystem(this);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -133,7 +137,9 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     //creates an array of the desired swerve module states based on driver command and if the commands are field relative or not
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, pigeon.getAngle())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+            : new ChassisSpeeds(xSpeed * pigeon.getAngle().getCos() + ySpeed * pigeon.getAngle().getSin(), 
+            (-xSpeed * pigeon.getAngle().getSin() + ySpeed * pigeon.getAngle().getCos()) - (radius * rot), 
+            rot));
 
     //normalize wheel speeds so all individual states are scaled to achievable velocities
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond); 
@@ -179,10 +185,14 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     this.fieldOrient = fieldOrient;
   }
 
+  public void setFieldOrient(boolean fieldOrient){
+    this.fieldOrient = fieldOrient;
+  }
+
+
   public boolean getFieldOrient(){
     return fieldOrient;
   }
-
 
   /**
    * Sets the swerve ModuleStates.

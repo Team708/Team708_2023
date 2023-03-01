@@ -1,14 +1,19 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder.Type;
+import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.OI;
 import frc.robot.Constants.CurrentLimit;
 
 public class GrabberIntake extends SubsystemBase{
@@ -16,11 +21,16 @@ public class GrabberIntake extends SubsystemBase{
     private CANSparkMax m_intakeMotor;
     private CANSparkMax m_clampMotor;
     private RelativeEncoder m_clampEncoder;
-
+    private SparkMaxPIDController pidController;
+    
     private boolean isOpen = false;
     private boolean isReversed = false;
+    private DigitalInput m_dIOSensor;
 
-    public GrabberIntake(){
+    public GrabberIntake(DigitalInput m_dIOSensor){
+
+        this.m_dIOSensor = m_dIOSensor;
+
         m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
         m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
         m_clampMotor.setInverted(false);
@@ -32,8 +42,16 @@ public class GrabberIntake extends SubsystemBase{
         m_intakeMotor.setIdleMode(IdleMode.kBrake);
 
         m_clampEncoder = m_clampMotor.getEncoder();
+
         m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
         m_clampEncoder.setPosition(0.0);
+
+        // SparkMaxPIDController pidController = m_clampMotor.getPIDController();
+
+        // pidController.setP(0.01);
+        // pidController.setI(0.0);
+        // pidController.setD(0.0);
+
     }
 
     @Override
@@ -54,6 +72,10 @@ public class GrabberIntake extends SubsystemBase{
         return m_clampEncoder.getPosition();
     }
 
+    // public void setCamPoint(double position){
+    //         m_clampEncoder.setPoint(position);
+    //     }
+
     public void openClamp(){
         if(!isOpen){
             setCamPosition(IntakeConstants.kCamOpenPose);
@@ -66,6 +88,14 @@ public class GrabberIntake extends SubsystemBase{
             setCamPosition(IntakeConstants.kCamClosedPose);
             this.isOpen = false;
         }
+    }
+
+    public void incClamp(){
+            this.m_clampMotor.set(.5);
+        }
+
+    public void stopClamp(){
+        this.m_clampMotor.set(0);
     }
 
     public boolean getIsOpen(){
@@ -85,6 +115,10 @@ public class GrabberIntake extends SubsystemBase{
         this.m_intakeMotor.set(0);
     }
 
+    public void intakeOut(){
+        this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
+    }
+
     public void intakeReverse(){
         this.m_intakeMotor.set(-IntakeConstants.kCamIntakeSpeed);
         isReversed = true;
@@ -94,8 +128,13 @@ public class GrabberIntake extends SubsystemBase{
         return isReversed;
     }
 
+    public boolean sensorDetected(){
+    return !m_dIOSensor.get();
+    }
+
     public void sendToDashboard(){
         SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
+        SmartDashboard.putBoolean("Sensor", sensorDetected());
     }
 
 }

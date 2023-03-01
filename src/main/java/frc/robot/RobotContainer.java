@@ -44,7 +44,7 @@ public class RobotContainer {
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
   // private final RollerIntake m_intake = new RollerIntake(dIO);
-  private final GrabberIntake m_intake = new GrabberIntake();
+  private final GrabberIntake m_intake = new GrabberIntake(dIO);
 
   private final DriveByController m_driveByController
     =  DriveByController.getInstance(m_drive);
@@ -55,8 +55,9 @@ public class RobotContainer {
   private final Command doNothin = new WaitCommand(20.0);
   private final Command SigmoidPath = new SigmoidPathAuto(m_drive, 1);
   private final Command DriveStraight = new DriveStraightAuto(m_drive, 1);
-  private final Command DriveToPiece = new DriveToPieceAuto(m_drive, 1);
-  
+
+
+  private final Command DriveToPiece = new DriveToPieceAuto(m_drive, 1, m_elevator, m_intake);
   private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive, 1, m_elevator, m_intake);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -81,8 +82,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    new POVButton(OI.driverController, 0)
-        .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));
+    // new POVButton(OI.driverController, 0)
+    //     .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));  //JNP
 
     OI.configureButtonBindings(m_drive, m_elevator, m_intake);
   }
@@ -90,7 +91,7 @@ public class RobotContainer {
 
   private void configureAutoChooser(){
     m_chooser.addOption("Do Nothing", doNothin);
-    m_chooser.addOption("Sigmoid", SigmoidPath);
+    // m_chooser.addOption("Sigmoid", SigmoidPath);
     m_chooser.addOption("DriveStraight", DriveStraight);
     m_chooser.addOption("DriveToPiece", DriveToPiece);
     m_chooser.addOption("ScoreLineBalance", ScoreLineBalance);

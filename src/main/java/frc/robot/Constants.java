@@ -127,9 +127,8 @@ public final class Constants {
     public static final int kVisionLedOn = 0;
     public static final int kVisionLedOff = 1;
 
-    public static final double kLineupSpeed = 0.5;
-    public static final double kLineupAccuracy = 0.2;
-    public static final double kLineupDriveAllowance = -4.5;
+    public static final double kLineupSpeed = 0.3;
+    public static final double kLineupAccuracy = 2.0;
   }
   
   public static final class CandleConstants {
@@ -151,11 +150,11 @@ public final class Constants {
     public static final double kRollerIntakeSpeed = 1.0;
     
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
-    public static final double kCamOpenPose = 2275.0;
+    public static final double kCamOpenPose = 2265.0;
     public static final double kCamClosedPose = 0.0;
     public static final double kCamIntakeSpeed = 0.5; //.5
     
-    public static final int kIntakeMode = 0; //0 = Roller, 1 = Clamp
+    public static final int kIntakeMode = 1; //0 = Roller, 1 = Clamp
   }
   
   /**
@@ -169,34 +168,34 @@ public final class Constants {
     public static final double kElevatorCosAngle = Math.cos(Math.toRadians(ElevatorConstants.kElevatorAngle));
     public static final double kElevatorSinAngle = Math.sin(Math.toRadians(ElevatorConstants.kElevatorAngle));
     public static final double kElevatorTanAngle = Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle));
-    
-    //OLD
-    // public static final Translation2d kGroundPickupPose = new Translation2d(0.197,0.062); 
-    // public static final Translation2d kStartPose = new Translation2d(0.0,0.2); 
-    // public static final Translation2d kLowCubePose = new Translation2d(0.660-0.1,0.716); 
-    // public static final Translation2d kLowConePose = new Translation2d(0.660-0.1,1.029); 
-    // public static final Translation2d kHighCubePose = new Translation2d(1.069,1.029); 
-    // public static final Translation2d kHighConePose = new Translation2d(1.151-0.1,1.283);
-    
-    // public static final Translation2d kGroundSafePose = new Translation2d(0.197+0.1,0.190+0.05);
-    // public static final Translation2d kLowSafePose = new Translation2d(0.263+0.17,0.716);
-    // public static final Translation2d kMidSafePose = new Translation2d(0.303+0.3,1.029);
-    // public static final Translation2d kHighSafePose = new Translation2d(0.867,1.283);
 
     //x and z in meters
     //Reference point is from front of Robot frame and ground
-    //NEW
-    public static final Translation2d kGroundPickupPose = new Translation2d(0.5736,-0.006); 
-    public static final Translation2d kStartPose = new Translation2d(0.0,0.2); 
-    public static final Translation2d kLowCubePose = new Translation2d(0.7204,0.7989); 
-    public static final Translation2d kLowConePose = new Translation2d(0.8222,1.1065); 
-    public static final Translation2d kHighCubePose = new Translation2d(1.2129,1.1570); 
-    public static final Translation2d kHighConePose = new Translation2d(1.3258,1.3221);
+    //GRABBER
+    // public static final Translation2d kGroundPickupPose = new Translation2d(0.5236,-0.031);
+    // public static final Translation2d kStartPose = new Translation2d(0.0,0.2); 
+    // public static final Translation2d kLowCubePose = new Translation2d(0.7204,0.7989); 
+    // public static final Translation2d kLowConePose = new Translation2d(0.8222,1.1065); 
+    // public static final Translation2d kHighCubePose = new Translation2d(1.2129,1.1570); 
+    // public static final Translation2d kHighConePose = new Translation2d(1.3258,1.3221);
     
-    public static final Translation2d kGroundSafePose = new Translation2d(0.4128,0.3086);
-    public static final Translation2d kLowSafePose = new Translation2d(0.6128,0.7989);
-    public static final Translation2d kMidSafePose = new Translation2d(0.6806,0.9637);
-    public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.3976);
+    // public static final Translation2d kGroundSafePose = new Translation2d(0.4128,0.3086);
+    // public static final Translation2d kLowSafePose = new Translation2d(0.6128,0.7989);
+    // public static final Translation2d kMidSafePose = new Translation2d(0.6806,0.9637);
+    // public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.3976);
+
+    //ROLLER
+    public static final Translation2d kGroundPickupPose = new Translation2d(0.5236,-0.0897);
+    public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
+    public static final Translation2d kLowCubePose = new Translation2d(0.7795,0.6799);
+    public static final Translation2d kLowConePose = new Translation2d(0.8073,0.7399);
+    public static final Translation2d kHighCubePose = new Translation2d(1.2161,1.0919);
+    public static final Translation2d kHighConePose = new Translation2d(1.3583,1.1141);   //1.4583,1.1141)
+    
+    public static final Translation2d kGroundSafePose = new Translation2d(0.4328,0.3086);
+    public static final Translation2d kLowSafePose = new Translation2d(0.5018,0.7359);
+    public static final Translation2d kMidSafePose = new Translation2d(0.618,0.95);
+    public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.0976);
 
     //Elevator Boundaries, meters
     public static final double kLeftBound = -0.051; 
@@ -217,7 +216,7 @@ public final class Constants {
 
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;
-    public static final double []kPID_A = {20,0,0.0}; //20,0,0
+    public static final double []kPID_A = {50,0,0.0}; //20,0,0
     public static final double []kPID_B = {20,0,0.0}; //{8,0.0,0};
     public static final double kElevatorPulleyRadiusA = Units.inchesToMeters(0.6365);
     public static final double kElevatorPulleyRadiusB = Units.inchesToMeters(0.75);
@@ -244,7 +243,7 @@ public final class Constants {
 
     //public static final int kLowSensor = 0;
     //public static final int kHighSensor = 11;
-    public static final double kPositionTolerance = 0.001; //m
+    public static final double kPositionTolerance = 0.1; //0.001; //m
 
     public static final double kTrajConfigMaxVelocityMPS = 1;
     public static final double kTrajConfigMaxAccelMPSS = 2;

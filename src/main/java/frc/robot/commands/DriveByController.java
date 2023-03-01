@@ -91,8 +91,11 @@ public class DriveByController extends CommandBase {
     if(desiredMag >= maxLinear){
       desiredTranslation.times(maxLinear/desiredMag);
     }
-    
-    m_robotDrive.drive(desiredTranslation.getX(), desiredTranslation.getY(),desiredRot,m_robotDrive.getFieldOrient(),true);
+    m_robotDrive.drive(desiredTranslation.getX(), 
+                       desiredTranslation.getY(),
+                       desiredRot,
+                       m_robotDrive.getFieldOrient(),
+                       true);
   }
 
   @Override
