@@ -35,7 +35,7 @@ public class LineAndBalanceAuto extends SequentialCommandGroup {
         //spinner head
         new ParallelDeadlineGroup(
           new ElevatorToNode(m_elevator, Elevator.C),
-          new GrabberIntakeOn(m_intake)
+          new GrabberIntakeOn(m_intake, m_elevator)
         ),
         new GrabberIntakeOut(m_intake).withTimeout(.2),
         

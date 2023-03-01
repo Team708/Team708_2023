@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Autos;
 
+import com.pathplanner.lib.auto.MecanumAutoBuilder;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -36,12 +38,13 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
       
       new ParallelDeadlineGroup(
         new ElevatorToNode(m_elevator, Elevator.C),
-        new GrabberIntakeOn(m_intake)
+        new GrabberIntakeOn(m_intake, m_elevator)
       ),
       new GrabberIntakeOut(m_intake).withTimeout(.2),
       
       new ElevatorToNode(m_elevator, Elevator.A),
-      new GrabberIntakeOn(m_intake),
+      new InstantCommand(() -> m_elevator.setAtGroundPickup(false)),
+      new GrabberIntakeOn(m_intake, m_elevator),
       path,
       new ElevatorToNode(m_elevator, Elevator.D),
       new GrabberIntakeOut(m_intake).withTimeout(.2)

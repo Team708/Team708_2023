@@ -63,11 +63,12 @@ public class ElevatorToNode extends CommandBase {
   @Override
   public boolean isFinished(){
     if(this.trajectory == null) return true;
+    
     return (elevator.getPose().getDistance(
-      trajectory.sample(trajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) 
-    < Constants.ElevatorConstants.kPositionTolerance) ||
-    Math.abs(OI.getOperatorLeftY()) > 0.1 ||
-    Math.abs(OI.getOperatorRightX()) > 0.1;
+              trajectory.sample(trajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) 
+            < Constants.ElevatorConstants.kPositionTolerance) ||
+              Math.abs(OI.getOperatorLeftY()) > 0.1 ||
+              Math.abs(OI.getOperatorRightX()) > 0.1;
     // return true;
   }
 }

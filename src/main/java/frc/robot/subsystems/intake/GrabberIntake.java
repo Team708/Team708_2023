@@ -132,9 +132,14 @@ public class GrabberIntake extends SubsystemBase{
     return !m_dIOSensor.get();
     }
 
+    public double getRollerSpeed(){
+        return(this.m_intakeMotor.getEncoder().getVelocity());
+    }
+
     public void sendToDashboard(){
         SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
         SmartDashboard.putBoolean("Sensor", sensorDetected());
+        SmartDashboard.putNumber("intake speed", getRollerSpeed());
     }
 
 }

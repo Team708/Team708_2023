@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.opencv.features2d.FlannBasedMatcher;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -58,6 +60,9 @@ public class Elevator extends SubsystemBase {
   public static final Node H = new Node(ElevatorConstants.kLowSafePose, "LOW_SAFE");
   public static final Node I = new Node(ElevatorConstants.kMidSafePose, "MID_SAFE");
   public static final Node J = new Node(ElevatorConstants.kStartPose, "START");
+
+  private boolean atGroundPickup = false;
+
   private HashMap<String, Node> map;
 
   private Branch AB = new Branch(A, B); //Ground -> GS
@@ -422,6 +427,14 @@ private void checkBoundary(){
     } else{
       isColliding = false;
     }
+  }
+
+  public boolean getAtGroundPickup(){
+    return atGroundPickup;
+  }
+
+  public void setAtGroundPickup(boolean atGround){
+    atGroundPickup = atGround;
   }
 
   public void sendToDashboard(){
