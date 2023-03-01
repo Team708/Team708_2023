@@ -19,18 +19,8 @@ import frc.robot.commands.drive.ToggleFieldOrient;
 
 import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
-import frc.robot.subsystems.intake.GrabberIntake;
-import frc.robot.commands.grabberIntake.GrabberIntakeIncClamp;
-import frc.robot.commands.grabberIntake.GrabberIntakeOff;
-import frc.robot.commands.grabberIntake.GrabberIntakeOn;
-import frc.robot.commands.grabberIntake.GrabberIntakeOpen;
-import frc.robot.commands.grabberIntake.GrabberIntakeOut;
-import frc.robot.commands.grabberIntake.GrabberIntakeRetraction;
-import frc.robot.commands.grabberIntake.ToggleGrabberForwardReverse;
-import frc.robot.commands.grabberIntake.ToggleGrabberOpenClosed;
 import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
-import frc.robot.commands.rollerIntake.RollerIntakeOn;
 import frc.robot.commands.vision.ActivateAprilTag;
 import frc.robot.commands.vision.ActivateLED;
 import frc.robot.commands.vision.CANdleToOrange;
@@ -46,10 +36,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.intake.RollerIntake;
 import frc.robot.subsystems.sim.ElevatorSimulation;
 import frc.robot.util.AxisDown;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.intake.Intake;
 
 public class OI {
 
@@ -108,7 +98,7 @@ public class OI {
 	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
 	// }
 
-	public static void configureButtonBindings(Drivetrain m_robotDrive, Elevator m_elevator, GrabberIntake m_intake) {
+	public static void configureButtonBindings(Drivetrain m_robotDrive, Elevator m_elevator, Intake m_intake) {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
@@ -213,8 +203,8 @@ public class OI {
 					new JoystickButton(operatorController, Button.kLeftBumper.value)
 					.onTrue(new InstantCommand(() -> m_intake.intakeOff()));
 					
-					new JoystickButton(operatorController, Button.kRightBumper.value)
-					.onTrue(new OpenAndRunWheels(m_intake));
+					// new JoystickButton(operatorController, Button.kRightBumper.value)
+					// .onTrue(new OpenAndRunWheels(m_intake));
 					
 					new JoystickButton(operatorController, Button.kBack.value)
 					.onTrue(new InstantCommand(() -> m_intake.intakeReverse()));

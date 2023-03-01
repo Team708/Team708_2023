@@ -2,16 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.grabberIntake;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.subsystems.intake.Intake;
 
-public class GrabberIntakeReverse extends CommandBase {
+public class IntakeReverse extends CommandBase {
 
-  GrabberIntake m_intake;
+  Intake m_intake;
 
-  public GrabberIntakeReverse(GrabberIntake m_intake) {
+  public IntakeReverse(Intake m_intake) {
     this.m_intake = m_intake;
     addRequirements(m_intake);
   }

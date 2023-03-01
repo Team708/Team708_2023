@@ -5,13 +5,13 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.subsystems.intake.Intake;
 
 public class ToggleGrabberOpenClosed extends CommandBase {
 
-  GrabberIntake intake;
+  Intake intake;
 
-  public ToggleGrabberOpenClosed(GrabberIntake intake) {
+  public ToggleGrabberOpenClosed(Intake intake) {
     this.intake = intake;
     addRequirements(intake);
   }

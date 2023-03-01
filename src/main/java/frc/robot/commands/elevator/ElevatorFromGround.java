@@ -15,7 +15,7 @@ import frc.robot.OI;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.*;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.subsystems.intake.Intake;
 
 public class ElevatorFromGround extends CommandBase {
 
@@ -25,9 +25,9 @@ public class ElevatorFromGround extends CommandBase {
   boolean isFinished = false;
   Trajectory trajectory;
   double i = 0;
-  GrabberIntake m_intake;
+  Intake m_intake;
 
-  public ElevatorFromGround(Elevator elevator, Node target, GrabberIntake intake) {
+  public ElevatorFromGround(Elevator elevator, Node target, Intake intake) {
     this.elevator = elevator;
     this.target = target;
     this.m_intake = intake;

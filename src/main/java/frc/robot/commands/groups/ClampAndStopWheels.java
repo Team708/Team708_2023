@@ -6,15 +6,15 @@ package frc.robot.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.commands.grabberIntake.GrabberIntakeOff;
-import frc.robot.commands.grabberIntake.GrabberIntakeRetraction;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.commands.intake.IntakeOff;
+import frc.robot.commands.intake.IntakeRetraction;
+import frc.robot.subsystems.intake.Intake;
 
 public class ClampAndStopWheels extends ParallelCommandGroup {
-  public ClampAndStopWheels(GrabberIntake m_intake) {
+  public ClampAndStopWheels(Intake m_intake) {
     addCommands(
-      new GrabberIntakeOff(m_intake),
-      new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose)
+      new IntakeOff(m_intake),
+      new IntakeRetraction(m_intake, IntakeConstants.kCamOpenPose)
       );
   }
 }

@@ -17,37 +17,34 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.AutoFromPathPlanner;
 import frc.robot.commands.Autonomizations.AutoBalance;
 import frc.robot.commands.elevator.ElevatorToNode;
-import frc.robot.commands.grabberIntake.GrabberIntakeOn;
-import frc.robot.commands.grabberIntake.GrabberIntakeOut;
-import frc.robot.commands.grabberIntake.GrabberIntakeRetraction;
+import frc.robot.commands.intake.*;
 import frc.robot.commands.groups.DropConeHigh;
 import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.intake.GrabberIntake;
-import frc.robot.Utilities.AutoFromPathPlanner;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.commands.drive.InvertDriveCommand;
 import frc.robot.commands.drive.ResetDriveCommand;
-import frc.robot.subsystems.drive.Drivetrain;
 
 public class DriveToPieceAuto extends SequentialCommandGroup {
 
-  public DriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, GrabberIntake m_intake) {
+  public DriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake) {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
       
       new ParallelDeadlineGroup(
         new ElevatorToNode(m_elevator, Elevator.C),
-        new GrabberIntakeOn(m_intake, m_elevator)
+        new IntakeOn(m_intake, m_elevator)
       ),
-      new GrabberIntakeOut(m_intake).withTimeout(.2),
+      new IntakeOut(m_intake).withTimeout(.2),
       
       new ElevatorToNode(m_elevator, Elevator.A),
       new RaiseElevWhenPiece(m_intake, m_elevator),
       path,
       new ElevatorToNode(m_elevator, Elevator.D),
-      new GrabberIntakeOut(m_intake).withTimeout(.2)
+      new IntakeOut(m_intake).withTimeout(.2)
 
       );
   }

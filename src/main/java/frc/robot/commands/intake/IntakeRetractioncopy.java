@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.grabberIntake;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.subsystems.intake.Intake;
 
-public class GrabberIntakeRetractioncopy extends CommandBase {
+public class IntakeRetractioncopy extends CommandBase {
 
-  GrabberIntake m_intake;
+  Intake m_intake;
   double counts;
   boolean greater = false;
   boolean first = true;
 
-  public GrabberIntakeRetractioncopy(GrabberIntake m_intake, double counts) {
+  public IntakeRetractioncopy(Intake m_intake, double counts) {
     this.m_intake = m_intake;
     this.counts = counts;
 

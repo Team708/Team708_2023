@@ -1,19 +1,15 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.OI;
 import frc.robot.Constants.CurrentLimit;
 
 public class Intake extends SubsystemBase{
@@ -25,6 +21,8 @@ public class Intake extends SubsystemBase{
     
     private boolean isOpen = false;
     private boolean isReversed = false;
+    private boolean hasPiece = false;
+
     private DigitalInput m_dIOSensor;
 
     public Intake(DigitalInput m_dIOSensor){
@@ -132,9 +130,23 @@ public class Intake extends SubsystemBase{
     return !m_dIOSensor.get();
     }
 
+    public boolean getHasPiece(){
+        return hasPiece;
+    }
+
+    public void setHasPiece(boolean hasPiece){
+        this.hasPiece = hasPiece;
+    }
+
+    public double getRollerSpeed(){
+        return(this.m_intakeMotor.getEncoder().getVelocity());
+    }
+
     public void sendToDashboard(){
         SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
         SmartDashboard.putBoolean("Sensor", sensorDetected());
+        SmartDashboard.putNumber("intake speed", getRollerSpeed());
+        SmartDashboard.putBoolean("has Piece", getHasPiece());
     }
 
 }
