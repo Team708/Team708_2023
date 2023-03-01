@@ -15,8 +15,9 @@ import frc.robot.OI;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Utilities.DecisionTree.*;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.intake.GrabberIntake;
 
-public class ElevatorToNode extends CommandBase {
+public class ElevatorFromGround extends CommandBase {
 
   Node current, target;
   List<Translation2d> translations;
@@ -24,38 +25,43 @@ public class ElevatorToNode extends CommandBase {
   boolean isFinished = false;
   Trajectory trajectory;
   double i = 0;
+  GrabberIntake m_intake;
 
-  public ElevatorToNode(Elevator elevator, Node target) {
+  public ElevatorFromGround(Elevator elevator, Node target, GrabberIntake intake) {
     this.elevator = elevator;
     this.target = target;
+    this.m_intake = intake;
     addRequirements(elevator);
   }
 
   @Override
   public void initialize(){
-
-    // if (this.target == Elevator.A) 
+    // this.current = elevator.getElevatorNode();
+    // if (this.target == Elevator.A)
     //   elevator.setAtGroundPickup(true);
     // else
     //   elevator.setAtGroundPickup(false);
 
-    // this.current = elevator.getElevatorNode();
     this.current = elevator.getClosestNode();
     SmartDashboard.putString("CLOSEST NODE", elevator.getClosestNode().getIdentifier());
     elevator.setPose(this.current.getPosition());
     NodePath path = NodePathCalculator.shortestPath(elevator.getElevatorTree(), elevator, current, target);
     this.trajectory = path.translateToTrajectory();
-    if(this.trajectory != null && elevator.getSim() != null) elevator.getSim().drawTrajectory(trajectory);
+    // if(this.trajectory != null && elevator.getSim() != null) elevator.getSim().drawTrajectory(trajectory);
     i = 0;
   }
 
   @Override
   public void execute(){
-    if(this.trajectory == null) return;
-    Translation2d targetPose = trajectory.sample(i).poseMeters.getTranslation();
-    elevator.setPose(targetPose);
-    i += GlobalConstants.kLoopTime;
-    if(i >= trajectory.getTotalTimeSeconds()) i = trajectory.getTotalTimeSeconds();
+
+    if (m_intake.getHasPiece()){
+        if(this.trajectory == null) return;
+        // elevator.setAtGroundPickup(false);
+        Translation2d targetPose = trajectory.sample(i).poseMeters.getTranslation();
+        elevator.setPose(targetPose);
+        i += GlobalConstants.kLoopTime;
+        if(i >= trajectory.getTotalTimeSeconds()) i = trajectory.getTotalTimeSeconds();
+    }
   }
 
   @Override

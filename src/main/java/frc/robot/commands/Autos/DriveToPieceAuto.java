@@ -21,6 +21,7 @@ import frc.robot.commands.grabberIntake.GrabberIntakeOn;
 import frc.robot.commands.grabberIntake.GrabberIntakeOut;
 import frc.robot.commands.grabberIntake.GrabberIntakeRetraction;
 import frc.robot.commands.groups.DropConeHigh;
+import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.GrabberIntake;
@@ -43,8 +44,7 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
       new GrabberIntakeOut(m_intake).withTimeout(.2),
       
       new ElevatorToNode(m_elevator, Elevator.A),
-      new InstantCommand(() -> m_elevator.setAtGroundPickup(false)),
-      new GrabberIntakeOn(m_intake, m_elevator),
+      new RaiseElevWhenPiece(m_intake, m_elevator),
       path,
       new ElevatorToNode(m_elevator, Elevator.D),
       new GrabberIntakeOut(m_intake).withTimeout(.2)

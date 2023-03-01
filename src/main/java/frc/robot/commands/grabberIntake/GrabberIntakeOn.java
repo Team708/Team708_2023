@@ -5,6 +5,7 @@
 package frc.robot.commands.grabberIntake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.intake.GrabberIntake;
 
@@ -23,27 +24,28 @@ public class GrabberIntakeOn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_intake.setHasPiece(false);
+
     m_intake.intakeOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_intake.getRollerSpeed()<=100){
-      if (m_elevator.getAtGroundPickup()==false){
-        // new InstantCommand(() -> m_elevator.ElevatorToNode(m_elevator, Elevator.B));
-      }
-      m_elevator.setAtGroundPickup(true);
+    if (m_intake.getRollerSpeed()<=100 || m_intake.sensorDetected()){
+        m_intake.setHasPiece(true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {  }
+  public void end(boolean interrupted) { 
+    m_intake.intakeOn();
+   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_intake.getHasPiece();
   }
 }

@@ -25,6 +25,8 @@ public class GrabberIntake extends SubsystemBase{
     
     private boolean isOpen = false;
     private boolean isReversed = false;
+    private boolean hasPiece = false;
+
     private DigitalInput m_dIOSensor;
 
     public GrabberIntake(DigitalInput m_dIOSensor){
@@ -126,6 +128,14 @@ public class GrabberIntake extends SubsystemBase{
 
     public boolean getIsReversed(){
         return isReversed;
+    }
+
+    public boolean getHasPiece(){
+        return hasPiece;
+    }
+
+    public void setHasPiece(boolean hasPiece){
+        this.hasPiece = hasPiece;
     }
 
     public boolean sensorDetected(){
