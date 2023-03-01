@@ -14,7 +14,7 @@ public class ClampAndStopWheels extends ParallelCommandGroup {
   public ClampAndStopWheels(GrabberIntake m_intake) {
     addCommands(
       new GrabberIntakeOff(m_intake),
-      new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamClosedPose)
+      new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose)
       );
   }
 }

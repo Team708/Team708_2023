@@ -2,24 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.grabberIntake;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.GrabberIntake;
+import frc.robot.subsystems.vision.CANdleSystem;
 
-public class GrabberIntakeOut extends CommandBase {
+public class CANdleToOrange extends CommandBase {
 
-  GrabberIntake m_intake;
+  CANdleSystem candle = CANdleSystem.getInstance();
 
-  public GrabberIntakeOut(GrabberIntake m_intake) {
-    this.m_intake = m_intake;
-    // addRequirements(m_intake);
+  public CANdleToOrange() {
+    
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intakeOut();
+    candle.setLEDs(188, 255, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,13 +28,11 @@ public class GrabberIntakeOut extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_intake.intakeOff();
-    }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

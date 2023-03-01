@@ -24,11 +24,10 @@ public class LineAndBalanceAuto extends SequentialCommandGroup {
     AutoFromPathPlanner path = new AutoFromPathPlanner(dr, "Sigmoid", maxSpeed, true);
     addCommands(
         new InstantCommand(() -> dr.resetOdometry(path.getInitialPose())),
-        // new DropConeHigh(m_elevator, m_intake).withTimeout(5),
         new ElevatorToNode(m_elevator, Elevator.C),
         new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
         new ElevatorToNode(m_elevator, Elevator.B),
-        new GrabberIntakeRetraction(m_intake, 0),
+        new GrabberIntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
 
         // new WaitCommand(3),
         new ParallelCommandGroup(

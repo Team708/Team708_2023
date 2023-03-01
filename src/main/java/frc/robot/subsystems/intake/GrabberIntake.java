@@ -6,8 +6,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
+import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -19,11 +21,16 @@ public class GrabberIntake extends SubsystemBase{
     private CANSparkMax m_intakeMotor;
     private CANSparkMax m_clampMotor;
     private RelativeEncoder m_clampEncoder;
-
+    private SparkMaxPIDController pidController;
+    
     private boolean isOpen = false;
     private boolean isReversed = false;
+    private DigitalInput m_dIOSensor;
 
-    public GrabberIntake(){
+    public GrabberIntake(DigitalInput m_dIOSensor){
+
+        this.m_dIOSensor = m_dIOSensor;
+
         m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
         m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
         m_clampMotor.setInverted(false);
@@ -38,6 +45,13 @@ public class GrabberIntake extends SubsystemBase{
 
         m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
         m_clampEncoder.setPosition(0.0);
+
+        // SparkMaxPIDController pidController = m_clampMotor.getPIDController();
+
+        // pidController.setP(0.01);
+        // pidController.setI(0.0);
+        // pidController.setD(0.0);
+
     }
 
     @Override
@@ -76,6 +90,14 @@ public class GrabberIntake extends SubsystemBase{
         }
     }
 
+    public void incClamp(){
+            this.m_clampMotor.set(.5);
+        }
+
+    public void stopClamp(){
+        this.m_clampMotor.set(0);
+    }
+
     public boolean getIsOpen(){
         return isOpen;
     }
@@ -106,8 +128,13 @@ public class GrabberIntake extends SubsystemBase{
         return isReversed;
     }
 
+    public boolean sensorDetected(){
+    return !m_dIOSensor.get();
+    }
+
     public void sendToDashboard(){
         SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
+        SmartDashboard.putBoolean("Sensor", sensorDetected());
     }
 
 }

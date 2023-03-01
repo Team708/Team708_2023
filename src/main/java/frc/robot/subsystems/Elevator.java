@@ -39,6 +39,7 @@ public class Elevator extends SubsystemBase {
   // PIDController m_pidControllerA, m_pidControllerB;
   private double outputX, outputZ, outputA, outputB;
   private double m_measureX, m_measureZ;
+  private double previousX = 0.0, previousZ = 0.0;
 
     //collision check
   private boolean isColliding = false;
@@ -64,7 +65,7 @@ public class Elevator extends SubsystemBase {
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
   private Branch HI = new Branch(H, I); //LS -> MS
-  private Branch IF = new Branch(I, F); //MS -> LCONE
+  private Branch IF = new Branch(H, F); //LS -> LCONE
   private Branch FD = new Branch(F, D); //LCONE -> HCUBE
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
@@ -150,6 +151,8 @@ public class Elevator extends SubsystemBase {
     m_elevatorMotorA.setVoltage(outputA);
     m_elevatorMotorB.setVoltage(outputB);
 
+    previousX = m_setposX;
+    previousZ = m_setposZ;
   }
 
   public void simulationInit(){
@@ -301,7 +304,9 @@ public class Elevator extends SubsystemBase {
    * @param zSpeed        Speed of the elevator in the z direction (up).
    */
   public void commandedVelocity(double xSpeed, double zSpeed) {
-    m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
+    if(Math.abs(OI.getOperatorRightX()) > 0.2){
+      m_setposX = m_measureX + (xSpeed * GlobalConstants.kLoopTime);
+    }
     if(Math.abs(OI.getOperatorLeftY()) > 0.2){
       m_setposZ = m_measureZ +(zSpeed *  GlobalConstants.kLoopTime);
     }
@@ -319,92 +324,104 @@ public class Elevator extends SubsystemBase {
     m_elevatorSim.drawTrajectory(t);
   }
 
-  private void checkBoundary(){
-    //outer bounds
-    if (m_setposX < ElevatorConstants.kLeftBound && outputX < 0) {
-      m_setposX = ElevatorConstants.kLeftBound;
-      isColliding = true;
-    } else if(m_setposX > ElevatorConstants.kRightBound && outputX > 0){
+private void checkBoundary(){
+  double commandedDirectionX = m_setposX - previousX;
+  double commandedDirectionZ = m_setposZ - previousZ;
+  
+  //X is moving negative    
+  if (commandedDirectionX < 0){
+    //outer bounds      
+    // if (m_setposX < ElevatorConstants.kLeftBound) {
+    //   m_setposX = ElevatorConstants.kLeftBound;
+    //   isColliding = true;
+    // }
+    // if(m_setposX < ElevatorConstants.kBumperCoord1 && m_measureZ < ElevatorConstants.kBumperCoord2){
+    //   m_setposX = ElevatorConstants.kBumperCoord1;
+    //   isColliding = true;
+    // }
+  }
+
+  //X is moving positive    
+  if (commandedDirectionX > 0){
+    if(m_setposX > ElevatorConstants.kRightBound && commandedDirectionX > 0){
       m_setposX = ElevatorConstants.kRightBound;
       isColliding = true;
-    }else if(m_setposZ < ElevatorConstants.kLowerBound && outputZ < 0){
-      m_setposZ = ElevatorConstants.kLowerBound;
-      isColliding = true;
-    }else if(m_setposZ > ElevatorConstants.kUpperBound && outputZ > 0){
-      m_setposZ = ElevatorConstants.kUpperBound;
-      isColliding = true;
+    }
+    // if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && m_setposX > ElevatorConstants.kMiddleBound){
+    //   m_setposX = ElevatorConstants.kMiddleBound;
+    //   isColliding = true;
+    // }
+    // if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
+    //   m_setposX > ElevatorConstants.kLowConeLeftBound){
+    //   m_setposX = ElevatorConstants.kLowConeLeftBound;
+    //   isColliding = true;
+    // }
+    // if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf &&
+    // ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
+    //   m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
+    //   isColliding = true;
+    // }
+    // if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack && 
+    // m_setposX > ElevatorConstants.kHighConeLeftBound) {
+    //   m_setposX = ElevatorConstants.kHighConeLeftBound;
+    //   isColliding = true;
+    // } 
+  }
+
+    //Z is moving negative    
+    if (commandedDirectionZ < 0){
+      if(m_setposZ < ElevatorConstants.kLowerBound && commandedDirectionZ < 0){
+        m_setposZ = ElevatorConstants.kLowerBound;
+        isColliding = true;
+      }
+      // if(m_measureX < ElevatorConstants.kBumperCoord1 && m_setposZ < ElevatorConstants.kBumperCoord2){
+      //   m_setposZ = ElevatorConstants.kBumperCoord2;
+      //   isColliding = true;
+      // }
+      // if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && m_measureX > ElevatorConstants.kMiddleBound){
+      //   m_setposZ = ElevatorConstants.kCubeMiddleShelf;
+      //   isColliding = true;
+      // }
+      // if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack &&
+      // m_setposZ < ElevatorConstants.kLowConeUpperBound) {
+      //   m_setposZ = ElevatorConstants.kLowConeUpperBound;
+      //   isColliding = true;
+      // }
+      // if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound &&
+      //   m_setposZ < ElevatorConstants.kCubeTopShelf) {
+      //     m_setposZ = ElevatorConstants.kCubeTopShelf;
+      //     isColliding = true;
+      //   }
+      if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound && 
+      m_setposZ < ElevatorConstants.kHighConeUpperBound) {
+        m_setposZ = ElevatorConstants.kHighConeUpperBound;
+        isColliding = true; 
+      }
     }
 
-    //bumper bounds
-    if(m_setposX < ElevatorConstants.kBumperCoord1 && 
-        m_measureZ < ElevatorConstants.kBumperCoord2 && outputX < 0){
-      m_setposX = ElevatorConstants.kBumperCoord1;
-      isColliding = true;
+    //Z is moving positive    
+    if (commandedDirectionZ > 0){
+      if(m_setposZ > ElevatorConstants.kUpperBound && commandedDirectionZ > 0){
+        m_setposZ = ElevatorConstants.kUpperBound;
+        isColliding = true;
+      }
     }
-    if(m_measureX < ElevatorConstants.kBumperCoord1 && 
-        m_setposZ < ElevatorConstants.kBumperCoord2 && outputZ < 0){
-      m_setposZ = ElevatorConstants.kBumperCoord2;
-      isColliding = true;
-    }
-
-    //grid bounds
-    if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && 
-        m_setposX > ElevatorConstants.kMiddleBound){
-      m_setposX = ElevatorConstants.kMiddleBound;
-      isColliding = true;
-     }
-    if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && 
-    m_measureX > ElevatorConstants.kMiddleBound){
-      m_setposZ = ElevatorConstants.kCubeMiddleShelf;
-      isColliding = true;
-    }
-    if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
-        m_setposX > ElevatorConstants.kLowConeLeftBound){
-      m_setposX = ElevatorConstants.kLowConeLeftBound;
-      isColliding = true;
-    }
-    if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack
-     && ElevatorConstants.kLowConeUpperBound > m_setposZ) {
-      m_setposZ = ElevatorConstants.kLowConeUpperBound;
-      isColliding = true;
-     }
-     if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf
-     && ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
-      m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
-      isColliding = true;
-     }
-     if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound
-     && ElevatorConstants.kCubeTopShelf > m_setposZ) {
-      m_setposZ = ElevatorConstants.kCubeTopShelf;
-      isColliding = true;
-     }
-     if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack
-      && m_setposX > ElevatorConstants.kHighConeLeftBound) {
-      m_setposX = ElevatorConstants.kHighConeLeftBound;
-      isColliding = true;
-     }
-     if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound
-      && m_setposZ < ElevatorConstants.kHighConeUpperBound) {
-      m_setposZ = ElevatorConstants.kHighConeUpperBound;
-      isColliding = true;
-     }
-
-    //  //diagonal bound
+    
+    //diagonal bound    
     double xLimit = elevatorDiagX(m_measureZ);
     double zLimit = elevatorDiagZ(m_measureX);
-
-     if(m_setposZ > zLimit) {
-     m_setposZ = zLimit;
-     isColliding = true;
+    if(m_setposZ > zLimit && m_measureX > ElevatorConstants.kBumperCoord1) {
+      m_setposZ = zLimit;
+      m_setposX = m_setposX + .007;
+      isColliding = true;
     }
     if(m_setposX < xLimit) {
       m_setposX = xLimit;
+      m_setposZ = m_setposZ - .007;
       isColliding = true;
-     }
-    else{
+    } else{
       isColliding = false;
     }
-
   }
 
   public void sendToDashboard(){

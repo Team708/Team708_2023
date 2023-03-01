@@ -6,7 +6,6 @@ package frc.robot.subsystems.vision;
 
 import frc.robot.Constants.*;
 import com.ctre.phoenix.led.*;
-import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
@@ -39,14 +38,14 @@ public class CANdleSystem {
 
     private static CANdleSystem instance = null;
 
-    public static CANdle getInstance() {
+    public static CANdleSystem getInstance() {
         if (instance == null) {
             instance = new CANdleSystem();
         }
-        return instance.getCANdle();
+        return instance;
     }
 
-    public CANdleSystem() {
+    private CANdleSystem() {
         m_candle = new CANdle(CandleConstants.kCANdleID);
         changeAnimation(AnimationTypes.SetAll);
         CANdleConfiguration configAll = new CANdleConfiguration();
@@ -58,7 +57,7 @@ public class CANdleSystem {
         m_candle.configAllSettings(configAll, 100);
     }
 
-    public CANdle getCANdle() {
+    private CANdle getCANdle() {
         return m_candle;
     }
 
@@ -167,6 +166,10 @@ public class CANdleSystem {
 
     public void configStatusLedBehavior(boolean offWhenActive) {
         m_candle.configStatusLedState(offWhenActive, 0);
+    }
+
+    public void setLEDs(int G, int R, int B){
+        m_toAnimate = new ColorFlowAnimation(R, G, B, 0, 0.0, LedCount, Direction.Forward);
     }
 
     public void changeAnimation(AnimationTypes toChange) {

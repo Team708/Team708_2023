@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.intake.GrabberIntake;
 
-public class GrabberIntakeRetraction extends CommandBase {
+public class GrabberIntakeRetractioncopy extends CommandBase {
 
   GrabberIntake m_intake;
   double counts;
   boolean greater = false;
   boolean first = true;
 
-  public GrabberIntakeRetraction(GrabberIntake m_intake, double counts) {
+  public GrabberIntakeRetractioncopy(GrabberIntake m_intake, double counts) {
     this.m_intake = m_intake;
     this.counts = counts;
 

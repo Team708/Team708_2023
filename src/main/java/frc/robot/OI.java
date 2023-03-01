@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
 import frc.robot.commands.Autonomizations.AutoAlign;
 import frc.robot.commands.Autonomizations.AutoBalance;
@@ -18,7 +19,7 @@ import frc.robot.commands.drive.ToggleFieldOrient;
 import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.subsystems.intake.GrabberIntake;
-
+import frc.robot.commands.grabberIntake.GrabberIntakeIncClamp;
 import frc.robot.commands.grabberIntake.GrabberIntakeOff;
 import frc.robot.commands.grabberIntake.GrabberIntakeOn;
 import frc.robot.commands.grabberIntake.GrabberIntakeOpen;
@@ -28,8 +29,11 @@ import frc.robot.commands.grabberIntake.ToggleGrabberForwardReverse;
 import frc.robot.commands.grabberIntake.ToggleGrabberOpenClosed;
 import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
+import frc.robot.commands.rollerIntake.RollerIntakeOn;
 import frc.robot.commands.vision.ActivateAprilTag;
 import frc.robot.commands.vision.ActivateLED;
+import frc.robot.commands.vision.CANdleToOrange;
+import frc.robot.commands.vision.CANdleToPurple;
 
 import java.time.Instant;
 
@@ -142,6 +146,13 @@ public class OI {
 		new JoystickButton(driverController, Button.kStart.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
+		new JoystickLeftTrigger(driverController)
+				.whileTrue(new CANdleToOrange());
+
+		new JoystickLeftTrigger(driverController)
+				.and(new JoystickRightTrigger(driverController))
+				.whileTrue(new CANdleToPurple());
+
 				// new JoystickButton(driverController, Button.kRightBumper.value)
 				// 		.whenPressed(() -> /*Command*/)
 				// 		.whenReleased(() -> /*Command*/);
@@ -199,16 +210,23 @@ public class OI {
 					// 		new InstantCommand(() -> m_intake.setCamPosition(0.0))));
 					
 					new JoystickButton(operatorController, Button.kLeftBumper.value)
-					.onTrue(new ClampAndStopWheels(m_intake));
+					.onTrue(new InstantCommand(() -> m_intake.intakeOff()));
 					
 					new JoystickButton(operatorController, Button.kRightBumper.value)
 					.onTrue(new OpenAndRunWheels(m_intake));
 					
 					new JoystickButton(operatorController, Button.kBack.value)
-					.onTrue(new GrabberIntakeOut(m_intake));
+					.onTrue(new InstantCommand(() -> m_intake.intakeReverse()));
+
+					// new JoystickButton(operatorController, Button.kBack.value)
+					// .whileTrue(new GrabberIntakeOut(m_intake));
+					// // .onFalse(new GrabberIntakeOff(m_intake));
 
 					new JoystickButton(operatorController, Button.kStart.value)
 					.onTrue(new InstantCommand(() -> m_intake.intakeOn()));
+
+					// new JoystickButton(operatorController, Button.kStart.value)
+					// .whileTrue(new GrabberIntakeIncClamp(m_intake));
 					
 					new JoystickButton(operatorController, Button.kB.value)
 					.onTrue(new ElevatorToNode(m_elevator, Elevator.F)); //Low/Mid Cone	
