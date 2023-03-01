@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,18 +14,14 @@ import frc.robot.commands.DriveByController;
 import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.intake.GrabberIntake;
-import frc.robot.subsystems.intake.RollerIntake;
+import frc.robot.subsystems.intake.Intake;
 
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.SigmoidPathAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
 import frc.robot.commands.Autos.LineAndBalanceAuto;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.subsystems.drive.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,7 +39,7 @@ public class RobotContainer {
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
   // private final RollerIntake m_intake = new RollerIntake(dIO);
-  private final GrabberIntake m_intake = new GrabberIntake(dIO);
+  private final Intake m_intake = new Intake(dIO);
 
   private final DriveByController m_driveByController
     =  DriveByController.getInstance(m_drive);

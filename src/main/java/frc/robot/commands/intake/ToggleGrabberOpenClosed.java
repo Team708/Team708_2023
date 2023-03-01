@@ -2,24 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.rollerIntake;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.intake.RollerIntake;
+import frc.robot.subsystems.intake.GrabberIntake;
 
-public class RollerIntakeReverse extends CommandBase {
+public class ToggleGrabberOpenClosed extends CommandBase {
 
-  private RollerIntake m_intake;
+  GrabberIntake intake;
 
-  public RollerIntakeReverse(RollerIntake m_intake) {
-    this.m_intake = m_intake;
-    addRequirements(m_intake);
+  public ToggleGrabberOpenClosed(GrabberIntake intake) {
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.intakeReverse();
+    // if(intake.getIsOpen()){
+    //   intake.closeClamp();
+    // }else{
+    //   intake.openClamp();
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
