@@ -190,8 +190,8 @@ public final class Constants {
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
     public static final Translation2d kLowCubePose = new Translation2d(0.7395,0.6399);
     public static final Translation2d kLowConePose = new Translation2d(0.6173,0.7699);
-    public static final Translation2d kHighCubePose = new Translation2d(1.0561,0.9719);
-    public static final Translation2d kHighConePose = new Translation2d(1.1733,1.1141);   //1.4583,1.1141)
+    public static final Translation2d kHighCubePose = new Translation2d(1.0561,1.0319);
+    public static final Translation2d kHighConePose = new Translation2d(1.1733,1.1541);   //1.4583,1.1141)
     
     public static final Translation2d kGroundSafePose = new Translation2d(0.4528,0.3086);
     public static final Translation2d kLowSafePose = new Translation2d(0.4218,0.7359);

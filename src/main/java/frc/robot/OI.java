@@ -4,8 +4,6 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
-import frc.robot.commands.RequestCone;
-import frc.robot.commands.RequestCube;
 import frc.robot.commands.Autonomizations.AutoAlign;
 import frc.robot.commands.Autonomizations.AutoBalance;
 // import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
@@ -29,6 +27,8 @@ import frc.robot.commands.groups.RaiseElevWhenPieceTele;
 import frc.robot.commands.intake.IntakeOn;
 import frc.robot.commands.vision.ActivateAprilTag;
 import frc.robot.commands.vision.ActivateTape;
+import frc.robot.commands.vision.RequestCone;
+import frc.robot.commands.vision.RequestCube;
 
 import java.time.Instant;
 

@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    Limelight.disable();
     SmartDashboard.putBoolean("Limelight", false);
   }
 

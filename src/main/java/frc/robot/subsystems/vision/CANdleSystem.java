@@ -6,9 +6,6 @@ package frc.robot.subsystems.vision;
 
 import frc.robot.Constants.*;
 
-import java.lang.ProcessBuilder.Redirect;
-import java.util.GregorianCalendar;
-
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
