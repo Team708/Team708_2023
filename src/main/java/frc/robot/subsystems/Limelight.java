@@ -59,10 +59,10 @@ public class Limelight {
         return table.getEntry("tcornxy").getNumberArray(new Number[]{-1, -1, -1, -1});
     }
     
-    //Corners of blue box
-    public static void setLED(int led){
-        table.getEntry("ledMode").setNumber(led);
-    }
+    // //Corners of blue box
+    // public static void setLED(int led){
+    //     table.getEntry("ledMode").setNumber(led);
+    // }
 
     //Length of horizontal side of bb
     public static double thor(){

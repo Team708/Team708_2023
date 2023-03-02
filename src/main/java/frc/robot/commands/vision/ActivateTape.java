@@ -7,16 +7,14 @@ package frc.robot.commands.vision;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 
-public class ActivateLED extends CommandBase {
-  /** Creates a new ActivateAprilTag. */
-  public ActivateLED() {
+public class ActivateTape extends CommandBase {
+  public ActivateTape() {
     
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Limelight.setLED(1);
     Limelight.setPipeline(1);
   }
 

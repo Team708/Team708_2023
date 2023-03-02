@@ -28,9 +28,7 @@ import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.commands.groups.RaiseElevWhenPieceTele;
 import frc.robot.commands.intake.IntakeOn;
 import frc.robot.commands.vision.ActivateAprilTag;
-import frc.robot.commands.vision.ActivateLED;
-// import frc.robot.commands.vision.CANdleToOrange;
-// import frc.robot.commands.vision.CANdleToPurple;
+import frc.robot.commands.vision.ActivateTape;
 
 import java.time.Instant;
 
@@ -111,7 +109,7 @@ public class OI {
 		// Drive at half speed when the right bumper is held
 
 		new JoystickButton(driverController, Button.kLeftBumper.value)
-				.onTrue(new ActivateLED())
+				.onTrue(new ActivateTape())
 				.onTrue(new AutoAlign(m_robotDrive));
 
 		new JoystickButton(driverController, Button.kLeftBumper.value)
@@ -139,13 +137,6 @@ public class OI {
 		new JoystickButton(driverController, Button.kStart.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
-				//TODO
-		// new JoystickLeftTrigger(driverController)
-		// 		.whileTrue(new CANdleToOrange());
-
-		// new JoystickLeftTrigger(driverController)
-		// 		.and(new JoystickRightTrigger(driverController))
-		// 		.whileTrue(new CANdleToPurple());
 					
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
 		.onTrue(new InstantCommand(() -> m_intake.intakeOff(), m_intake));

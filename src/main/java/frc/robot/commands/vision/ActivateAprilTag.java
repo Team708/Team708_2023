@@ -16,7 +16,6 @@ public class ActivateAprilTag extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Limelight.setLED(0);
 
     Limelight.setPipeline(0);
   }
