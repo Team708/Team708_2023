@@ -66,7 +66,7 @@ public class Elevator extends SubsystemBase {
 
   private HashMap<String, Node> map;
 
-  private Branch AK = new Branch(A, K); //ConeIn -> CubeIn
+  private Branch AB = new Branch(A, B); //ConeIn -> CubeIn
   private Branch KB = new Branch(K, B); //CubeIn -> GS
   private Branch BJ = new Branch(B, J); //GS -> Start
   private Branch BH = new Branch(B, H); //GS -> LS
@@ -296,7 +296,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AK, KB, BJ, BH, HG, HI, IF, ED, IE, EC};
+    return new Branch[]{AB, KB, BJ, BH, HG, HI, IF, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){

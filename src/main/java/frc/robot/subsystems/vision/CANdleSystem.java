@@ -5,7 +5,12 @@
 package frc.robot.subsystems.vision;
 
 import frc.robot.Constants.*;
+
+import java.lang.ProcessBuilder.Redirect;
+import java.util.GregorianCalendar;
+
 import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
@@ -13,7 +18,10 @@ import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
 
-public class CANdleSystem {
+import edu.wpi.first.wpilibj.util.Color8Bit;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class CANdleSystem extends SubsystemBase{
     // private final String serial_number = "000E07B60975E000000200010B0000D4";
     private CANdle m_candle;
     private int LedCount = 300;
@@ -38,14 +46,14 @@ public class CANdleSystem {
 
     private static CANdleSystem instance = null;
 
-    public static CANdleSystem getInstance() {
+    public static CANdle getInstance() {
         if (instance == null) {
             instance = new CANdleSystem();
         }
-        return instance;
+        return instance.getCANdle();
     }
 
-    private CANdleSystem() {
+    public CANdleSystem() {
         m_candle = new CANdle(CandleConstants.kCANdleID);
         changeAnimation(AnimationTypes.SetAll);
         CANdleConfiguration configAll = new CANdleConfiguration();
@@ -57,7 +65,7 @@ public class CANdleSystem {
         m_candle.configAllSettings(configAll, 100);
     }
 
-    private CANdle getCANdle() {
+    public CANdle getCANdle() {
         return m_candle;
     }
 
@@ -168,10 +176,6 @@ public class CANdleSystem {
         m_candle.configStatusLedState(offWhenActive, 0);
     }
 
-    public void setLEDs(int G, int R, int B){
-        m_toAnimate = new ColorFlowAnimation(R, G, B, 0, 0.0, LedCount, Direction.Forward);
-    }
-
     public void changeAnimation(AnimationTypes toChange) {
         m_currentAnimation = toChange;
 
@@ -208,5 +212,13 @@ public class CANdleSystem {
                 break;
         }
         System.out.println("Changed to " + m_currentAnimation.toString());
+    }
+
+    public void setColor(int Red, int Green, int Blue){
+        m_candle.setLEDs(Red, Green, Blue);
+    }
+
+    public void setColor(Color8Bit color8Bit) {
+        setColor(color8Bit.red, color8Bit.green, color8Bit.blue);
     }
 }

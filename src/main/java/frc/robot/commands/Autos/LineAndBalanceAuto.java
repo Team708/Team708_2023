@@ -38,12 +38,12 @@ public class LineAndBalanceAuto extends SequentialCommandGroup {
         new IntakeOut(m_intake).withTimeout(.2),
         
         new ElevatorToNode(m_elevator, Elevator.B),
-        new IntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
+        //new IntakeRetraction(m_intake, IntakeConstants.kCamOpenPose),
 
         // new WaitCommand(3),
-        new ParallelCommandGroup(
-            path
-        ),
+        //new ParallelCommandGroup(
+            path,
+        //),
         new AutoBalance(dr)
       );
   }

@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.elevator.ElevatorFromGround;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.intake.IntakeOn;
+import frc.robot.commands.intake.IntakeOff;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.intake.Intake;
 
-public class RaiseElevWhenPiece extends SequentialCommandGroup {
-  public RaiseElevWhenPiece(Intake m_intake, Elevator m_elevator) {
+public class RaiseElevWhenPieceTele extends SequentialCommandGroup {
+  public RaiseElevWhenPieceTele(Intake m_intake, Elevator m_elevator) {
     addCommands(
-      //new ElevatorToNode(m_elevator, Elevator.K),
+      new IntakeOff(m_intake),
+      new ElevatorToNode(m_elevator, Elevator.A),
 
       new IntakeOn(m_intake),
       new ElevatorFromGround(m_elevator, Elevator.B, m_intake)

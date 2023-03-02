@@ -15,7 +15,7 @@ import frc.robot.commands.OperateByController;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
-
+import frc.robot.subsystems.vision.CANdleSystem;
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
 import frc.robot.commands.Autos.LineAndBalanceAuto;
@@ -39,6 +39,7 @@ public class RobotContainer {
   private final Elevator m_elevator = new Elevator();
   // private final RollerIntake m_intake = new RollerIntake(dIO);
   private final Intake m_intake = new Intake(dIO);
+  private final CANdleSystem m_candle = new CANdleSystem();
 
   private final DriveByController m_driveByController
     =  DriveByController.getInstance(m_drive);
@@ -47,9 +48,9 @@ public class RobotContainer {
     = new OperateByController(m_elevator);
 
   private final Command doNothin         = new WaitCommand(15);
-  private final Command DriveStraight    = new DriveStraightAuto(m_drive,   1);
-  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,    1, m_elevator, m_intake);
-  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,  1, m_elevator, m_intake);
+  private final Command DriveStraight    = new DriveStraightAuto(m_drive,   4);
+  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,    4, m_elevator, m_intake);
+  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,  2, m_elevator, m_intake);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -76,7 +77,7 @@ public class RobotContainer {
     // new POVButton(OI.driverController, 0)
     //     .onTrue(new InstantCommand(() -> m_drive.resetOdometry(new Rotation2d(0.0))));  //JNP
 
-    OI.configureButtonBindings(m_drive, m_elevator, m_intake);
+    OI.configureButtonBindings(m_drive, m_elevator, m_intake, m_candle);
   }
 
 

@@ -4,6 +4,8 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
+import frc.robot.commands.RequestCone;
+import frc.robot.commands.RequestCube;
 import frc.robot.commands.Autonomizations.AutoAlign;
 import frc.robot.commands.Autonomizations.AutoBalance;
 // import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
@@ -21,12 +23,14 @@ import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.groups.ClampAndStopWheels;
 import frc.robot.commands.groups.OpenAndRunWheels;
+import frc.robot.commands.groups.RaiseElevWhenCubeTele;
 import frc.robot.commands.groups.RaiseElevWhenPiece;
+import frc.robot.commands.groups.RaiseElevWhenPieceTele;
 import frc.robot.commands.intake.IntakeOn;
 import frc.robot.commands.vision.ActivateAprilTag;
 import frc.robot.commands.vision.ActivateLED;
-import frc.robot.commands.vision.CANdleToOrange;
-import frc.robot.commands.vision.CANdleToPurple;
+// import frc.robot.commands.vision.CANdleToOrange;
+// import frc.robot.commands.vision.CANdleToPurple;
 
 import java.time.Instant;
 
@@ -39,6 +43,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.sim.ElevatorSimulation;
+import frc.robot.subsystems.vision.CANdleSystem;
 import frc.robot.util.AxisDown;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
@@ -100,7 +105,7 @@ public class OI {
 	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
 	// }
 
-	public static void configureButtonBindings(Drivetrain m_robotDrive, Elevator m_elevator, Intake m_intake) {
+	public static void configureButtonBindings(Drivetrain m_robotDrive, Elevator m_elevator, Intake m_intake, CANdleSystem m_candleSystem) {
 
 		//DRIVER//
 		// Drive at half speed when the right bumper is held
@@ -120,17 +125,12 @@ public class OI {
 		new JoystickButton(driverController, Button.kRightStick.value)
 				.whileTrue(new LockWheels(m_robotDrive));
 				
-		// new JoystickButton(driverController, Button.kA.value)
-		// 		.onTrue(new TurnToCommand(180, m_robotDrive));
-								
-		// new JoystickButton(driverController, Button.kB.value)
-		// 		.onTrue(new TurnToCommand(90, m_robotDrive));
-				
-		// new JoystickButton(driverController, Button.kX.value)
-		// 		.onTrue(new TurnToCommand(270, m_robotDrive));
-				
-		// new JoystickButton(driverController, Button.kY.value)
-		// 		.onTrue(new TurnToCommand(0, m_robotDrive));
+		new JoystickLeftTrigger(driverController)
+				.onTrue(new RequestCone(m_candleSystem)); 
+
+		new JoystickLeftTrigger(driverController)
+				.and(new JoystickRightTrigger(driverController))
+				.onTrue(new RequestCube(m_candleSystem)); 
 
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new ResetDrive(m_robotDrive, new Rotation2d()))
@@ -139,12 +139,13 @@ public class OI {
 		new JoystickButton(driverController, Button.kStart.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
-		new JoystickLeftTrigger(driverController)
-				.whileTrue(new CANdleToOrange());
+				//TODO
+		// new JoystickLeftTrigger(driverController)
+		// 		.whileTrue(new CANdleToOrange());
 
-		new JoystickLeftTrigger(driverController)
-				.and(new JoystickRightTrigger(driverController))
-				.whileTrue(new CANdleToPurple());
+		// new JoystickLeftTrigger(driverController)
+		// 		.and(new JoystickRightTrigger(driverController))
+		// 		.whileTrue(new CANdleToPurple());
 					
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
 		.onTrue(new InstantCommand(() -> m_intake.intakeOff(), m_intake));
@@ -173,7 +174,7 @@ public class OI {
 		.onTrue(new ElevatorToNode(m_elevator, Elevator.G)); //Low/Mid Cube
 		
 		new JoystickButton(operatorController, Button.kA.value)
-		.onTrue(new RaiseElevWhenPiece(m_intake, m_elevator)); //Cone Intake
+		.onTrue(new RaiseElevWhenPieceTele(m_intake, m_elevator)); //Cone Intake
 		
 		new JoystickButton(operatorController, Button.kX.value)
 		.onTrue(new ElevatorToNode(m_elevator, Elevator.B)); // Ground Safe
@@ -187,7 +188,7 @@ public class OI {
 
 		new JoystickButton(operatorController, Button.kA.value)
 		.and(new JoystickRightTrigger(operatorController))
-		.onTrue(new ElevatorToNode(m_elevator, Elevator.K)); // Cube Intake
+		.onTrue(new RaiseElevWhenCubeTele(m_intake, m_elevator)); // Cube Intake
 
 		
 	}
