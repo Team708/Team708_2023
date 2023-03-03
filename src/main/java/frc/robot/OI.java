@@ -36,11 +36,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.sim.ElevatorSimulation;
 import frc.robot.subsystems.vision.CANdleSystem;
 import frc.robot.util.AxisDown;
 import frc.robot.subsystems.drive.Drivetrain;
@@ -124,11 +125,11 @@ public class OI {
 				.whileTrue(new LockWheels(m_robotDrive));
 				
 		new JoystickLeftTrigger(driverController)
-				.onTrue(new RequestCone(m_candleSystem)); 
+				.whileTrue(new RequestCone(m_candleSystem)); 
 
 		new JoystickLeftTrigger(driverController)
 				.and(new JoystickRightTrigger(driverController))
-				.onTrue(new RequestCube(m_candleSystem)); 
+				.whileTrue(new RequestCube(m_candleSystem)); 
 
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new ResetDrive(m_robotDrive, new Rotation2d()))
@@ -137,7 +138,10 @@ public class OI {
 		new JoystickButton(driverController, Button.kStart.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
-					
+		new JoystickButton(driverController, Button.kA.value)
+				.whileTrue(new InstantCommand(() -> m_candleSystem.setColor(0,255,0)));
+
+
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
 		.onTrue(new InstantCommand(() -> m_intake.intakeOff(), m_intake));
 		

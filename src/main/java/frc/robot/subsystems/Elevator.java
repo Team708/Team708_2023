@@ -30,7 +30,7 @@ import frc.robot.Utilities.DecisionTree.Branch;
 import frc.robot.Utilities.DecisionTree.BranchExceptionError;
 import frc.robot.Utilities.DecisionTree.Node;
 import frc.robot.Utilities.DecisionTree.Tree;
-import frc.robot.subsystems.sim.ElevatorSimulation;
+// import frc.robot.subsystems.sim.ElevatorSimulation;
 
 public class Elevator extends SubsystemBase {
   /* Creates a new Elevator. */
@@ -46,7 +46,7 @@ public class Elevator extends SubsystemBase {
     //collision check
   private boolean isColliding = false;
 
-  private ElevatorSimulation m_elevatorSim = null;
+  // private ElevatorSimulation m_elevatorSim = null;
 
   private Node elevatorCurrentNode;
 
@@ -165,18 +165,18 @@ public class Elevator extends SubsystemBase {
 
   public void simulationInit(){
    //Setup the elevator simulation
-   m_elevatorSim = new ElevatorSimulation(this, m_elevatorMotorA, m_elevatorMotorB);
+  //  m_elevatorSim = new ElevatorSimulation(this, m_elevatorMotorA, m_elevatorMotorB);
   }
 
-  @Override
-  public void simulationPeriodic(){
-    //Update elevator simulation
-    m_elevatorSim.update(m_setposX, m_setposZ);
-  }
+  // @Override
+  // public void simulationPeriodic(){
+  //   //Update elevator simulation
+  //   m_elevatorSim.update(m_setposX, m_setposZ);
+  // }
 
-  public ElevatorSimulation getSim(){
-    return m_elevatorSim;
-  }
+  // public ElevatorSimulation getSim(){
+  //   return m_elevatorSim;
+  // }
 
   /**
   * @return Horizontal position
@@ -328,9 +328,9 @@ public class Elevator extends SubsystemBase {
     return ElevatorConstants.kElevatorTanAngle * (X - ElevatorConstants.kLeftBound) + ElevatorConstants.diagy1;
   }
 
-  public void drawSimTrajectory(Trajectory t){
-    m_elevatorSim.drawTrajectory(t);
-  }
+  // public void drawSimTrajectory(Trajectory t){
+  //   m_elevatorSim.drawTrajectory(t);
+  // }
 
 private void checkBoundary(){
   double commandedDirectionX = m_setposX - previousX;

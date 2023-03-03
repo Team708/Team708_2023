@@ -27,7 +27,7 @@ public class RequestCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_candleSystem.setColor(new Color8Bit(Color.kPurple));//114, 20, 181
+    m_candleSystem.setColor(114, 20, 181);
   }
 
   // Called once the command ends or is interrupted.

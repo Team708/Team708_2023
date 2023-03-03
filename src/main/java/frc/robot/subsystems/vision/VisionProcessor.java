@@ -91,9 +91,9 @@ public class VisionProcessor extends SubsystemBase {
 	}
 
 	public void sendToDashboard() {
-		SmartDashboard.putBoolean("Vision Has Target", targetFound);
-		SmartDashboard.putNumber("Vision_Distance ", getDistance());
-		SmartDashboard.putNumber("Vision tx", getRotate());
+		// SmartDashboard.putBoolean("Vision Has Target", targetFound);
+		// SmartDashboard.putNumber("Vision_Distance ", getDistance());
+		// SmartDashboard.putNumber("Vision tx", getRotate());
 	}
 
 }

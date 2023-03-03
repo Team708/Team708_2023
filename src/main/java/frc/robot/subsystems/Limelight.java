@@ -1,33 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.Constants.CandleConstants;
-import frc.robot.Utilities.LinearInterpolationTable;
-import java.awt.geom.Point2D;
+
 
 public class Limelight {
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    // private static Point2D[] points = new Point2D.Double[] {
-    //         // (ty-angle,distance)
-    //         new Point2D.Double(-22.7, 308.0), // 242
-    //         new Point2D.Double(-20.0, 274.0), // 196
-    //         new Point2D.Double(-17.5, 245.0), // 163
-    //         new Point2D.Double(-15.0, 217.0), // 141
-    //         new Point2D.Double(-12.5, 200.0), // 121
-    //         new Point2D.Double(-10.0, 184.0), // 107
-    //         new Point2D.Double(-5.0, 157.0), // 96
-    //         new Point2D.Double(0.0, 136.0), // 85
-    //         new Point2D.Double(5.0, 120.0), // 77
-    //         new Point2D.Double(10.0, 106.0),
-    //         new Point2D.Double(15.0, 94.0),
-    //         new Point2D.Double(18.5, 86.0)
-    //         //
-    // };
-    // private static LinearInterpolationTable distTable = new LinearInterpolationTable(points);
 
     //X
     public static double tx() {
@@ -96,4 +74,5 @@ public class Limelight {
         table.getEntry("pipeline").setNumber(pipeline);
     }
     
+
 }
