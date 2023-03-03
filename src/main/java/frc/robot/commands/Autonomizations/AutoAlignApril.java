@@ -5,14 +5,17 @@
 package frc.robot.commands.Autonomizations;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.vision.ActivateAprilTag;
+import frc.robot.commands.vision.ActivateTape;
 import frc.robot.commands.vision.AlignWithReflectiveTape;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.vision.CANdleSystem;
 
-public class AutoAlign extends SequentialCommandGroup {
-  public AutoAlign(Drivetrain dr) {
+public class AutoAlignApril extends SequentialCommandGroup {
+  public AutoAlignApril(Drivetrain dr, CANdleSystem candle) {
     addCommands(
-      // new TurnToCommand(0, dr),
-      new AlignWithReflectiveTape(dr)
+      new ActivateAprilTag(),
+      new AlignWithReflectiveTape(dr, candle)
     );
   }
 }

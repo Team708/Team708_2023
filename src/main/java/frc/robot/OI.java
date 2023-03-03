@@ -4,7 +4,8 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
-import frc.robot.commands.Autonomizations.AutoAlign;
+import frc.robot.commands.Autonomizations.AutoAlignApril;
+import frc.robot.commands.Autonomizations.AutoAlignTape;
 import frc.robot.commands.Autonomizations.AutoBalance;
 // import frc.robot.commands.rollerIntake.ToggleRollerForwardReverse;
 // import frc.robot.commands.rollerIntake.RollerIntakeOff;
@@ -110,13 +111,11 @@ public class OI {
 		// Drive at half speed when the right bumper is held
 
 		new JoystickButton(driverController, Button.kLeftBumper.value)
-				.onTrue(new ActivateTape())
-				.onTrue(new AutoAlign(m_robotDrive));
+				.onTrue(new AutoAlignTape(m_robotDrive, m_candleSystem));
 
 		new JoystickButton(driverController, Button.kLeftBumper.value)
 				.and(new JoystickRightTrigger(driverController))
-				.onTrue(new ActivateAprilTag())
-				.onTrue(new AutoAlign(m_robotDrive));	
+				.onTrue(new AutoAlignApril(m_robotDrive, m_candleSystem));	
 
 		new JoystickButton(driverController, Button.kLeftStick.value)
 				.whileTrue(new ToggleFieldOrient(m_robotDrive)).onFalse(new ToggleFieldOrient(m_robotDrive));
