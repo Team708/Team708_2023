@@ -26,7 +26,7 @@ public class RequestCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_candleSystem.setColor(new Color8Bit(181, 122, 20));
+    m_candleSystem.setColor(new Color8Bit(Color.kYellow));
   }
 
   // Called once the command ends or is interrupted.

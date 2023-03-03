@@ -101,8 +101,8 @@ public class Elevator extends SubsystemBase {
     
     //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
     //each axis will require unique PID gains.
-    m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(30.0,  5));
-    m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2],new Constraints(30.0,  5));
+    m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(30.0,  3));
+    m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2],new Constraints(30.0,  3));
 
     m_pidControllerA.setTolerance(0.00000000001);
     m_pidControllerB.setTolerance(0.00000000001);
@@ -122,6 +122,7 @@ public class Elevator extends SubsystemBase {
     map.put(H.getIdentifier(), H);
     map.put(I.getIdentifier(), I);
     map.put(J.getIdentifier(), J);
+    map.put(K.getIdentifier(), K);
 
     nodeTree = new Tree(map);
     for (Branch branch : getElevatorBranches()) {
@@ -143,7 +144,7 @@ public class Elevator extends SubsystemBase {
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
-    // checkBoundary();
+    checkBoundary();
 
     double setPointA = getA(m_setposZ);
     double setPointB = getB(m_setposX, m_setposZ); //TODO m_setposZ
@@ -350,10 +351,10 @@ private void checkBoundary(){
 
   //X is moving positive    
   if (commandedDirectionX > 0){
-    if(m_setposX > ElevatorConstants.kRightBound && commandedDirectionX > 0){
-      m_setposX = ElevatorConstants.kRightBound;
-      isColliding = true;
-    }
+    // if(m_setposX > ElevatorConstants.kRightBound && commandedDirectionX > 0){
+    //   m_setposX = ElevatorConstants.kRightBound;
+    //   isColliding = true;
+    // }
     // if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && m_setposX > ElevatorConstants.kMiddleBound){
     //   m_setposX = ElevatorConstants.kMiddleBound;
     //   isColliding = true;
@@ -399,11 +400,11 @@ private void checkBoundary(){
       //     m_setposZ = ElevatorConstants.kCubeTopShelf;
       //     isColliding = true;
       //   }
-      if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound && 
-      m_setposZ < ElevatorConstants.kHighConeUpperBound) {
-        m_setposZ = ElevatorConstants.kHighConeUpperBound;
-        isColliding = true; 
-      }
+      // if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound && 
+      // m_setposZ < ElevatorConstants.kHighConeUpperBound) {
+      //   m_setposZ = ElevatorConstants.kHighConeUpperBound;
+      //   isColliding = true; 
+      // }
     }
 
     //Z is moving positive    

@@ -16,7 +16,7 @@ public class Tree{
     public void addBranch(Branch b) throws BranchExceptionError{
         if(nodeMap.containsValue(b.getA()) && nodeMap.containsValue(b.getB())){
             branches.add(b);
-        }else throw new BranchExceptionError("Cannot add branch when both nodes do not exist");
+        }else throw new BranchExceptionError("Cannot add branch " + b.getA().getIdentifier() + "-" + b.getB().getIdentifier() + "when both nodes do not exist");
     }
 
     public List<Node> getNodes(){

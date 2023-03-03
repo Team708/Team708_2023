@@ -29,14 +29,14 @@ public class AlignWithReflectiveTape extends CommandBase {
     public void execute() {
         SwerveModuleState[] states;
         // while(Math.abs(Limelight.tx()) > 0.1){
-            if(Math.signum(Limelight.tx()) == -1.0){
+            if(Math.signum(Limelight.tx()) == 1.0){
                 states = new SwerveModuleState[]{
                     new SwerveModuleState(-Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2)),
                     new SwerveModuleState(-Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2)),
                     new SwerveModuleState(-Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2)),
                     new SwerveModuleState(-Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2))
                 };
-            }else if(Math.signum(Limelight.tx()) == 1.0){
+            }else if(Math.signum(Limelight.tx()) == -1.0){
                 states = new SwerveModuleState[]{
                     new SwerveModuleState(Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2)),
                     new SwerveModuleState(Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2)),
