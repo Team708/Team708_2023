@@ -5,7 +5,7 @@
 package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.vision.Limelight;
 
 public class ActivateAprilTag extends CommandBase {
   /** Creates a new ActivateAprilTag. */

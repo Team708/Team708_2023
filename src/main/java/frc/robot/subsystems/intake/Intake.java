@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +17,6 @@ public class Intake extends SubsystemBase{
     private CANSparkMax m_clampMotor;
     private RelativeEncoder m_clampEncoder;
     private RelativeEncoder m_intakeEncoder;
-    private SparkMaxPIDController pidController;
     
     private boolean isOpen = false;
     private boolean isReversed = false;
@@ -156,11 +154,8 @@ public class Intake extends SubsystemBase{
     }
 
     public void sendToDashboard(){
-        SmartDashboard.putNumber("Intake Encoder Val", getCamPosition());
-        SmartDashboard.putBoolean("Sensor", sensorDetected());
         SmartDashboard.putNumber("intake speed", getRollerSpeed());
         SmartDashboard.putNumber("intake Position", getRollerPosition());
-        SmartDashboard.putBoolean("has Piece", getHasPiece());
     }
 
 }

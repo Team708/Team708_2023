@@ -1,7 +1,7 @@
 package frc.robot.commands.vision;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.vision.CANdleSystem;
 import edu.wpi.first.math.geometry.Rotation2d;

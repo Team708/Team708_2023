@@ -445,11 +445,5 @@ private void checkBoundary(){
     SmartDashboard.putNumber("elevatorPoseZ", m_setposZ);
     SmartDashboard.putNumber("measureX", m_measureX);
     SmartDashboard.putNumber("measureZ", m_measureZ);
-    SmartDashboard.putNumber("measureA", m_encoderA.getPosition());
-    SmartDashboard.putNumber("measureB", m_encoderB.getPosition());
-    SmartDashboard.putBoolean("Collision Detected", isColliding);
-
-    SmartDashboard.putNumber("Axis-Right", OI.operatorController.getRightTriggerAxis());
-    SmartDashboard.putNumber("Axis-Left", OI.operatorController.getLeftTriggerAxis());
   }
 }
