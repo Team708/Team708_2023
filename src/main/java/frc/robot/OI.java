@@ -25,7 +25,9 @@ import frc.robot.commands.groups.OpenAndRunWheels;
 import frc.robot.commands.groups.RaiseElevWhenCubeTele;
 import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.commands.groups.RaiseElevWhenPieceTele;
+import frc.robot.commands.intake.IntakeOff;
 import frc.robot.commands.intake.IntakeOn;
+import frc.robot.commands.intake.IntakeOut;
 import frc.robot.commands.vision.ActivateAprilTag;
 import frc.robot.commands.vision.ActivateTape;
 import frc.robot.commands.vision.RequestCone;
@@ -52,7 +54,7 @@ public class OI {
 	// Controllers
 	public final static XboxController driverController = new XboxController(ControllerConstants.kDriverControllerPort); // Driver
 	public final static XboxController operatorController = new XboxController(ControllerConstants.kOperatorControllerPort); // Operator
-	// public final static XboxController climberController  = new XboxController(ControllerConstants.kClimberControllerPort); // Climber
+	public final static XboxController colorController  = new XboxController(ControllerConstants.kColorControllerPort); // Climber
 	// public final static XboxController adaptiveController = new XboxController(ControllerConstants.kAdaptiveControllerPort); // Adaptive
 
 	public OI() {
@@ -129,11 +131,11 @@ public class OI {
 				.and(new JoystickRightTrigger(driverController))
 				.whileTrue(new RequestCube(m_candleSystem)); 
 
-		new JoystickButton(driverController, Button.kBack.value)
+		new JoystickButton(driverController, Button.kStart.value)
 				.onTrue(new ResetDrive(m_robotDrive, new Rotation2d()))
 				.onFalse(new SetRumble());
 
-		new JoystickButton(driverController, Button.kStart.value)
+		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
 		new JoystickButton(driverController, Button.kA.value)
@@ -141,7 +143,7 @@ public class OI {
 
 
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
-		.onTrue(new InstantCommand(() -> m_intake.intakeOff(), m_intake));
+		.onTrue(new IntakeOff(m_intake));
 		
 		// new JoystickButton(operatorController, Button.kRightBumper.value)
 		// .onTrue(new OpenAndRunWheels(m_intake));
@@ -154,7 +156,7 @@ public class OI {
 		// // .onFalse(new GrabberIntakeOff(m_intake));
 
 		new JoystickButton(operatorController, Button.kBack.value)
-		.onTrue(new InstantCommand(() -> m_intake.intakeReverse(), m_intake));
+		.onTrue(new IntakeOut(m_intake, m_candleSystem));
 
 		// new JoystickButton(operatorController, Button.kStart.value)
 		// .whileTrue(new GrabberIntakeIncClamp(m_intake));
@@ -183,6 +185,11 @@ public class OI {
 		.and(new JoystickRightTrigger(operatorController))
 		.onTrue(new RaiseElevWhenCubeTele(m_intake, m_elevator)); // Cube Intake
 
+		new JoystickButton(colorController, Button.kA.value)
+		.onTrue(new RequestCone(m_candleSystem));
+
+		new JoystickButton(colorController, Button.kB.value)
+		.onTrue(new RequestCube(m_candleSystem));
 		
 	}
 }

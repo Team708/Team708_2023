@@ -29,15 +29,14 @@ public class DriveUntilBalanced extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    if(Math.abs(pigeonInstance.getRoll().getDegrees()) > 2){ //Just as a precaution
+        initialDirection = Math.signum(pigeonInstance.getRoll().getDegrees());
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(pigeonInstance.getRoll().getDegrees()) > 2){ //Just as a precaution
-        initialDirection = Math.signum(pigeonInstance.getRoll().getDegrees());
-    }
     SwerveModuleState[] states;
      lastRoll = currRoll;
      currRoll = pigeonInstance.getRoll().getDegrees();

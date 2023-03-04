@@ -20,6 +20,8 @@ import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
 import frc.robot.commands.Autos.LeftDriveToPieceAuto;
 import frc.robot.commands.Autos.LineAndBalanceAuto;
+import frc.robot.commands.Autos.RedLeftDriveToPieceAuto;
+import frc.robot.commands.Autos.RedRightDriveToPieceAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -50,9 +52,11 @@ public class RobotContainer {
 
   private final Command doNothin         = new WaitCommand(15);
   private final Command DriveStraight    = new DriveStraightAuto(m_drive,    2);
-  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,     4, m_elevator, m_intake);
-  private final Command LeftDriveToPiece = new LeftDriveToPieceAuto(m_drive, 4, m_elevator, m_intake);
-  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake);
+  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,     4, m_elevator, m_intake, m_candle);
+  private final Command LeftDriveToPiece = new LeftDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
+  private final Command RedLeftDriveToPiece = new RedLeftDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
+  private final Command RedRightDriveToPiece = new RedRightDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
+  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake, m_candle);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -84,9 +88,11 @@ public class RobotContainer {
 
 
   private void configureAutoChooser(){
-    m_chooser.addOption("Leftside  DriveStraight",  DriveStraight);
-    m_chooser.addOption("Leftside  DriveToPiece",  LeftDriveToPiece);
-    m_chooser.addOption("Rightside DriveToPiece",   DriveToPiece);
+    m_chooser.addOption("DriveStraight",  DriveStraight);
+    m_chooser.addOption("Blue Leftside  DriveToPiece",  LeftDriveToPiece);
+    m_chooser.addOption("Blue Rightside DriveToPiece",   DriveToPiece);
+    m_chooser.addOption("RED Rightside DriveToPiece",   RedRightDriveToPiece);
+    m_chooser.addOption("RED Leftside DriveToPiece",   RedLeftDriveToPiece);
     m_chooser.addOption("ScoreLineBalance", ScoreLineBalance);
     
     m_chooser.addOption("Do Nothing",     doNothin);

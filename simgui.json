@@ -35,11 +35,7 @@
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/SmartDashboard/Elevator Sim": "Mechanism2d",
-      "/SmartDashboard/Elevator Trajectory Sim": "Field2d",
-      "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/SendableChooser[0]": "String Chooser"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     },
     "windows": {
       "/SmartDashboard/Elevator Sim": {

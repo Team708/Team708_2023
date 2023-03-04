@@ -52,11 +52,6 @@ public class AlignWithReflectiveTape extends CommandBase {
                     new SwerveModuleState(Constants.VisionConstants.kLineupSpeed, new Rotation2d(Math.PI / 2))
                 };
             }else{
-                if(!Limelight.valid()){
-                    m_candleSystem.setColor(255,0,0);
-                }else{
-                    m_candleSystem.setColor(0,255,0);
-                }
                 states = new SwerveModuleState[]{
                     new SwerveModuleState(0, new Rotation2d(Math.PI / 2)),
                     new SwerveModuleState(0, new Rotation2d(Math.PI / 2)),
@@ -70,6 +65,11 @@ public class AlignWithReflectiveTape extends CommandBase {
 
     @Override
     public void end(boolean interrupted){
+        if(!Limelight.valid()){
+            m_candleSystem.setColor(255,0,0);
+        }else{
+            m_candleSystem.setColor(0,255,0);
+        }
         m_robotDrive.setModuleStates(new SwerveModuleState[]{
             new SwerveModuleState(0, preStates[0].angle),
             new SwerveModuleState(0, preStates[1].angle),

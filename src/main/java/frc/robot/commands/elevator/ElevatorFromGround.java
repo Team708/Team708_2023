@@ -43,7 +43,7 @@ public class ElevatorFromGround extends CommandBase {
     //   elevator.setAtGroundPickup(false);
 
     this.current = elevator.getClosestNode();
-    SmartDashboard.putString("CLOSEST NODE", elevator.getClosestNode().getIdentifier());
+    // SmartDashboard.putString("CLOSEST NODE", elevator.getClosestNode().getIdentifier());
     elevator.setPose(this.current.getPosition());
     NodePath path = NodePathCalculator.shortestPath(elevator.getElevatorTree(), elevator, current, target);
     this.trajectory = path.translateToTrajectory();

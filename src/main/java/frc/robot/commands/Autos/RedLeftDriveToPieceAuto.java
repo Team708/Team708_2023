@@ -19,10 +19,10 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.CANdleSystem;
 
 
-public class DriveToPieceAuto extends SequentialCommandGroup {
+public class RedLeftDriveToPieceAuto extends SequentialCommandGroup {
 
-  public DriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
-    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
+  public RedLeftDriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
+    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "REDLeftDriveToPiece", maxSpeed, true);
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
@@ -30,7 +30,7 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
         new ElevatorToNode(m_elevator, Elevator.C)/*.withTimeout(3.3)*/,
         new IntakeOn(m_intake)
       ),
-      new IntakeOut(m_intake, m_candle),
+      new IntakeOut(m_intake, m_candle).withTimeout(.5),
       new WaitCommand(0.2),
       new IntakeOff(m_intake),
       new ElevatorToNode(m_elevator, Elevator.K),

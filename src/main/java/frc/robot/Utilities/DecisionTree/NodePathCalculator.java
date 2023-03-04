@@ -49,7 +49,7 @@ public class NodePathCalculator {
         for (int i = finalPath.size() - 1; i >= 0; i--) {
             tempFinalPath.add(finalPath.get(i));
         }
-        tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
+        // tempFinalPath.stream().forEach(i -> System.out.println(i.getIdentifier()));
         return new NodePath(tempFinalPath, elevator);
     }
 
