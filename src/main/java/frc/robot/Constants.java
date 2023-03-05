@@ -199,6 +199,7 @@ public final class Constants {
     public static final Translation2d kHighSafePose = new Translation2d(1.0884,1.1376);//1.0884,1.1576
 
     public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
+    public static final Translation2d kFeederIntermittantPose = new Translation2d(0.8, 1.0);
 
     //Elevator Boundaries, meters
     public static final double kLeftBound = -0.051; 

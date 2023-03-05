@@ -102,7 +102,8 @@ public class DriveUntilBalanced extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(lastRoll) > Math.abs(currRoll) + .8;
+    //return Math.abs(lastRoll) > Math.abs(currRoll) + .8;
+    return Math.abs(currRoll) < 2;
     // return false;
   }
 }

@@ -110,14 +110,14 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
-  public void simulationInit(){
-    m_elevator.simulationInit();
-  }
+  // public void simulationInit(){
+  //   m_elevator.simulationInit();
+  // }
 
-  /** This function is called periodically whilst in simulation. */
-  public void simulationPeriodic() {
-    m_elevator.simulationPeriodic();
-  }
+  // /** This function is called periodically whilst in simulation. */
+  // public void simulationPeriodic() {
+  //   m_elevator.simulationPeriodic();
+  // }
 
   public void sendToDashboard() {
     m_drive.sendToDashboard();

@@ -62,6 +62,7 @@ public class Elevator extends SubsystemBase {
   public static final Node I = new Node(ElevatorConstants.kMidSafePose, "MID_SAFE");
   public static final Node J = new Node(ElevatorConstants.kStartPose, "START");
   public static final Node L = new Node(ElevatorConstants.kFeederStationPose, "FEEDER_STATION");
+  public static final Node M = new Node(ElevatorConstants.kFeederIntermittantPose, "FEEDER_INTERMITTANT");
 
   private boolean atGroundPickup = false;
 
@@ -69,7 +70,7 @@ public class Elevator extends SubsystemBase {
 
   private Branch AB = new Branch(A, B); //ConeIn -> CubeIn
   private Branch KB = new Branch(K, B); //CubeIn -> GS
-  private Branch BL = new Branch(B, L); //GS -> Feeder
+  // private Branch BL = new Branch(B, L); //GS -> Feeder
   private Branch BJ = new Branch(B, J); //GS -> Start
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
@@ -78,6 +79,8 @@ public class Elevator extends SubsystemBase {
   private Branch ED = new Branch(E, D); //HS -> HCUBE
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
+  // private Branch LM = new Branch(L, M); //Feeder -> Inter.
+  private Branch LC = new Branch(L, C); //FEEDER -> HCONE
 
   private Tree nodeTree;
 
@@ -126,6 +129,7 @@ public class Elevator extends SubsystemBase {
     map.put(J.getIdentifier(), J);
     map.put(K.getIdentifier(), K);
     map.put(L.getIdentifier(), L);
+    map.put(M.getIdentifier(), M);
 
     nodeTree = new Tree(map);
     for (Branch branch : getElevatorBranches()) {
@@ -300,7 +304,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AB, KB, BL, BJ, BH, HG, HI, IF, ED, IE, EC};
+    return new Branch[]{AB, KB, LC, BJ, BH, HG, HI, IF, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){
