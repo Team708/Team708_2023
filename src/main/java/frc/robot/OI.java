@@ -190,6 +190,9 @@ public class OI {
 
 		new JoystickButton(colorController, Button.kB.value)
 		.onTrue(new RequestCube(m_candleSystem));
+
+		new JoystickButton(colorController, Button.kBack.value)
+		.onTrue(new ElevatorToNode(m_elevator, Elevator.L));
 		
 	}
 }

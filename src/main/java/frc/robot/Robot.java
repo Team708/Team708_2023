@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    SmartDashboard.putBoolean("Limelight", false);
+    // SmartDashboard.putBoolean("Limelight", false);
   }
 
   /**
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     
     if (SmartDashboard.getBoolean("Limelight", false)) {
       Limelight.enable();
-      SmartDashboard.putNumber("Limelight ty", Limelight.ty());
+      // SmartDashboard.putNumber("Limelight ty", Limelight.ty());
     }
 
   
