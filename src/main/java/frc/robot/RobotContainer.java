@@ -69,7 +69,7 @@ public class RobotContainer {
     m_drive.setDefaultCommand(m_driveByController);
     m_elevator.setDefaultCommand(m_operateByController);
 
-    m_drive.resetOdometry(new Pose2d()); //added to test JP
+    m_drive.resetOdometry(new Pose2d()); //added to test JNP
   }
 
   /**

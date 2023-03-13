@@ -68,7 +68,7 @@ public class Elevator extends SubsystemBase {
 
   private HashMap<String, Node> map;
 
-  private Branch AB = new Branch(A, B); //ConeIn -> CubeIn
+  private Branch AB = new Branch(A, B); //ConeIn -> GS
   private Branch KB = new Branch(K, B); //CubeIn -> GS
   // private Branch BL = new Branch(B, L); //GS -> Feeder
   private Branch BJ = new Branch(B, J); //GS -> Start
@@ -151,7 +151,7 @@ public class Elevator extends SubsystemBase {
     //gets the current position of elevator
     m_measureX = getX();
     m_measureZ = getZ();
-    checkBoundary();
+    // checkBoundary();   // jnp
 
     double setPointA = getA(m_setposZ);
     double setPointB = getB(m_setposX, m_setposZ); //TODO m_setposZ
@@ -170,10 +170,10 @@ public class Elevator extends SubsystemBase {
     previousZ = m_setposZ;
   }
 
-  public void simulationInit(){
+  // public void simulationInit(){
    //Setup the elevator simulation
   //  m_elevatorSim = new ElevatorSimulation(this, m_elevatorMotorA, m_elevatorMotorB);
-  }
+  // }
 
   // @Override
   // public void simulationPeriodic(){
@@ -449,8 +449,8 @@ private void checkBoundary(){
 
   public void sendToDashboard(){
     SmartDashboard.putNumber("elevatorPoseX", m_setposX);
-    SmartDashboard.putNumber("elevatorPoseZ", m_setposZ);
     SmartDashboard.putNumber("measureX", m_measureX);
+    SmartDashboard.putNumber("elevatorPoseZ", m_setposZ);
     SmartDashboard.putNumber("measureZ", m_measureZ);
   }
 }
