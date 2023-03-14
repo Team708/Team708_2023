@@ -20,7 +20,7 @@ public class RaiseElevWhenCubeTele extends SequentialCommandGroup {
       new ElevatorToNode(m_elevator, Elevator.K),
 
       new IntakeOn(m_intake),
-      new ElevatorFromGround(m_elevator, Elevator.B, m_intake)
+      new ElevatorFromGround(m_elevator, Elevator.J, m_intake)
       );
   }
 }

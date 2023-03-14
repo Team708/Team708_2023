@@ -169,54 +169,56 @@ public final class Constants {
     public static final double kElevatorSinAngle = Math.sin(Math.toRadians(ElevatorConstants.kElevatorAngle));
     public static final double kElevatorTanAngle = Math.tan(Math.toRadians(ElevatorConstants.kElevatorAngle));
 
-    //x and z in meters
-    //Reference point is from front of Robot frame and ground
-    //GRABBER
-    // public static final Translation2d kGroundPickupPose = new Translation2d(0.5236,-0.031);
-    // public static final Translation2d kStartPose = new Translation2d(0.0,0.2); 
-    // public static final Translation2d kLowCubePose = new Translation2d(0.7204,0.7989); 
-    // public static final Translation2d kLowConePose = new Translation2d(0.8222,1.1065); 
-    // public static final Translation2d kHighCubePose = new Translation2d(1.2129,1.1570); 
-    // public static final Translation2d kHighConePose = new Translation2d(1.3258,1.3221);
+    //x and z in meters - OLD
+    // public static final Translation2d kConeIntakePose = new Translation2d(0.45,-0.0927);
+    // public static final Translation2d kCubeIntakePose = new Translation2d(0.45,0.0);
+    // public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
+    // public static final Translation2d kLowCubePose = new Translation2d(0.7395,0.6399);
+    // public static final Translation2d kLowConePose = new Translation2d(0.6173,0.7699);
+    // public static final Translation2d kHighCubePose = new Translation2d(1.0561,1.0319);
+    // public static final Translation2d kHighConePose = new Translation2d(1.1733,1.1541);   //1.4583,1.1141)
     
-    // public static final Translation2d kGroundSafePose = new Translation2d(0.4128,0.3086);
-    // public static final Translation2d kLowSafePose = new Translation2d(0.6128,0.7989);
-    // public static final Translation2d kMidSafePose = new Translation2d(0.6806,0.9637);
-    // public static final Translation2d kHighSafePose = new Translation2d(0.9984,1.3976);
+    // public static final Translation2d kGroundSafePose = new Translation2d(0.4528,0.3086);
+    // public static final Translation2d kLowSafePose = new Translation2d(.480, .700);   //(0.4218+0.08,0.7659);   jnp       //0.4218,0.7359
+    // public static final Translation2d kMidSafePose = new Translation2d(0.600+0.13,1.05);//0.600,1.05
+    // public static final Translation2d kHighSafePose = new Translation2d(1.0884,1.1376);//1.0884,1.1576
 
-    //ROLLER
-    public static final Translation2d kConeIntakePose = new Translation2d(0.45,-0.0927);
-    public static final Translation2d kCubeIntakePose = new Translation2d(0.45,0.0);
+    // public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
+    // public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);     //(0.8, 1.0);  jnp
+
+    public static final Translation2d kConeIntakePose = new Translation2d(0.45,-0.103); //TODO RENAME TO INTAKEGENERAL OR SOMETHING
+    public static final Translation2d kCubeIntakePose = new Translation2d(0.45,0.027); //TODO RENAME TO HIGH CONE INTAKE
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
-    public static final Translation2d kLowCubePose = new Translation2d(0.7395,0.6399);
-    public static final Translation2d kLowConePose = new Translation2d(0.6173,0.7699);
-    public static final Translation2d kHighCubePose = new Translation2d(1.0561,1.0319);
-    public static final Translation2d kHighConePose = new Translation2d(1.1733,1.1541);   //1.4583,1.1141)
+    public static final Translation2d kLowCubePose = new Translation2d(0.61,0.630);
+    public static final Translation2d kLowConePose = new Translation2d(0.659,0.772);
+    public static final Translation2d kHighCubePose = new Translation2d(1.097,0.928);
+    public static final Translation2d kHighConePose = new Translation2d(1.161,1.146);
     
-    public static final Translation2d kGroundSafePose = new Translation2d(0.4528,0.3086);
-    public static final Translation2d kLowSafePose = new Translation2d(.480, .700);   //(0.4218+0.08,0.7659);   jnp       //0.4218,0.7359
-    public static final Translation2d kMidSafePose = new Translation2d(0.600+0.13,1.05);//0.600,1.05
-    public static final Translation2d kHighSafePose = new Translation2d(1.0884,1.1376);//1.0884,1.1576
+    public static final Translation2d kGroundSafePose = new Translation2d(0.44,0.2);
+    public static final Translation2d kBearingPose = new Translation2d(0.48, 0.711); 
+    public static final Translation2d kLowSafePose = new Translation2d(0.44, 0.590);   //(0.44, 0.776); 
+    public static final Translation2d kMidSafePose = new Translation2d(.755,1.058);
+    public static final Translation2d kHighSafePose = new Translation2d(0.796,1.153);
 
     public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
-    public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);     //(0.8, 1.0);  jnp
+    public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);
 
     //Elevator Boundaries, meters
-    public static final double kLeftBound = -0.051; 
-    public static final double kRightBound = 1.16; 
-    public static final double kLowerBound = -0.999; //-0.095
-    public static final double kUpperBound = 1.22;
-    public static final double kBumperCoord2 = 0.167925;
-    public static final double kBumperCoord1 = 0.25;
-    public static final double kMiddleBound = 0.444;
-    public static final double kLowConeLeftBound = 0.638;
-    public static final double kLowConeUpperBound = 0.878;
-    public static final double kCubeMiddleShelf = 0.607;
-    public static final double kCubeMiddleShelfBack = 0.877;
-    public static final double kCubeTopShelf = 0.907;
-    public static final double kHighConeLeftBound = 1.095; //1.065
-    public static final double kHighConeUpperBound = 1.181;
-    public static final double diagy1 = -.05;
+    // public static final double kLeftBound = -0.051; 
+    // public static final double kRightBound = 1.16; 
+    // public static final double kLowerBound = -0.999; //-0.095
+    // public static final double kUpperBound = 1.22;
+    // public static final double kBumperCoord2 = 0.167925;
+    // public static final double kBumperCoord1 = 0.25;
+    // public static final double kMiddleBound = 0.444;
+    // public static final double kLowConeLeftBound = 0.638;
+    // public static final double kLowConeUpperBound = 0.878;
+    // public static final double kCubeMiddleShelf = 0.607;
+    // public static final double kCubeMiddleShelfBack = 0.877;
+    // public static final double kCubeTopShelf = 0.907;
+    // public static final double kHighConeLeftBound = 1.095; //1.065
+    // public static final double kHighConeUpperBound = 1.181;
+    // public static final double diagy1 = -.05;
 
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kElevatorAngle = 55;

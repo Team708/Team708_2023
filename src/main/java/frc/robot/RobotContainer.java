@@ -52,10 +52,10 @@ public class RobotContainer {
 
   private final Command doNothin         = new WaitCommand(15);
   private final Command DriveStraight    = new DriveStraightAuto(m_drive,    2);
-  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,     4, m_elevator, m_intake, m_candle);
-  private final Command LeftDriveToPiece = new LeftDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
-  private final Command RedLeftDriveToPiece = new RedLeftDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
-  private final Command RedRightDriveToPiece = new RedRightDriveToPieceAuto(m_drive, 4, m_elevator, m_intake, m_candle);
+  private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,     5, m_elevator, m_intake, m_candle);
+  private final Command LeftDriveToPiece = new LeftDriveToPieceAuto(m_drive, 5, m_elevator, m_intake, m_candle);
+  private final Command RedLeftDriveToPiece = new RedLeftDriveToPieceAuto(m_drive, 5, m_elevator, m_intake, m_candle);
+  private final Command RedRightDriveToPiece = new RedRightDriveToPieceAuto(m_drive, 5, m_elevator, m_intake, m_candle);
   private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake, m_candle);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();

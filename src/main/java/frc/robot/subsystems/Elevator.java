@@ -63,6 +63,7 @@ public class Elevator extends SubsystemBase {
   public static final Node J = new Node(ElevatorConstants.kStartPose, "START");
   public static final Node L = new Node(ElevatorConstants.kFeederStationPose, "FEEDER_STATION");
   public static final Node M = new Node(ElevatorConstants.kFeederIntermittantPose, "FEEDER_INTERMITTANT");
+  public static final Node N = new Node(ElevatorConstants.kBearingPose, "BEARING_SAFE");
 
   private boolean atGroundPickup = false;
 
@@ -74,13 +75,17 @@ public class Elevator extends SubsystemBase {
   private Branch BJ = new Branch(B, J); //GS -> Start
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
-  private Branch HI = new Branch(H, I); //LS -> MS
-  private Branch IF = new Branch(H, F); //LS -> LCONE
+  // private Branch HI = new Branch(H, I); //LS -> MS
+  // private Branch IF = new Branch(H, F); //LS -> LCONE
   private Branch ED = new Branch(E, D); //HS -> HCUBE
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
   // private Branch LM = new Branch(L, M); //Feeder -> Inter.
   private Branch LC = new Branch(L, C); //FEEDER -> HCONE
+
+  private Branch NI = new Branch(N, I); //BS -> MS
+  private Branch NF = new Branch(N, F); //BS -> LC
+  private Branch HN = new Branch(H, N); //LS -> BS
 
   private Tree nodeTree;
 
@@ -130,6 +135,7 @@ public class Elevator extends SubsystemBase {
     map.put(K.getIdentifier(), K);
     map.put(L.getIdentifier(), L);
     map.put(M.getIdentifier(), M);
+    map.put(N.getIdentifier(), N);
 
     nodeTree = new Tree(map);
     for (Branch branch : getElevatorBranches()) {
@@ -304,7 +310,8 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AB, KB, LC, BJ, BH, HG, HI, IF, ED, IE, EC};
+    // return new Branch[]{AB, KB, LC, BJ, BH, HG, HI, IF, ED, IE, EC};
+    return new Branch[]{AB, KB, LC, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){
@@ -327,117 +334,117 @@ public class Elevator extends SubsystemBase {
     }
   }
 
-  public double elevatorDiagX(double Z){
-    return ((Z - ElevatorConstants.diagy1) / ElevatorConstants.kElevatorTanAngle) + ElevatorConstants.kLeftBound;
-  }
+  // public double elevatorDiagX(double Z){
+  //   return ((Z - ElevatorConstants.diagy1) / ElevatorConstants.kElevatorTanAngle) + ElevatorConstants.kLeftBound;
+  // }
 
-  public double elevatorDiagZ(double X){
-    return ElevatorConstants.kElevatorTanAngle * (X - ElevatorConstants.kLeftBound) + ElevatorConstants.diagy1;
-  }
+  // public double elevatorDiagZ(double X){
+  //   return ElevatorConstants.kElevatorTanAngle * (X - ElevatorConstants.kLeftBound) + ElevatorConstants.diagy1;
+  // }
 
   // public void drawSimTrajectory(Trajectory t){
   //   m_elevatorSim.drawTrajectory(t);
   // }
 
-private void checkBoundary(){
-  double commandedDirectionX = m_setposX - previousX;
-  double commandedDirectionZ = m_setposZ - previousZ;
+// private void checkBoundary(){
+//   double commandedDirectionX = m_setposX - previousX;
+//   double commandedDirectionZ = m_setposZ - previousZ;
   
-  //X is moving negative    
-  if (commandedDirectionX < 0){
-    //outer bounds      
-    // if (m_setposX < ElevatorConstants.kLeftBound) {
-    //   m_setposX = ElevatorConstants.kLeftBound;
-    //   isColliding = true;
-    // }
-    // if(m_setposX < ElevatorConstants.kBumperCoord1 && m_measureZ < ElevatorConstants.kBumperCoord2){
-    //   m_setposX = ElevatorConstants.kBumperCoord1;
-    //   isColliding = true;
-    // }
-  }
+//   //X is moving negative    
+//   if (commandedDirectionX < 0){
+//     //outer bounds      
+//     // if (m_setposX < ElevatorConstants.kLeftBound) {
+//     //   m_setposX = ElevatorConstants.kLeftBound;
+//     //   isColliding = true;
+//     // }
+//     // if(m_setposX < ElevatorConstants.kBumperCoord1 && m_measureZ < ElevatorConstants.kBumperCoord2){
+//     //   m_setposX = ElevatorConstants.kBumperCoord1;
+//     //   isColliding = true;
+//     // }
+//   }
 
-  //X is moving positive    
-  if (commandedDirectionX > 0){
-    // if(m_setposX > ElevatorConstants.kRightBound && commandedDirectionX > 0){
-    //   m_setposX = ElevatorConstants.kRightBound;
-    //   isColliding = true;
-    // }
-    // if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && m_setposX > ElevatorConstants.kMiddleBound){
-    //   m_setposX = ElevatorConstants.kMiddleBound;
-    //   isColliding = true;
-    // }
-    // if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
-    //   m_setposX > ElevatorConstants.kLowConeLeftBound){
-    //   m_setposX = ElevatorConstants.kLowConeLeftBound;
-    //   isColliding = true;
-    // }
-    // if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf &&
-    // ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
-    //   m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
-    //   isColliding = true;
-    // }
-    // if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack && 
-    // m_setposX > ElevatorConstants.kHighConeLeftBound) {
-    //   m_setposX = ElevatorConstants.kHighConeLeftBound;
-    //   isColliding = true;
-    // } 
-  }
+//   //X is moving positive    
+//   // if (commandedDirectionX > 0){
+//     // if(m_setposX > ElevatorConstants.kRightBound && commandedDirectionX > 0){
+//     //   m_setposX = ElevatorConstants.kRightBound;
+//     //   isColliding = true;
+//     // }
+//     // if(m_measureZ < ElevatorConstants.kCubeMiddleShelf && m_setposX > ElevatorConstants.kMiddleBound){
+//     //   m_setposX = ElevatorConstants.kMiddleBound;
+//     //   isColliding = true;
+//     // }
+//     // if(m_measureZ > ElevatorConstants.kCubeMiddleShelf && m_measureZ < ElevatorConstants.kLowConeUpperBound &&
+//     //   m_setposX > ElevatorConstants.kLowConeLeftBound){
+//     //   m_setposX = ElevatorConstants.kLowConeLeftBound;
+//     //   isColliding = true;
+//     // }
+//     // if(m_measureZ > ElevatorConstants.kLowConeUpperBound && m_measureZ < ElevatorConstants.kCubeTopShelf &&
+//     // ElevatorConstants.kCubeMiddleShelfBack < m_setposX) {
+//     //   m_setposX = ElevatorConstants.kCubeMiddleShelfBack;
+//     //   isColliding = true;
+//     // }
+//     // if(m_measureZ < ElevatorConstants.kHighConeUpperBound && m_measureZ > ElevatorConstants.kCubeMiddleShelfBack && 
+//     // m_setposX > ElevatorConstants.kHighConeLeftBound) {
+//     //   m_setposX = ElevatorConstants.kHighConeLeftBound;
+//     //   isColliding = true;
+//     // } 
+//   }
 
     //Z is moving negative    
-    if (commandedDirectionZ < 0){
-      if(m_setposZ < ElevatorConstants.kLowerBound && commandedDirectionZ < 0){
-        m_setposZ = ElevatorConstants.kLowerBound;
-        isColliding = true;
-      }
-      // if(m_measureX < ElevatorConstants.kBumperCoord1 && m_setposZ < ElevatorConstants.kBumperCoord2){
-      //   m_setposZ = ElevatorConstants.kBumperCoord2;
-      //   isColliding = true;
-      // }
-      // if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && m_measureX > ElevatorConstants.kMiddleBound){
-      //   m_setposZ = ElevatorConstants.kCubeMiddleShelf;
-      //   isColliding = true;
-      // }
-      // if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack &&
-      // m_setposZ < ElevatorConstants.kLowConeUpperBound) {
-      //   m_setposZ = ElevatorConstants.kLowConeUpperBound;
-      //   isColliding = true;
-      // }
-      // if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound &&
-      //   m_setposZ < ElevatorConstants.kCubeTopShelf) {
-      //     m_setposZ = ElevatorConstants.kCubeTopShelf;
-      //     isColliding = true;
-      //   }
-      // if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound && 
-      // m_setposZ < ElevatorConstants.kHighConeUpperBound) {
-      //   m_setposZ = ElevatorConstants.kHighConeUpperBound;
-      //   isColliding = true; 
-      // }
-    }
+    // if (commandedDirectionZ < 0){
+    //   if(m_setposZ < ElevatorConstants.kLowerBound && commandedDirectionZ < 0){
+    //     m_setposZ = ElevatorConstants.kLowerBound;
+    //     isColliding = true;
+    //   }
+    //   // if(m_measureX < ElevatorConstants.kBumperCoord1 && m_setposZ < ElevatorConstants.kBumperCoord2){
+    //   //   m_setposZ = ElevatorConstants.kBumperCoord2;
+    //   //   isColliding = true;
+    //   // }
+    //   // if(m_setposZ < ElevatorConstants.kCubeMiddleShelf && m_measureX > ElevatorConstants.kMiddleBound){
+    //   //   m_setposZ = ElevatorConstants.kCubeMiddleShelf;
+    //   //   isColliding = true;
+    //   // }
+    //   // if(m_measureX > ElevatorConstants.kLowConeLeftBound && m_measureX < ElevatorConstants.kCubeMiddleShelfBack &&
+    //   // m_setposZ < ElevatorConstants.kLowConeUpperBound) {
+    //   //   m_setposZ = ElevatorConstants.kLowConeUpperBound;
+    //   //   isColliding = true;
+    //   // }
+    //   // if(m_measureX > ElevatorConstants.kCubeMiddleShelfBack && m_measureX < ElevatorConstants.kHighConeLeftBound &&
+    //   //   m_setposZ < ElevatorConstants.kCubeTopShelf) {
+    //   //     m_setposZ = ElevatorConstants.kCubeTopShelf;
+    //   //     isColliding = true;
+    //   //   }
+    //   // if(m_measureX < ElevatorConstants.kRightBound + .1 && m_measureX > ElevatorConstants.kHighConeLeftBound && 
+    //   // m_setposZ < ElevatorConstants.kHighConeUpperBound) {
+    //   //   m_setposZ = ElevatorConstants.kHighConeUpperBound;
+    //   //   isColliding = true; 
+    //   // }
+    // }
 
     //Z is moving positive    
-    if (commandedDirectionZ > 0){
-      if(m_setposZ > ElevatorConstants.kUpperBound && commandedDirectionZ > 0){
-        m_setposZ = ElevatorConstants.kUpperBound;
-        isColliding = true;
-      }
-    }
+    // if (commandedDirectionZ > 0){
+    //   if(m_setposZ > ElevatorConstants.kUpperBound && commandedDirectionZ > 0){
+    //     m_setposZ = ElevatorConstants.kUpperBound;
+    //     isColliding = true;
+    //   }
+    // }
     
     //diagonal bound    
-    double xLimit = elevatorDiagX(m_measureZ);
-    double zLimit = elevatorDiagZ(m_measureX);
-    if(m_setposZ > zLimit && m_measureX > ElevatorConstants.kBumperCoord1) {
-      m_setposZ = zLimit;
-      m_setposX = m_setposX + .007;
-      isColliding = true;
-    }
-    if(m_setposX < xLimit) {
-      m_setposX = xLimit;
-      m_setposZ = m_setposZ - .007;
-      isColliding = true;
-    } else{
-      isColliding = false;
-    }
-  }
+  //   double xLimit = elevatorDiagX(m_measureZ);
+  //   double zLimit = elevatorDiagZ(m_measureX);
+  //   if(m_setposZ > zLimit && m_measureX > ElevatorConstants.kBumperCoord1) {
+  //     m_setposZ = zLimit;
+  //     m_setposX = m_setposX + .007;
+  //     isColliding = true;
+  //   }
+  //   if(m_setposX < xLimit) {
+  //     m_setposX = xLimit;
+  //     m_setposZ = m_setposZ - .007;
+  //     isColliding = true;
+  //   } else{
+  //     isColliding = false;
+  //   }
+  // }
 
   public boolean getAtGroundPickup(){
     return atGroundPickup;
