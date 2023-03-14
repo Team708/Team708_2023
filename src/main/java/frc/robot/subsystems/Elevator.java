@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.opencv.features2d.FlannBasedMatcher;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -19,7 +17,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -114,8 +111,8 @@ public class Elevator extends SubsystemBase {
     
     //Create a PID controller for both X and Z direction. Since X moves horizontally and Z moves vertically
     //each axis will require unique PID gains.
-    m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(30.0,  3));
-    m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2],new Constraints(30.0,  3));
+    m_pidControllerA = new ProfiledPIDController(ElevatorConstants.kPID_A[0], ElevatorConstants.kPID_A[1], ElevatorConstants.kPID_A[2], new Constraints(60.0, 6)); //30.0, 3
+    m_pidControllerB = new ProfiledPIDController(ElevatorConstants.kPID_B[0], ElevatorConstants.kPID_B[1], ElevatorConstants.kPID_B[2], new Constraints(60.0, 6)); //30.0, 3
 
     m_pidControllerA.setTolerance(0.00000000001);
     m_pidControllerB.setTolerance(0.00000000001);
