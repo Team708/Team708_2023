@@ -50,8 +50,8 @@ public class Elevator extends SubsystemBase {
 
   private Node elevatorCurrentNode;
 
-  public static final Node A = new Node(ElevatorConstants.kConeIntakePose, "CONE_INTAKE");
-  public static final Node K = new Node(ElevatorConstants.kCubeIntakePose, "CUBE_INTAKE");
+  public static final Node A = new Node(ElevatorConstants.kLowIntakePose, "LOW_INTAKE");
+  public static final Node K = new Node(ElevatorConstants.kConeUpIntakePose, "CONE_UP_INTAKE");
   public static final Node B = new Node(ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
   public static final Node C = new Node(ElevatorConstants.kHighConePose, "HIGH_CONE");
   public static final Node D = new Node(ElevatorConstants.kHighCubePose, "HIGH_CUBE");
@@ -81,7 +81,10 @@ public class Elevator extends SubsystemBase {
   private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
   // private Branch LM = new Branch(L, M); //Feeder -> Inter.
-  private Branch LC = new Branch(L, C); //FEEDER -> HCONE
+  // private Branch LC = new Branch(L, C); //FEEDER -> HCONE
+
+  private Branch ML = new Branch(M, L); //Inter., Feeder
+  private Branch IM = new Branch(I, M); //MS -> Inter.
 
   private Branch NI = new Branch(N, I); //BS -> MS
   private Branch NF = new Branch(N, F); //BS -> LC
@@ -272,11 +275,6 @@ public class Elevator extends SubsystemBase {
     return new Pose2d(new Translation2d(getX(), getZ()), new Rotation2d(0));
   }
 
-  // public void setPose(Pose2d pose){
-  //   m_setposX = pose.getX();
-  //   m_setposZ = pose.getY();
-  // }
-
   public void setPose(Translation2d elevatorPose) {
     m_setposX = elevatorPose.getX();
     m_setposZ = elevatorPose.getY();
@@ -311,7 +309,8 @@ public class Elevator extends SubsystemBase {
    */
   public Branch[] getElevatorBranches(){
     // return new Branch[]{AB, KB, LC, BJ, BH, HG, HI, IF, ED, IE, EC};
-    return new Branch[]{AB, KB, LC, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
+    // return new Branch[]{AB, KB, LC, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
+    return new Branch[]{AB, KB, ML, IM, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
   }
 
   public Tree getElevatorTree(){

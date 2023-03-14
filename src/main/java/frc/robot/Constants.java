@@ -186,9 +186,11 @@ public final class Constants {
     // public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
     // public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);     //(0.8, 1.0);  jnp
 
-    public static final Translation2d kConeIntakePose = new Translation2d(0.45,-0.103); //TODO RENAME TO INTAKEGENERAL OR SOMETHING
-    public static final Translation2d kCubeIntakePose = new Translation2d(0.45,0.027); //TODO RENAME TO HIGH CONE INTAKE
+    public static final Translation2d kLowIntakePose = new Translation2d(0.45,-0.103);
+    public static final Translation2d kConeUpIntakePose = new Translation2d(0.45,0.027);
+
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
+
     public static final Translation2d kLowCubePose = new Translation2d(0.61,0.630);
     public static final Translation2d kLowConePose = new Translation2d(0.659,0.772);
     public static final Translation2d kHighCubePose = new Translation2d(1.097,0.928);
@@ -200,8 +202,8 @@ public final class Constants {
     public static final Translation2d kMidSafePose = new Translation2d(.755,1.058);
     public static final Translation2d kHighSafePose = new Translation2d(0.796,1.153);
 
-    public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
-    public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);
+    public static final Translation2d kFeederStationPose = new Translation2d(0.6415, 0.888);
+    public static final Translation2d kFeederIntermittantPose = new Translation2d(.768, .97);
 
     //Elevator Boundaries, meters
     // public static final double kLeftBound = -0.051; 
