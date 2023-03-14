@@ -30,7 +30,7 @@ public class IntakeOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        if (m_intake.getRollerSpeed()<=100 & Math.abs(m_intake.getRollerPosition()) > 100){
+        if (m_intake.getRollerSpeed()<=1000 & Math.abs(m_intake.getRollerPosition()) > 100){
           m_intake.setHasPiece(true);
       }
   }

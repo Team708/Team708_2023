@@ -26,12 +26,12 @@ public class Intake extends SubsystemBase{
 
     public Intake(DigitalInput m_dIOSensor){
 
-        this.m_dIOSensor = m_dIOSensor;
+        // this.m_dIOSensor = m_dIOSensor;
 
-        m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
-        m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
-        m_clampMotor.setInverted(false);
-        m_clampMotor.setIdleMode(IdleMode.kBrake);
+        // m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
+        // m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
+        // m_clampMotor.setInverted(false);
+        // m_clampMotor.setIdleMode(IdleMode.kBrake);
 
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorID, MotorType.kBrushless);
         m_intakeMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase{
         m_intakeMotor.setIdleMode(IdleMode.kBrake);
 
         m_intakeEncoder = m_intakeMotor.getEncoder();
-        m_clampEncoder = m_clampMotor.getEncoder();
+        // m_clampEncoder = m_clampMotor.getEncoder();
 
         m_intakeEncoder.setVelocityConversionFactor(100);
         m_intakeEncoder.setPositionConversionFactor(100);
@@ -60,52 +60,52 @@ public class Intake extends SubsystemBase{
       // This method will be called once per scheduler run
     }
 
-    public void setCamSpeed(double output){
-        // m_clampMotor.setVoltage(output);
-        m_clampMotor.set(output);
-    }
+    // public void setCamSpeed(double output){
+    //     // m_clampMotor.setVoltage(output);
+    //     m_clampMotor.set(output);
+    // }
 
-    public void setCamPosition(double position){
-        m_clampEncoder.setPosition(position);
-    }
+    // public void setCamPosition(double position){
+    //     m_clampEncoder.setPosition(position);
+    // }
 
-    public double getCamPosition(){
-        return m_clampEncoder.getPosition();
-    }
+    // public double getCamPosition(){
+    //     return m_clampEncoder.getPosition();
+    // }
 
     // public void setCamPoint(double position){
     //         m_clampEncoder.setPoint(position);
     //     }
 
-    public void openClamp(){
-        if(!isOpen){
-            setCamPosition(IntakeConstants.kCamOpenPose);
-            this.isOpen = true;
-        }
-    }
+    // public void openClamp(){
+    //     if(!isOpen){
+    //         setCamPosition(IntakeConstants.kCamOpenPose);
+    //         this.isOpen = true;
+    //     }
+    // }
 
-    public void closeClamp(){
-        if(isOpen){
-            setCamPosition(IntakeConstants.kCamClosedPose);
-            this.isOpen = false;
-        }
-    }
+    // public void closeClamp(){
+    //     if(isOpen){
+    //         setCamPosition(IntakeConstants.kCamClosedPose);
+    //         this.isOpen = false;
+    //     }
+    // }
 
-    public void incClamp(){
-            this.m_clampMotor.set(.5);
-        }
+    // public void incClamp(){
+    //         this.m_clampMotor.set(.5);
+    //     }
 
-    public void stopClamp(){
-        this.m_clampMotor.set(0);
-    }
+    // public void stopClamp(){
+    //     this.m_clampMotor.set(0);
+    // }
 
-    public boolean getIsOpen(){
-        return isOpen;
-    }
+    // public boolean getIsOpen(){
+    //     return isOpen;
+    // }
 
-    public void setIsOpen(boolean isOpen){
-        this.isOpen = isOpen;
-    }
+    // public void setIsOpen(boolean isOpen){
+    //     this.isOpen = isOpen;
+    // }
 
     public void intakeOn(){
         m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
@@ -129,9 +129,9 @@ public class Intake extends SubsystemBase{
         return isReversed;
     }
 
-    public boolean sensorDetected(){
-    return !m_dIOSensor.get();
-    }
+    // public boolean sensorDetected(){
+    // return !m_dIOSensor.get();
+    // }
 
     public boolean getHasPiece(){
         return hasPiece;

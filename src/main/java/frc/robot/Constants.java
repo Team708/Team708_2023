@@ -152,7 +152,7 @@ public final class Constants {
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
     public static final double kCamOpenPose = 2265.0;
     public static final double kCamClosedPose = 0.0;
-    public static final double kCamIntakeSpeed = 0.6; //.5
+    public static final double kCamIntakeSpeed = 0.8; //.6
     
     public static final int kIntakeMode = 1; //0 = Roller, 1 = Clamp
   }
@@ -261,8 +261,8 @@ public final class Constants {
    * Static method containing all Autonomous constants 
    */
   public static final class AutoConstants {
-    public static final double kMaxAcceleration = 2.50;
-    public static final double kMaxSpeed = 3.5; //Maximum Sustainable Drivetrain Speed under Normal Conditions & Battery, Robot will not exceed this speed in closed loop control
+    public static final double kMaxAcceleration = 6.00;
+    public static final double kMaxSpeed = 8.0; //Maximum Sustainable Drivetrain Speed under Normal Conditions & Battery, Robot will not exceed this speed in closed loop control
     public static final double kMaxAngularSpeed = Math.PI;      //Maximum Angular Speed desired. NOTE: Robot can exceed this but spinning fast is not particularly useful or driver friendly
     public static final double kMaxAngularAccel = Math.PI;      //Maximum Angular Speed desired. NOTE: Robot can exceed this but spinning fast is not particularly useful or driver friendly
     

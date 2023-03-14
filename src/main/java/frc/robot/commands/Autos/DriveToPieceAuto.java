@@ -23,6 +23,8 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
 
   public DriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
     AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "DriveToPiece", maxSpeed, true);
+    AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "turn180", maxSpeed, true);
+
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
@@ -33,15 +35,16 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
       new IntakeOut(m_intake, m_candle),
       new WaitCommand(0.2),
       new IntakeOff(m_intake),
-      new ElevatorToNode(m_elevator, Elevator.K),
+      new ElevatorToNode(m_elevator, Elevator.A),
       new ParallelCommandGroup(
         path1,
         new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
 
       new ElevatorToNode(m_elevator, Elevator.D),
-      new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      new ElevatorToNode(m_elevator, Elevator.B)
+      new IntakeOut(m_intake, m_candle).withTimeout(.1),
+      new ElevatorToNode(m_elevator, Elevator.B),
+      path2
 
       );
   }
