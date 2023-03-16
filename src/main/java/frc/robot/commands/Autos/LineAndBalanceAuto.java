@@ -5,18 +5,15 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.AutoFromPathPlanner;
 import frc.robot.commands.Autonomizations.AutoBalance;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.intake.IntakeOff;
 import frc.robot.commands.intake.IntakeOn;
 import frc.robot.commands.intake.IntakeOut;
-import frc.robot.commands.intake.IntakeRetraction;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;

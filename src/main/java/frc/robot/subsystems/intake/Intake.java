@@ -28,11 +28,6 @@ public class Intake extends SubsystemBase{
 
         // this.m_dIOSensor = m_dIOSensor;
 
-        // m_clampMotor = new CANSparkMax(IntakeConstants.kClampMotorID, MotorType.kBrushless);
-        // m_clampMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
-        // m_clampMotor.setInverted(false);
-        // m_clampMotor.setIdleMode(IdleMode.kBrake);
-
         m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeMotorID, MotorType.kBrushless);
         m_intakeMotor.setSmartCurrentLimit(CurrentLimit.kIntake);
         m_intakeMotor.setInverted(false);
@@ -59,53 +54,6 @@ public class Intake extends SubsystemBase{
     public void periodic() {
       // This method will be called once per scheduler run
     }
-
-    // public void setCamSpeed(double output){
-    //     // m_clampMotor.setVoltage(output);
-    //     m_clampMotor.set(output);
-    // }
-
-    // public void setCamPosition(double position){
-    //     m_clampEncoder.setPosition(position);
-    // }
-
-    // public double getCamPosition(){
-    //     return m_clampEncoder.getPosition();
-    // }
-
-    // public void setCamPoint(double position){
-    //         m_clampEncoder.setPoint(position);
-    //     }
-
-    // public void openClamp(){
-    //     if(!isOpen){
-    //         setCamPosition(IntakeConstants.kCamOpenPose);
-    //         this.isOpen = true;
-    //     }
-    // }
-
-    // public void closeClamp(){
-    //     if(isOpen){
-    //         setCamPosition(IntakeConstants.kCamClosedPose);
-    //         this.isOpen = false;
-    //     }
-    // }
-
-    // public void incClamp(){
-    //         this.m_clampMotor.set(.5);
-    //     }
-
-    // public void stopClamp(){
-    //     this.m_clampMotor.set(0);
-    // }
-
-    // public boolean getIsOpen(){
-    //     return isOpen;
-    // }
-
-    // public void setIsOpen(boolean isOpen){
-    //     this.isOpen = isOpen;
-    // }
 
     public void intakeOn(){
         m_intakeMotor.set(IntakeConstants.kCamIntakeSpeed);
