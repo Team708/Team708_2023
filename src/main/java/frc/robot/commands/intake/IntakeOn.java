@@ -12,6 +12,7 @@ public class IntakeOn extends CommandBase {
 
   Intake m_intake;
   Elevator m_elevator;
+  int first = 0;
 
   public IntakeOn(Intake m_intake) {
     this.m_intake = m_intake;
@@ -30,9 +31,14 @@ public class IntakeOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        if (m_intake.getRollerSpeed()<=1000 & Math.abs(m_intake.getRollerPosition()) > 100){
+      // if (first<=3000) {
+      //   first++;
+      // }
+      // else {
+        if (m_intake.getRollerSpeed()<=50 & Math.abs(m_intake.getRollerPosition()) > 1000){
           m_intake.setHasPiece(true);
-      }
+        }
+      // }
   }
 
   // Called once the command ends or is interrupted.

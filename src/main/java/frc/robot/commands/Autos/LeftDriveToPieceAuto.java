@@ -22,7 +22,10 @@ import frc.robot.subsystems.vision.CANdleSystem;
 public class LeftDriveToPieceAuto extends SequentialCommandGroup {
 
   public LeftDriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
-    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece", maxSpeed, true);
+    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece2", maxSpeed, true);
+    AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece", maxSpeed, true);
+    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "turn180_2", maxSpeed, true);
+
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
@@ -33,15 +36,32 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
       new WaitCommand(0.2),
       new IntakeOff(m_intake),
-      new ElevatorToNode(m_elevator, Elevator.K),
+      new WaitCommand(0.2),
+      new ElevatorToNode(m_elevator, Elevator.A),
       new ParallelCommandGroup(
         path1,
         new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
 
+      new WaitCommand(.2),
+      path2,
       new ElevatorToNode(m_elevator, Elevator.D),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      new ElevatorToNode(m_elevator, Elevator.B)
+      new WaitCommand(0.2),
+      new IntakeOff(m_intake),
+      new WaitCommand(0.2),
+      new ElevatorToNode(m_elevator, Elevator.B),
+      // new WaitCommand(0.2),
+
+      new ParallelCommandGroup(
+        path3
+        // new RaiseElevWhenPiece(m_intake, m_elevator)
+      ),
+
+      new WaitCommand(0.5),
+      new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
+      new WaitCommand(0.5),
+      new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose()))
 
       );
   }

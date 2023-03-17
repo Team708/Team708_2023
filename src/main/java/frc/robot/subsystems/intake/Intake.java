@@ -14,8 +14,8 @@ import frc.robot.Constants.CurrentLimit;
 public class Intake extends SubsystemBase{
     
     private CANSparkMax m_intakeMotor;
-    private CANSparkMax m_clampMotor;
-    private RelativeEncoder m_clampEncoder;
+    // private CANSparkMax m_clampMotor;
+    // private RelativeEncoder m_clampEncoder;
     private RelativeEncoder m_intakeEncoder;
     
     private boolean isOpen = false;
@@ -39,8 +39,8 @@ public class Intake extends SubsystemBase{
         m_intakeEncoder.setVelocityConversionFactor(100);
         m_intakeEncoder.setPositionConversionFactor(100);
 
-        m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
-        m_clampEncoder.setPosition(0.0);
+        // m_clampEncoder.setPositionConversionFactor(IntakeConstants.kCamGearRatio);
+        // m_clampEncoder.setPosition(0.0);
 
         // SparkMaxPIDController pidController = m_clampMotor.getPIDController();
 

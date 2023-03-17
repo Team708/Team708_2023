@@ -186,7 +186,7 @@ public final class Constants {
     // public static final Translation2d kFeederStationPose = new Translation2d(0.9508, 0.9047);
     // public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);     //(0.8, 1.0);  jnp
 
-    public static final Translation2d kLowIntakePose = new Translation2d(0.45,-0.103);
+    public static final Translation2d kLowIntakePose = new Translation2d(0.45,-0.080);
     public static final Translation2d kConeUpIntakePose = new Translation2d(0.45,0.027);
 
     public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
@@ -194,10 +194,10 @@ public final class Constants {
     public static final Translation2d kLowCubePose = new Translation2d(0.61,0.630);
     public static final Translation2d kLowConePose = new Translation2d(0.659,0.772);
     public static final Translation2d kHighCubePose = new Translation2d(1.097,0.928);
-    public static final Translation2d kHighConePose = new Translation2d(1.161,1.146);
+    public static final Translation2d kHighConePose = new Translation2d(1.161,1.141);   //(1.161,1.146);
     
     public static final Translation2d kGroundSafePose = new Translation2d(0.44,0.2);
-    public static final Translation2d kBearingPose = new Translation2d(0.48, 0.711); 
+    public static final Translation2d kBearingPose = new Translation2d(0.55, 0.715); 
     public static final Translation2d kLowSafePose = new Translation2d(0.44, 0.590);   //(0.44, 0.776); 
     public static final Translation2d kMidSafePose = new Translation2d(.755,1.058);
     public static final Translation2d kHighSafePose = new Translation2d(0.796,1.153);
@@ -222,7 +222,7 @@ public final class Constants {
     // public static final double kHighConeUpperBound = 1.181;
     // public static final double diagy1 = -.05;
 
-    public static final double kMaxSpeedMetersPerSecond = 10;
+    public static final double kMaxSpeedMetersPerSecond = 10; 
     public static final double kElevatorAngle = 55;
     public static final double []kPID_A = {90,0,0.0}; //30,0,0
     public static final double []kPID_B = {50,0,0.0}; //{8,0.0,0};
