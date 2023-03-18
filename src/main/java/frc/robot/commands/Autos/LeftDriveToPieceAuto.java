@@ -58,9 +58,9 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
         // new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
 
-      new WaitCommand(0.5),
+      new WaitCommand(0.2),
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
-      new WaitCommand(0.5),
+      new WaitCommand(0.2),
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose()))
 
       );
