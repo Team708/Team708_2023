@@ -38,39 +38,49 @@ public class DriveUntilBalanced extends CommandBase {
   @Override
   public void execute() {
     SwerveModuleState[] states;
-     lastRoll = currRoll;
-     currRoll = pigeonInstance.getRoll().getDegrees();
+    lastRoll = currRoll;
+    currRoll = pigeonInstance.getRoll().getDegrees();
+    if(Math.abs(currRoll) < 5){
+      states = new SwerveModuleState[]{
+          new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)), //LF
+          new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //RF
+          new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //LR
+          new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)) //RR
+      };
+      dr.setModuleStates(states);
+      // dr.setModuleStates(preState);
+    }else{
     // while(Math.abs(pigeonInstance.getRoll().getDegrees()) > 0.5){
         if(initialDirection == 1.0){
             if(Math.signum(pigeonInstance.getRoll().getDegrees()) == 1){
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //LF
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //RF
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //LR
-                    new SwerveModuleState(0.25, new Rotation2d(0)) //RR
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //LF
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //RF
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //LR
+                    new SwerveModuleState(0.15, new Rotation2d(0)) //RR
                   };
             }else{
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LF
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //RF
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LR
-                    new SwerveModuleState(-0.25, new Rotation2d(0)) //RR
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LF
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //RF
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LR
+                    new SwerveModuleState(-0.15, new Rotation2d(0)) //RR
                 };
             }
         }else if(initialDirection == -1.0){
             if(Math.signum(pigeonInstance.getRoll().getDegrees()) == 1){
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //LF
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //RF
-                    new SwerveModuleState(0.25, new Rotation2d(0)), //LR
-                    new SwerveModuleState(0.25, new Rotation2d(0)) //RR
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //LF
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //RF
+                    new SwerveModuleState(0.15, new Rotation2d(0)), //LR
+                    new SwerveModuleState(0.15, new Rotation2d(0)) //RR
                   };
             }else{
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LF
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //RF
-                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LR
-                    new SwerveModuleState(-0.25, new Rotation2d(0)) //RR
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LF
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //RF
+                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LR
+                    new SwerveModuleState(-0.15, new Rotation2d(0)) //RR
                 };
             }
         }else{
@@ -82,7 +92,7 @@ public class DriveUntilBalanced extends CommandBase {
             };
         }
         dr.setModuleStates(states);
-    // }
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -90,20 +100,19 @@ public class DriveUntilBalanced extends CommandBase {
   public void end(boolean interrupted) {
     SwerveModuleState[] states;
     states = new SwerveModuleState[]{
-        new SwerveModuleState(0, new Rotation2d(0)), //LF
-        new SwerveModuleState(0, new Rotation2d(0)), //RF
-        new SwerveModuleState(0, new Rotation2d(0)), //LR
-        new SwerveModuleState(0, new Rotation2d(0)) //RR
+      new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)), //LF
+      new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //RF
+      new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //LR
+      new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)) //RR
     };
     dr.setModuleStates(states);
-    dr.setModuleStates(preState);
+    // dr.setModuleStates(preState);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return Math.abs(lastRoll) > Math.abs(currRoll) + .8;
-    return Math.abs(currRoll) < 1;   //2  jnp
-    // return false;
+    // return Math.abs(currRoll) < 2;
+    return false;
   }
 }

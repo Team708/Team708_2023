@@ -24,7 +24,7 @@ public class RedRightDriveToPieceAuto extends SequentialCommandGroup {
   public RedRightDriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
     AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "REDRightDriveToPiece", maxSpeed, true);
     AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "REDRightDriveToPiece2", maxSpeed, true);
-    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "turn180_RedRight", maxSpeed, true);
+    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "turn180_REDRight", maxSpeed, true);
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
