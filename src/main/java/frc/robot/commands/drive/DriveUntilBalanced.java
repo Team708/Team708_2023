@@ -54,33 +54,33 @@ public class DriveUntilBalanced extends CommandBase {
         if(initialDirection == 1.0){
             if(Math.signum(pigeonInstance.getRoll().getDegrees()) == 1){
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //LF
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //RF
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //LR
-                    new SwerveModuleState(0.15, new Rotation2d(0)) //RR
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //LF
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //RF
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //LR
+                    new SwerveModuleState(0.25, new Rotation2d(0)) //RR
                   };
             }else{
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LF
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //RF
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LR
-                    new SwerveModuleState(-0.15, new Rotation2d(0)) //RR
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LF
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //RF
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LR
+                    new SwerveModuleState(-0.25, new Rotation2d(0)) //RR
                 };
             }
         }else if(initialDirection == -1.0){
             if(Math.signum(pigeonInstance.getRoll().getDegrees()) == 1){
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //LF
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //RF
-                    new SwerveModuleState(0.15, new Rotation2d(0)), //LR
-                    new SwerveModuleState(0.15, new Rotation2d(0)) //RR
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //LF
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //RF
+                    new SwerveModuleState(0.25, new Rotation2d(0)), //LR
+                    new SwerveModuleState(0.25, new Rotation2d(0)) //RR
                   };
             }else{
                 states = new SwerveModuleState[]{
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LF
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //RF
-                    new SwerveModuleState(-0.15, new Rotation2d(0)), //LR
-                    new SwerveModuleState(-0.15, new Rotation2d(0)) //RR
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LF
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //RF
+                    new SwerveModuleState(-0.25, new Rotation2d(0)), //LR
+                    new SwerveModuleState(-0.25, new Rotation2d(0)) //RR
                 };
             }
         }else{

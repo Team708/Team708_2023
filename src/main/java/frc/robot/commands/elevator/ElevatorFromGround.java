@@ -54,7 +54,7 @@ public class ElevatorFromGround extends CommandBase {
   @Override
   public void execute(){
 
-    if (m_intake.getHasPiece()){
+    if (m_intake.getRollerSpeed() <= 10){
         if(this.trajectory == null) return;
         // elevator.setAtGroundPickup(false);
         Translation2d targetPose = trajectory.sample(i).poseMeters.getTranslation();

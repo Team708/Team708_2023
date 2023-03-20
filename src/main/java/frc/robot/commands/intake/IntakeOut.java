@@ -35,6 +35,7 @@ public class IntakeOut extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // m_intake.intakeOff();
+      // m_intake.setHasPiece(false);
     }
 
   // Returns true when the command should end.

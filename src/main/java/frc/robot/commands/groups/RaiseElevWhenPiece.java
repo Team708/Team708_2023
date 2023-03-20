@@ -6,6 +6,8 @@ package frc.robot.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.elevator.ElevatorFromGround;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.intake.IntakeOn;
@@ -18,6 +20,7 @@ public class RaiseElevWhenPiece extends SequentialCommandGroup {
       //new ElevatorToNode(m_elevator, Elevator.K),
 
       new IntakeOn(m_intake),
+      new WaitCommand(0.2),
       new ElevatorFromGround(m_elevator, Elevator.B, m_intake)
       );
   }
