@@ -16,6 +16,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.CANdleSystem;
+import frc.robot.commands.Autos.BlueThreeLowAuto;
 import frc.robot.commands.Autos.DriveStraightAuto;
 import frc.robot.commands.Autos.DriveToPieceAuto;
 import frc.robot.commands.Autos.LeftDriveToPieceAuto;
@@ -61,6 +62,7 @@ public class RobotContainer {
   private final Command RedRightDriveToPiece = new RedRightDriveToPieceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
   private final Command RedRightDriveToPieceBalance = new RedRightDriveToPieceBalanceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
   private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake, m_candle);
+  private final Command BlueThreeLow = new BlueThreeLowAuto(m_drive,   10, m_elevator, m_intake, m_candle);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -97,10 +99,11 @@ public class RobotContainer {
     m_chooser.addOption("Blue Leftside  ScoreTwoAndBalance",  LeftDriveToPieceBalance);
     // m_chooser.addOption("Blue Rightside DriveToPiece",  DriveToPiece);
     // m_chooser.addOption("RED Leftside DriveToPiece",    RedLeftDriveToPiece);
-    m_chooser.addOption("RED Rightside ThreePiece",   RedRightDriveToPiece);
+    m_chooser.addOption("RED Rightside ThreePiece",           RedRightDriveToPiece);
     m_chooser.addOption("RED Rightside ScoreTwoAndBalance",   RedRightDriveToPieceBalance);
-    m_chooser.addOption("ScoreLineBalance",             ScoreLineBalance);
-    
+    m_chooser.addOption("ScoreLineBalance",                   ScoreLineBalance);
+    m_chooser.addOption("BlueThreeLow",                       BlueThreeLow);
+
     m_chooser.addOption("Do Nothing",     doNothin);
     m_chooser.setDefaultOption("Do Nothing", doNothin);
     SmartDashboard.putData(m_chooser);  
