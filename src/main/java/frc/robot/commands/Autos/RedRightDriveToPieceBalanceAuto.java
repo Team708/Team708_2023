@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Utilities.AutoFromPathPlanner;
+import frc.robot.commands.Autonomizations.AutoBalance;
 import frc.robot.commands.elevator.ElevatorToNode;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.groups.RaiseElevWhenPiece;
@@ -19,21 +20,20 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.CANdleSystem;
 
 
-public class RedRightDriveToPieceAuto extends SequentialCommandGroup {
+public class RedRightDriveToPieceBalanceAuto extends SequentialCommandGroup {
 
-  public RedRightDriveToPieceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
+  public RedRightDriveToPieceBalanceAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
 
     
     AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "REDRightDriveToPiece", maxSpeed, true);
     AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "REDRightDriveToPiece2", maxSpeed, true);
-    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "turn180_REDRight", maxSpeed, true);
-    AutoFromPathPlanner path4 = new AutoFromPathPlanner(dr, "REDRightDriveToPiece3", maxSpeed, true);
+    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "REDRightDriveToPieceBalance", maxSpeed, true);
 
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
       new ParallelDeadlineGroup(
-        new ElevatorToNode(m_elevator, Elevator.C)/*.withTimeout(3.3)*/,
+        new ElevatorToNode(m_elevator, Elevator.C),
         new IntakeOn(m_intake)
       ),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
@@ -53,16 +53,11 @@ public class RedRightDriveToPieceAuto extends SequentialCommandGroup {
       // new WaitCommand(0.2),
       // new IntakeOff(m_intake),
       // new WaitCommand(0.2),
-      new ElevatorToNode(m_elevator, Elevator.A),
+      new ElevatorToNode(m_elevator, Elevator.B),
+      
       // new WaitCommand(0.2),
-
-
-      new ParallelCommandGroup(
-        path3,
-        new RaiseElevWhenPiece(m_intake, m_elevator)
-      ),
-
-      // path4,
+      path3,
+      new AutoBalance(dr),
 
       new WaitCommand(0.2),
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),

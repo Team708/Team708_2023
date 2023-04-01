@@ -16,7 +16,7 @@ import frc.robot.subsystems.intake.Intake;
 public class RaiseElevWhenCubeTele extends SequentialCommandGroup {
   public RaiseElevWhenCubeTele(Intake m_intake, Elevator m_elevator) {
     addCommands(
-      new IntakeOff(m_intake),
+      // new IntakeOff(m_intake),
       new ElevatorToNode(m_elevator, Elevator.K),
 
       new IntakeOn(m_intake),

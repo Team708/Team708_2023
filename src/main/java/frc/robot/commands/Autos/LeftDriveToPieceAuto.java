@@ -25,6 +25,7 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
     AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece2", maxSpeed, true);
     AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece", maxSpeed, true);
     AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "turn180_2", maxSpeed, true);
+    AutoFromPathPlanner path4 = new AutoFromPathPlanner(dr, "LeftSideDriveToPiece3", maxSpeed, true);
 
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
@@ -34,9 +35,9 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
         new IntakeOn(m_intake)
       ),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      new WaitCommand(0.2),
-      new IntakeOff(m_intake),
-      new WaitCommand(0.2),
+      // new WaitCommand(0.2),
+      // new IntakeOff(m_intake),
+      // new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),
       new ParallelCommandGroup(
         path1,
@@ -47,16 +48,17 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
       path2,
       new ElevatorToNode(m_elevator, Elevator.D),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      new WaitCommand(0.2),
-      new IntakeOff(m_intake),
-      new WaitCommand(0.2),
-      new ElevatorToNode(m_elevator, Elevator.B),
       // new WaitCommand(0.2),
+      // new IntakeOff(m_intake),
+      // new WaitCommand(0.2),
+      new ElevatorToNode(m_elevator, Elevator.A),
 
       new ParallelCommandGroup(
-        path3
-        // new RaiseElevWhenPiece(m_intake, m_elevator)
+        path3,
+        new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
+
+      path4,
 
       new WaitCommand(0.2),
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),

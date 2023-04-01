@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.91,
-        "y": 4.4
+        "x": 1.8317773220912297,
+        "y": 3.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3668168388992687,
-        "y": 4.429926830031412
+        "x": 2.288788665382209,
+        "y": 3.811928359466475
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -24,16 +24,16 @@
     },
     {
       "anchorPoint": {
-        "x": 3.3733941152117164,
-        "y": 4.525019050040412
+        "x": 3.303741241628825,
+        "y": 3.95
       },
       "prevControl": {
-        "x": 2.907265223944541,
-        "y": 4.525019050040412
+        "x": 2.856700347547036,
+        "y": 3.9390965635589805
       },
       "nextControl": {
-        "x": 3.7711592166640093,
-        "y": 4.525019050040412
+        "x": 3.6818491839743097,
+        "y": 3.9592221449352563
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
@@ -49,16 +49,16 @@
     },
     {
       "anchorPoint": {
-        "x": 4.724565414045542,
-        "y": 4.497814258788725
+        "x": 4.546732995905017,
+        "y": 3.95
       },
       "prevControl": {
-        "x": 4.375593687179718,
-        "y": 4.553649735087257
+        "x": 4.195484209920114,
+        "y": 3.9109723571127897
       },
       "nextControl": {
-        "x": 4.951272007809607,
-        "y": 4.461541203786474
+        "x": 4.7429948518433624,
+        "y": 3.971806872882038
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
@@ -74,18 +74,18 @@
     },
     {
       "anchorPoint": {
-        "x": 6.11,
-        "y": 4.65
+        "x": 6.3,
+        "y": 3.899093651845841
       },
       "prevControl": {
-        "x": 5.680319199730577,
-        "y": 4.65
+        "x": 5.870319199730576,
+        "y": 3.899093651845841
       },
       "nextControl": null,
       "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": true,
+      "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -96,7 +96,7 @@
     }
   ],
   "maxVelocity": 8.0,
-  "maxAcceleration": 6.0,
+  "maxAcceleration": 20.0,
   "isReversed": null,
   "markers": []
 }

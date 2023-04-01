@@ -1,41 +1,34 @@
 package frc.robot;
 
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Utilities.JoystickLeftTrigger;
 import frc.robot.Utilities.JoystickRightTrigger;
+
 import frc.robot.commands.Autonomizations.AutoAlignApril;
 import frc.robot.commands.Autonomizations.AutoAlignTape;
 import frc.robot.commands.Autonomizations.AutoBalance;
-// import frc.robot.commands.drive.AutoBalance;
+
 import frc.robot.commands.drive.LockWheels;
 import frc.robot.commands.drive.ResetDrive;
 import frc.robot.commands.drive.SetRumble;
 import frc.robot.commands.drive.ToggleFieldOrient;
 
-import frc.robot.commands.drive.TurnToCommand;
 import frc.robot.commands.elevator.ElevatorToNode;
+import frc.robot.commands.groups.FeederConeRetractIntake;
+import frc.robot.commands.groups.FeederCubeRetractIntake;
 import frc.robot.commands.groups.RaiseElevWhenCubeTele;
-import frc.robot.commands.groups.RaiseElevWhenPiece;
 import frc.robot.commands.groups.RaiseElevWhenPieceTele;
 import frc.robot.commands.intake.IntakeOff;
 import frc.robot.commands.intake.IntakeOn;
 import frc.robot.commands.intake.IntakeOut;
-import frc.robot.commands.vision.ActivateAprilTag;
-import frc.robot.commands.vision.ActivateTape;
 import frc.robot.commands.vision.RequestCone;
 import frc.robot.commands.vision.RequestCube;
-
-import java.time.Instant;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.vision.CANdleSystem;
@@ -90,19 +83,9 @@ public class OI {
 		return operatorController.getRightY();
 	}
 
-	// public static double getClimberLeftY() {
-	// 	return deadBand(climberController.getLeftY(), ControllerConstants.kClimberDeadBandLeftY);
-
-	// }
-
-	// public static double getClimberRightY() {
-	// 	return deadBand(climberController.getRightY(), ControllerConstants.kClimberDeadBandRightY);
-	// }
-
 	public static void configureButtonBindings(Drivetrain m_robotDrive, Elevator m_elevator, Intake m_intake, CANdleSystem m_candleSystem) {
 
 		//DRIVER//
-		// Drive at half speed when the right bumper is held
 
 		new JoystickButton(driverController, Button.kLeftBumper.value)
 				.onTrue(new AutoAlignTape(m_robotDrive, m_candleSystem));
@@ -131,8 +114,8 @@ public class OI {
 		new JoystickButton(driverController, Button.kBack.value)
 				.onTrue(new AutoBalance(m_robotDrive));
 
-		new JoystickButton(driverController, Button.kA.value)
-				.whileTrue(new InstantCommand(() -> m_candleSystem.setColor(0,255,0)));
+		// new JoystickButton(driverController, Button.kA.value)
+		// 		.whileTrue(new InstantCommand(() -> m_candleSystem.setColor(0,255,0)));
 
 
 		new JoystickButton(operatorController, Button.kLeftBumper.value)
@@ -184,8 +167,14 @@ public class OI {
 		new JoystickButton(colorController, Button.kB.value)
 		.onTrue(new RequestCube(m_candleSystem));
 
+		// new JoystickButton(colorController, Button.kBack.value)
+		// .onTrue(new ElevatorToNode(m_elevator, Elevator.L));
+
 		new JoystickButton(colorController, Button.kBack.value)
-		.onTrue(new ElevatorToNode(m_elevator, Elevator.L));
+		.onTrue(new FeederConeRetractIntake(m_intake, m_elevator));
+
+		new JoystickButton(colorController, Button.kStart.value)
+		.onTrue(new FeederCubeRetractIntake(m_intake, m_elevator));
 		
 	}
 }

@@ -79,8 +79,8 @@ public class ElevatorFromGround extends CommandBase {
     return (elevator.getPose().getDistance(
               trajectory.sample(trajectory.getTotalTimeSeconds()).poseMeters.getTranslation()) 
             < Constants.ElevatorConstants.kPositionTolerance) ||
-              Math.abs(OI.getOperatorLeftY()) > 0.1 ||
-              Math.abs(OI.getOperatorRightX()) > 0.1;
+              Math.abs(OI.getOperatorLeftY()) > 0.3 ||
+              Math.abs(OI.getOperatorRightX()) > 0.3;
     // return true;
   }
 }

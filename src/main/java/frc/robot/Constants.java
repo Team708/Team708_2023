@@ -51,7 +51,7 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderPort = 13;    //Analog Port of the Module Absolute Encoder
     public static final int kBackRightTurningEncoderPort = 11;   //Analog Port of the Module Absolute Encoder
 
-    public static final double kFrontLeftOffset = 180-96.85278568891435;//Encoder Offset in Degrees
+    public static final double kFrontLeftOffset = 0-10;//Encoder Offset in Degrees
     public static final double kFrontRightOffset = 180-122.25731340671564;  //Encoder Offset in Degrees
     public static final double kBackLeftOffset = 0.1776169164905552-180;   //Encoder Offset in Degrees
     public static final double kBackRightOffset = 180-111.97272098411736;  //Encoder Offset in Degrees
@@ -152,7 +152,7 @@ public final class Constants {
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
     public static final double kCamOpenPose = 2265.0;
     public static final double kCamClosedPose = 0.0;
-    public static final double kCamIntakeSpeed = 0.8; //.6
+    public static final double kCamIntakeSpeed = 1.0; //.6
     
     public static final int kIntakeMode = 1; //0 = Roller, 1 = Clamp
   }
@@ -189,21 +189,23 @@ public final class Constants {
     public static final Translation2d kLowIntakePose = new Translation2d(0.45,-0.080);
     public static final Translation2d kConeUpIntakePose = new Translation2d(0.45,0.027);
 
-    public static final Translation2d kStartPose = new Translation2d(0.0,0.2);
+    public static final Translation2d kStartPose = new Translation2d(0.0,0.200);
 
     public static final Translation2d kLowCubePose = new Translation2d(0.61,0.630);
-    public static final Translation2d kLowConePose = new Translation2d(0.659,0.772);
+    public static final Translation2d kLowConePose = new Translation2d(0.659,0.800);    //(0.659,0.772);
     public static final Translation2d kHighCubePose = new Translation2d(1.097,0.928);
     public static final Translation2d kHighConePose = new Translation2d(1.161,1.141);   //(1.161,1.146);
     
-    public static final Translation2d kGroundSafePose = new Translation2d(0.44,0.2);
-    public static final Translation2d kBearingPose = new Translation2d(0.55, 0.715); 
-    public static final Translation2d kLowSafePose = new Translation2d(0.44, 0.590);   //(0.44, 0.776); 
-    public static final Translation2d kMidSafePose = new Translation2d(.755,1.058);
+    public static final Translation2d kTuckedPose = new Translation2d(0.100,0.200);
+    public static final Translation2d kGroundSafePose = new Translation2d(0.450,0.200);  // (0.44,0.2);
+    public static final Translation2d kBearingPose = new Translation2d(0.600, 0.730);  //(0.550, 0.715); 
+    public static final Translation2d kLowSafePose = new Translation2d(0.440, 0.590);   //(0.44, 0.776); 
+    public static final Translation2d kMidSafePose = new Translation2d(.725,1.058);   //(.755,1.058);
     public static final Translation2d kHighSafePose = new Translation2d(0.796,1.153);
 
-    public static final Translation2d kFeederStationPose = new Translation2d(0.6415, 0.888);
-    public static final Translation2d kFeederIntermittantPose = new Translation2d(.768, .97);
+    public static final Translation2d kFeederStationConePose = new Translation2d(1.080, .888);   //(0.800, 0.888);   //(0.6415, 0.888);
+    public static final Translation2d kFeederStationCubePose = new Translation2d(1.080, .928);   //(0.800, 0.888);   //(0.6415, 0.888);
+    public static final Translation2d kFeederIntermittantPose = new Translation2d(.650, .970);  //(.768, .970);
 
     //Elevator Boundaries, meters
     // public static final double kLeftBound = -0.051; 

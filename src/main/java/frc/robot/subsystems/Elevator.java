@@ -47,20 +47,33 @@ public class Elevator extends SubsystemBase {
 
   private Node elevatorCurrentNode;
 
+  //Intake nodes
   public static final Node A = new Node(ElevatorConstants.kLowIntakePose, "LOW_INTAKE");
   public static final Node K = new Node(ElevatorConstants.kConeUpIntakePose, "CONE_UP_INTAKE");
+
+  //Safe nodes
   public static final Node B = new Node(ElevatorConstants.kGroundSafePose, "GROUND_SAFE");
-  public static final Node C = new Node(ElevatorConstants.kHighConePose, "HIGH_CONE");
-  public static final Node D = new Node(ElevatorConstants.kHighCubePose, "HIGH_CUBE");
-  public static final Node E = new Node(ElevatorConstants.kHighSafePose, "HIGH_SAFE");
-  public static final Node F = new Node(ElevatorConstants.kLowConePose, "LOW_CONE");
-  public static final Node G = new Node(ElevatorConstants.kLowCubePose, "LOW_CUBE");
   public static final Node H = new Node(ElevatorConstants.kLowSafePose, "LOW_SAFE");
   public static final Node I = new Node(ElevatorConstants.kMidSafePose, "MID_SAFE");
+  public static final Node E = new Node(ElevatorConstants.kHighSafePose, "HIGH_SAFE");
+
+  //Cone nodes
+  public static final Node C = new Node(ElevatorConstants.kHighConePose, "HIGH_CONE");
+  public static final Node F = new Node(ElevatorConstants.kLowConePose, "LOW_CONE");
+
+  //Cube nodes
+  public static final Node D = new Node(ElevatorConstants.kHighCubePose, "HIGH_CUBE");
+  public static final Node G = new Node(ElevatorConstants.kLowCubePose, "LOW_CUBE");
+
+  //Misc
   public static final Node J = new Node(ElevatorConstants.kStartPose, "START");
-  public static final Node L = new Node(ElevatorConstants.kFeederStationPose, "FEEDER_STATION");
-  public static final Node M = new Node(ElevatorConstants.kFeederIntermittantPose, "FEEDER_INTERMITTANT");
   public static final Node N = new Node(ElevatorConstants.kBearingPose, "BEARING_SAFE");
+
+  //Feeder nodes
+  public static final Node L = new Node(ElevatorConstants.kFeederStationConePose, "FEEDER_STATION_CONE");
+  public static final Node M = new Node(ElevatorConstants.kFeederIntermittantPose, "FEEDER_INTERMITTANT");
+  public static final Node O = new Node(ElevatorConstants.kFeederStationCubePose, "FEEDER_STATION_CUBE");
+
 
   private boolean atGroundPickup = false;
 
@@ -69,18 +82,20 @@ public class Elevator extends SubsystemBase {
   private Branch AB = new Branch(A, B); //ConeIn -> GS
   private Branch KB = new Branch(K, B); //CubeIn -> GS
   // private Branch BL = new Branch(B, L); //GS -> Feeder
-  private Branch BJ = new Branch(B, J); //GS -> Start
+  private Branch BO = new Branch(B, J); //GS -> Tucked
+  // private Branch JO = new Branch(J, O); //Start-> Tucked
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
   // private Branch HI = new Branch(H, I); //LS -> MS
   // private Branch IF = new Branch(H, F); //LS -> LCONE
   private Branch ED = new Branch(E, D); //HS -> HCUBE
-  private Branch IE = new Branch(I, E); //MS -> HS
   private Branch EC = new Branch(E, C); //HS -> HCONE
   // private Branch LM = new Branch(L, M); //Feeder -> Inter.
   // private Branch LC = new Branch(L, C); //FEEDER -> HCONE
-
-  private Branch ML = new Branch(M, L); //Inter., Feeder
+  
+  private Branch IE = new Branch(I, E); //MS -> HS
+  private Branch ML = new Branch(M, L); //Inter., FeederCone
+  private Branch MO = new Branch(M, O); //Inter., FeederCube
   private Branch IM = new Branch(I, M); //MS -> Inter.
 
   private Branch NI = new Branch(N, I); //BS -> MS
@@ -136,6 +151,7 @@ public class Elevator extends SubsystemBase {
     map.put(L.getIdentifier(), L);
     map.put(M.getIdentifier(), M);
     map.put(N.getIdentifier(), N);
+    map.put(O.getIdentifier(), O);
 
     nodeTree = new Tree(map);
     for (Branch branch : getElevatorBranches()) {
@@ -305,9 +321,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    // return new Branch[]{AB, KB, LC, BJ, BH, HG, HI, IF, ED, IE, EC};
-    // return new Branch[]{AB, KB, LC, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
-    return new Branch[]{AB, KB, ML, IM, BJ, BH, HG, NI, NF, HN, ED, IE, EC};
+    return new Branch[]{AB, KB, ML, IM, BO, BH, HG, NI, NF, HN, ED, IE, EC, MO};
   }
 
   public Tree getElevatorTree(){

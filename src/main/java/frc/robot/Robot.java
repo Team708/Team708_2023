@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
         LiveWindow.setEnabled(false);
         // m_testCommand = m_robotContainer.getTest();
     
-        // schedule the test command (example)
+        // // schedule the test command (example)
         // if (m_testCommand != null) {
         //   m_testCommand.schedule();
         // }

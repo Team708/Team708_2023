@@ -46,6 +46,7 @@ import frc.robot.Utilities.FieldRelativeSpeed;
 
   private boolean fieldOrient = true;
 
+  //JNP
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewY = new SlewRateLimiter(12.0);
   private final SlewRateLimiter m_slewRot = new SlewRateLimiter(20.0);
@@ -166,10 +167,10 @@ import frc.robot.Utilities.FieldRelativeSpeed;
       // SmartDashboard.putNumber("Accel Y", m_fieldRelAccel.ay);
       // SmartDashboard.putNumber("Alpha", m_fieldRelAccel.alpha);
 
-      //   SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
-      //   SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
-      //   SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
-      //   SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
+        SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
+        SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
+        SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
+        SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
 
         //Update swerve drive odometry periodically so robot pose can be tracked
         updateOdometry();    
@@ -323,7 +324,7 @@ import frc.robot.Utilities.FieldRelativeSpeed;
    * @param rot is the input drive rotation speed command
    */  
   private double performKeepAngle(double xSpeed, double ySpeed, double rot){
-    double output = rot; //Output shouold be set to the input rot command unless the Keep Angle PID is called
+    double output = rot; //Output should be set to the input rot command unless the Keep Angle PID is called
     if(Math.abs(rot) >= DriveConstants.kMinRotationCommand){  //If the driver commands the robot to rotate set the last rotate time to the current time
       lastRotTime = keepAngleTimer.get();
     }
@@ -335,7 +336,7 @@ import frc.robot.Utilities.FieldRelativeSpeed;
     timeSinceDrive = keepAngleTimer.get()-lastDriveTime;  //update variable to the current time - the last drive time
     if(timeSinceRot < 0.5){                               //Update keepAngle up until 0.5s after rotate command stops to allow rotation move to finish
       keepAngle = getGyro().getRadians();
-    }
+    }   //JNP anythingn here to tweek rotate speed??
     else if(Math.abs(rot) < DriveConstants.kMinRotationCommand && timeSinceDrive < 0.25){ //Run Keep angle pid until 0.75s after drive command stops to combat decel drift
       output = m_keepAnglePID.calculate(getGyro().getRadians(), keepAngle);               //Set output command to the result of the Keep Angle PID 
     }

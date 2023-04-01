@@ -7,6 +7,7 @@ package frc.robot.commands.drive;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.PigeonTwo;
 
@@ -40,14 +41,16 @@ public class DriveUntilBalanced extends CommandBase {
     SwerveModuleState[] states;
     lastRoll = currRoll;
     currRoll = pigeonInstance.getRoll().getDegrees();
-    if(Math.abs(currRoll) < 5){
+    if(Math.abs(currRoll) < 12){   //5  //need to account for delta on robot
       states = new SwerveModuleState[]{
           new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)), //LF
           new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //RF
           new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //LR
-          new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)) //RR
+          new SwerveModuleState(0, new Rotation2d(-Math.PI / 4))//RR
       };
       dr.setModuleStates(states);
+      new WaitCommand(1.0);
+
       // dr.setModuleStates(preState);
     }else{
     // while(Math.abs(pigeonInstance.getRoll().getDegrees()) > 0.5){
