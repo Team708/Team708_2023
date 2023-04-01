@@ -62,7 +62,7 @@ public class RedRightDriveToPieceAuto extends SequentialCommandGroup {
         new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
 
-      // path4,
+      path4,
 
       new WaitCommand(0.2),
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
