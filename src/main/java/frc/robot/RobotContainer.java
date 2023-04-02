@@ -25,6 +25,7 @@ import frc.robot.commands.Autos.LineAndBalanceAuto;
 import frc.robot.commands.Autos.RedLeftDriveToPieceAuto;
 import frc.robot.commands.Autos.RedRightDriveToPieceAuto;
 import frc.robot.commands.Autos.RedRightDriveToPieceBalanceAuto;
+import frc.robot.commands.Autos.RedThreeLowAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -63,6 +64,7 @@ public class RobotContainer {
   private final Command RedRightDriveToPieceBalance = new RedRightDriveToPieceBalanceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
   private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake, m_candle);
   private final Command BlueThreeLow = new BlueThreeLowAuto(m_drive,   10, m_elevator, m_intake, m_candle);
+  private final Command RedThreeLow = new RedThreeLowAuto(m_drive,   10, m_elevator, m_intake, m_candle);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -94,15 +96,16 @@ public class RobotContainer {
 
 
   private void configureAutoChooser(){
-    m_chooser.addOption("DriveStraight",                DriveStraight);
     m_chooser.addOption("Blue Leftside  ThreePiece",  LeftDriveToPiece);
     m_chooser.addOption("Blue Leftside  ScoreTwoAndBalance",  LeftDriveToPieceBalance);
     // m_chooser.addOption("Blue Rightside DriveToPiece",  DriveToPiece);
     // m_chooser.addOption("RED Leftside DriveToPiece",    RedLeftDriveToPiece);
     m_chooser.addOption("RED Rightside ThreePiece",           RedRightDriveToPiece);
     m_chooser.addOption("RED Rightside ScoreTwoAndBalance",   RedRightDriveToPieceBalance);
-    m_chooser.addOption("ScoreLineBalance",                   ScoreLineBalance);
+    m_chooser.addOption("Co-OpertitionLineBalance",                   ScoreLineBalance);
     m_chooser.addOption("BlueThreeLow",                       BlueThreeLow);
+    m_chooser.addOption("RedThreeLow",                        RedThreeLow);
+    m_chooser.addOption("DriveStraight",                DriveStraight);
 
     m_chooser.addOption("Do Nothing",     doNothin);
     m_chooser.setDefaultOption("Do Nothing", doNothin);

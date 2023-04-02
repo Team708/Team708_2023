@@ -20,26 +20,18 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.CANdleSystem;
 
 
-public class BlueThreeLowAuto extends SequentialCommandGroup {
+public class RedThreeLowAuto extends SequentialCommandGroup {
 
-  public BlueThreeLowAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
-    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "BlueThreeLow1", maxSpeed, true);
-    AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "BlueThreeLow2", maxSpeed, true);
-    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "BlueThreeLow3", maxSpeed, true);
-    AutoFromPathPlanner path4 = new AutoFromPathPlanner(dr, "BlueThreeLow4", maxSpeed, true);
-    AutoFromPathPlanner path5 = new AutoFromPathPlanner(dr, "BlueThreeLow5", maxSpeed, true);
+  public RedThreeLowAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
+    AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "RedThreeLow1", maxSpeed, true);
+    AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "RedThreeLow2", maxSpeed, true);
+    AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "RedThreeLow3", maxSpeed, true);
+    AutoFromPathPlanner path4 = new AutoFromPathPlanner(dr, "RedThreeLow4", maxSpeed, true);
+    AutoFromPathPlanner path5 = new AutoFromPathPlanner(dr, "RedThreeLow5", maxSpeed, true);
 
     addCommands(
       new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
       
-      // new ParallelDeadlineGroup(
-      //   new ElevatorToNode(m_elevator, Elevator.C)/*.withTimeout(3.3)*/,
-      //   new IntakeOn(m_intake)
-      // ),
-      // new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      // // new WaitCommand(0.2),
-      // // new IntakeOff(m_intake),
-      // // new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.K),
       new ParallelCommandGroup(
         path1,
@@ -48,10 +40,9 @@ public class BlueThreeLowAuto extends SequentialCommandGroup {
 
       new WaitCommand(.2),
       path2,
-      // new ElevatorToNode(m_elevator, Elevator.D),
+
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      // new WaitCommand(0.2),
-      // new IntakeOff(m_intake),
+
       new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),
 
