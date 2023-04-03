@@ -21,6 +21,7 @@ public class RaiseElevWhenPiece extends SequentialCommandGroup {
 
       new IntakeOn(m_intake),
       // new WaitCommand(0.2),
+      new ElevatorFromGround(m_elevator, Elevator.A, m_intake),
       new ElevatorFromGround(m_elevator, Elevator.B, m_intake)
       );
   }

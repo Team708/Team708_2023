@@ -187,7 +187,7 @@ public final class Constants {
     // public static final Translation2d kFeederIntermittantPose = new Translation2d(.600, .900);     //(0.8, 1.0);  jnp
 
     public static final Translation2d kLowIntakePose = new Translation2d(0.45,-0.080);
-    public static final Translation2d kConeUpIntakePose = new Translation2d(0.45,0.027);
+    public static final Translation2d kConeUpIntakePose = new Translation2d(0.45,0.035); 
 
     public static final Translation2d kStartPose = new Translation2d(0.0,0.200);
 

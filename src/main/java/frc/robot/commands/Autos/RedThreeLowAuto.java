@@ -38,14 +38,14 @@ public class RedThreeLowAuto extends SequentialCommandGroup {
         new RaiseElevWhenPiece(m_intake, m_elevator)
       ),
 
-      new WaitCommand(.2),
       path2,
+      new WaitCommand(.2),
 
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
 
-      new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),
-
+      
+      // new WaitCommand(0.2),
       new ParallelCommandGroup(
         path3,
         new RaiseElevWhenPiece(m_intake, m_elevator)
@@ -53,14 +53,14 @@ public class RedThreeLowAuto extends SequentialCommandGroup {
 
       path4,
 
-      new IntakeOut(m_intake, m_candle).withTimeout(.2),
+      new IntakeOut(m_intake, m_candle).withTimeout(.3),
+      new ElevatorToNode(m_elevator, Elevator.B),
+
+      new WaitCommand(0.2),
+
+      new IntakeOff(m_intake),
 
       path5
-
-      // new WaitCommand(0.2),
-      // new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose())),
-      // new WaitCommand(0.2),
-      // new InstantCommand(() -> dr.resetOdometry(path1.getInitialPose()))
 
       );
   }

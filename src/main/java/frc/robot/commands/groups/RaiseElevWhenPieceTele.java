@@ -20,7 +20,7 @@ public class RaiseElevWhenPieceTele extends SequentialCommandGroup {
       new ElevatorToNode(m_elevator, Elevator.A),
 
       new IntakeOn(m_intake),
-      new ElevatorFromGround(m_elevator, Elevator.J, m_intake)
+      new ElevatorFromGround(m_elevator, Elevator.B, m_intake)
       );
   }
 }

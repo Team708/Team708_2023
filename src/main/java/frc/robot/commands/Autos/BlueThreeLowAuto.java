@@ -19,10 +19,10 @@ import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.CANdleSystem;
 
-
 public class BlueThreeLowAuto extends SequentialCommandGroup {
 
   public BlueThreeLowAuto(Drivetrain dr, double maxSpeed, Elevator m_elevator, Intake m_intake, CANdleSystem m_candle) {
+
     AutoFromPathPlanner path1 = new AutoFromPathPlanner(dr, "BlueThreeLow1", maxSpeed, true);
     AutoFromPathPlanner path2 = new AutoFromPathPlanner(dr, "BlueThreeLow2", maxSpeed, true);
     AutoFromPathPlanner path3 = new AutoFromPathPlanner(dr, "BlueThreeLow3", maxSpeed, true);
@@ -52,9 +52,9 @@ public class BlueThreeLowAuto extends SequentialCommandGroup {
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
       // new WaitCommand(0.2),
       // new IntakeOff(m_intake),
-      new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),
 
+      new WaitCommand(0.2),
       new ParallelCommandGroup(
         path3,
         new RaiseElevWhenPiece(m_intake, m_elevator)
@@ -63,6 +63,7 @@ public class BlueThreeLowAuto extends SequentialCommandGroup {
       path4,
 
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
+      new ElevatorToNode(m_elevator, Elevator.K),
 
       path5
 

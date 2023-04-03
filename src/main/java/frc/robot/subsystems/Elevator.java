@@ -79,11 +79,11 @@ public class Elevator extends SubsystemBase {
 
   private HashMap<String, Node> map;
 
-  private Branch AB = new Branch(A, B); //ConeIn -> GS
-  private Branch KB = new Branch(K, B); //CubeIn -> GS
+  private Branch AK = new Branch(A, K); //ConeIn -> GS
+  private Branch KB = new Branch(K,B); //CubeIn -> GS
   // private Branch BL = new Branch(B, L); //GS -> Feeder
-  private Branch BO = new Branch(B, J); //GS -> Tucked
-  // private Branch JO = new Branch(J, O); //Start-> Tucked
+  // private Branch BO = new Branch(B, J); //GS -> Tucked
+  private Branch JB = new Branch(J, B); //Start-> Tucked
   private Branch BH = new Branch(B, H); //GS -> LS
   private Branch HG = new Branch(H, G); //LS -> LCUBE
   // private Branch HI = new Branch(H, I); //LS -> MS
@@ -321,7 +321,7 @@ public class Elevator extends SubsystemBase {
    * @return List of branches between nodes
    */
   public Branch[] getElevatorBranches(){
-    return new Branch[]{AB, KB, ML, IM, BO, BH, HG, NI, NF, HN, ED, IE, EC, MO};
+    return new Branch[]{JB, AK, KB, ML, IM, BH, HG, NI, NF, HN, ED, IE, EC, MO};
   }
 
   public Tree getElevatorTree(){
