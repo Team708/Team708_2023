@@ -41,7 +41,7 @@ public class DriveUntilBalanced extends CommandBase {
     SwerveModuleState[] states;
     lastRoll = currRoll;
     currRoll = pigeonInstance.getRoll().getDegrees();
-    if(Math.abs(currRoll) < 12){   //5  //need to account for delta on robot
+    if(Math.abs(currRoll) < 9){   //5  //need to account for delta on robot
       states = new SwerveModuleState[]{
           new SwerveModuleState(0, new Rotation2d(-Math.PI / 4)), //LF
           new SwerveModuleState(0, new Rotation2d(Math.PI / 4)), //RF
@@ -49,7 +49,7 @@ public class DriveUntilBalanced extends CommandBase {
           new SwerveModuleState(0, new Rotation2d(-Math.PI / 4))//RR
       };
       dr.setModuleStates(states);
-      new WaitCommand(1.0);
+      // new WaitCommand(1.0);
 
       // dr.setModuleStates(preState);
     }else{

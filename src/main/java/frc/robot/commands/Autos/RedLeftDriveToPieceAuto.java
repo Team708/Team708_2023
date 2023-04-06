@@ -33,7 +33,7 @@ public class RedLeftDriveToPieceAuto extends SequentialCommandGroup {
       ),
       new IntakeOut(m_intake, m_candle).withTimeout(.5),
       new WaitCommand(0.2),
-      new IntakeOff(m_intake),
+      // new IntakeOff(m_intake),
       new ElevatorToNode(m_elevator, Elevator.A),
       new ParallelCommandGroup(
         path1,

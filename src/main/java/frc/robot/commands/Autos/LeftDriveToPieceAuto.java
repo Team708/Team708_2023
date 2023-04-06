@@ -34,8 +34,9 @@ public class LeftDriveToPieceAuto extends SequentialCommandGroup {
         new ElevatorToNode(m_elevator, Elevator.C)/*.withTimeout(3.3)*/,
         new IntakeOn(m_intake)
       ),
+      new WaitCommand(0.2),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      // new WaitCommand(0.2),
+      new WaitCommand(0.2),
       // new IntakeOff(m_intake),
       // new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),

@@ -152,7 +152,7 @@ public final class Constants {
     public static final double kCamGearRatio = 47915 / 486; // 12/74, 18/74, 18/70
     public static final double kCamOpenPose = 2265.0;
     public static final double kCamClosedPose = 0.0;
-    public static final double kCamIntakeSpeed = 1.0; //.6
+    public static final double kCamIntakeSpeed = 1.0;
     
     public static final int kIntakeMode = 1; //0 = Roller, 1 = Clamp
   }

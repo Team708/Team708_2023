@@ -36,10 +36,10 @@ public class RedRightDriveToPieceBalanceAuto extends SequentialCommandGroup {
         new ElevatorToNode(m_elevator, Elevator.C),
         new IntakeOn(m_intake)
       ),
+      new WaitCommand(0.2),
       new IntakeOut(m_intake, m_candle).withTimeout(.2),
-      // new WaitCommand(0.2),
+      new WaitCommand(0.2),
       // new IntakeOff(m_intake),
-      // new WaitCommand(0.2),
       new ElevatorToNode(m_elevator, Elevator.A),
       new ParallelCommandGroup(
         path1,

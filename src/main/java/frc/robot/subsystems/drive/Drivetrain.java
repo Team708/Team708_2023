@@ -172,6 +172,8 @@ import frc.robot.Utilities.FieldRelativeSpeed;
         SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
         SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
 
+        SmartDashboard.putNumber("Balance Angle", pigeon.getRoll().getDegrees());
+
         //Update swerve drive odometry periodically so robot pose can be tracked
         updateOdometry();    
 

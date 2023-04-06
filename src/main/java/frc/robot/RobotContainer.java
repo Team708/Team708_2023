@@ -62,7 +62,7 @@ public class RobotContainer {
   private final Command RedLeftDriveToPiece = new RedLeftDriveToPieceAuto(m_drive, 6, m_elevator, m_intake, m_candle);
   private final Command RedRightDriveToPiece = new RedRightDriveToPieceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
   private final Command RedRightDriveToPieceBalance = new RedRightDriveToPieceBalanceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
-  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   2, m_elevator, m_intake, m_candle);
+  private final Command ScoreLineBalance = new LineAndBalanceAuto(m_drive,   4, m_elevator, m_intake, m_candle);
   private final Command BlueThreeLow = new BlueThreeLowAuto(m_drive,   10, m_elevator, m_intake, m_candle);
   private final Command RedThreeLow = new RedThreeLowAuto(m_drive,   10, m_elevator, m_intake, m_candle);
 
