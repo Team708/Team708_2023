@@ -32,10 +32,11 @@ public class DriveToPieceAuto extends SequentialCommandGroup {
         new ElevatorToNode(m_elevator, Elevator.C)/*.withTimeout(3.3)*/,
         new IntakeOn(m_intake)
       ),
+      new WaitCommand(0.2),
       new IntakeOut(m_intake, m_candle),
       new WaitCommand(0.2),
       new IntakeOff(m_intake),
-      new ElevatorToNode(m_elevator, Elevator.A),
+      new ElevatorToNode(m_elevator, Elevator.B),
       new ParallelCommandGroup(
         path1,
         new RaiseElevWhenPiece(m_intake, m_elevator)

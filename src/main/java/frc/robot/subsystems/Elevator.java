@@ -110,7 +110,9 @@ public class Elevator extends SubsystemBase {
     m_elevatorMotorA = new CANSparkMax(ElevatorConstants.kMotorAID, MotorType.kBrushless);
     m_elevatorMotorB = new CANSparkMax(ElevatorConstants.kMotorBID, MotorType.kBrushless);
     m_elevatorMotorA.setIdleMode(IdleMode.kBrake);
+
     m_elevatorMotorB.setIdleMode(IdleMode.kBrake);
+
     m_elevatorMotorA.setInverted(true);
     m_elevatorMotorB.setInverted(true);
 

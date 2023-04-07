@@ -52,18 +52,22 @@ public class LineAndBalanceAuto extends SequentialCommandGroup {
         path,
         
         
-        new ParallelDeadlineGroup(
-          new ElevatorToNode(m_elevator, Elevator.A),
-          new IntakeOn(m_intake)
-          ),
+        // new ParallelDeadlineGroup(
+        //   new ElevatorToNode(m_elevator, Elevator.A),
+        //   new IntakeOn(m_intake)
+        //   ),
           
-        new ParallelCommandGroup(
+        // new ParallelCommandGroup(
           path2,
-          new RaiseElevWhenPiece(m_intake, m_elevator)
-          ),
-          
-        new WaitCommand(2.0),
+          // new RaiseElevWhenPiece(m_intake, m_elevator).withTimeout(3)
+          // ),
+        
+        new ElevatorToNode(m_elevator, Elevator.B),
+        
+        new WaitCommand(2),
+
         path3,
+
         new AutoBalance(dr)
       );
   }

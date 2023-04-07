@@ -55,7 +55,7 @@ public class RobotContainer {
     = new OperateByController(m_elevator);
 
   private final Command doNothin         = new WaitCommand(5);
-  private final Command DriveStraight    = new DriveStraightAuto(m_drive,    2);
+  private final Command DriveStraight    = new DriveStraightAuto(m_drive,    4, m_elevator, m_intake, m_candle);
   private final Command DriveToPiece     = new DriveToPieceAuto(m_drive,     6, m_elevator, m_intake, m_candle);
   private final Command LeftDriveToPiece = new LeftDriveToPieceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
   private final Command LeftDriveToPieceBalance = new LeftDriveToPieceBalanceAuto(m_drive, 8, m_elevator, m_intake, m_candle);
